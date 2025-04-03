@@ -1,0 +1,907 @@
+<ng-template #updateSpecialityPopup>
+    <div class="p-4 pb-3 pt-4 update-configuration-speciality" [formGroup]="specialityform">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Specialty</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="form-group-control d-flex align-items-center m-0 p-0 w-100">
+            <div class="form-group-wrapper position-relative my-0 mx-2 w-100">
+                <div class="form-group-main border-0">
+                    <div class="form-group">
+                        <div class="form-group-control">
+                            <input type="text" class="form-control" placeholder="Specialty Description"
+                                formControlName="speciality_desc">
+                            <label class="position-absolute m-0 bg-white">Specialty Description</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group-wrapper position-relative mx-2 w-100">
+                <div class="form-group-main border-0">
+                    <div class="form-group">
+                        <div class="form-group-control">
+                            <ng-select placeholder="Status" formControlName="active"
+                                class="border-0 font-numbar lab-select">
+                                <ng-option *ngFor="let item of statuslist"
+                                    [value]="item.active">{{item.name}}</ng-option>
+                            </ng-select>
+                            <label class="position-absolute m-0 bg-white" >Status</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center">
+            <button (click)="UpdateSpeciality()" style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #updateFloorsPopup>
+    <div class="p-4 pb-3 pt-4 update-configuration-floors" [formGroup]="updateFloorForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Floors</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Floor Name"
+                                        formControlName="floorName">
+                                    <label class="position-absolute m-0 bg-white" >Floor
+                                        Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Floor Number"
+                                        formControlName="floornumber">
+                                    <label class="position-absolute m-0 bg-white" >Floor
+                                        Number</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" >
+                                        Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateFloorList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #updateDoctorPopup>
+    <div class="p-4 pb-3 pt-3 update-doctor w-100" [formGroup]="doctorsForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Doctor</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Doctor's Firstname"
+                                        formControlName="doctor_FName">
+                                    <label class="position-absolute m-0 bg-white">Doctor's Firstname</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-control w-100">
+                        <div class="form-group-wrapper position-relative w-100">
+                            <div class="form-group-main border-0">
+                                <div class="form-group">
+                                    <div class="form-group-control">
+                                        <input type="text" class="form-control" placeholder="Doctor's Middlename"
+                                            formControlName="doctor_MName">
+                                        <label class="position-absolute m-0 bg-white">Doctor's Middlename</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-control w-100">
+                        <div class="form-group-wrapper position-relative w-100">
+                            <div class="form-group-main border-0">
+                                <div class="form-group">
+                                    <div class="form-group-control">
+                                        <h5 class="mb-4 bg-white">Allow Doublebooking</h5>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <input type="radio" class="form-control" placeholder="Allow Doublebooking"
+                                                style="width: 15px; height: 15px;" value="Yes"
+                                                formControlName="allow_DBook" [value]="1">
+                                            <label class="m-0 text-dark" for="">Yes</label>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <input type="radio" class="form-control" placeholder="Allow Doublebooking"
+                                                style="width: 15px; height: 15px;" value="No"
+                                                formControlName="allow_DBook" [value]="0">
+                                            <label class="m-0 text-dark" for="">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-control w-100">
+                        <div class="form-group-wrapper position-relative w-100">
+                            <div class="form-group-main border-0">
+                                <div class="form-group">
+                                    <div class="form-group-control">
+                                        <input type="text" class="form-control" placeholder="Doctor's Lastname"
+                                            formControlName="doctor_LName">
+                                        <label class="position-absolute m-0 bg-white">Doctor's Lastname</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Specialty" formControlName="speciality_Code"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of specialityList"
+                                            [value]="item.speciality_Code">{{item.speciality_desc}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" style="z-index: 10000;">Specialty
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="active"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of statuslist"
+                                            [value]="item.active">{{item.name}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" style="z-index: 10000;">Status
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-control w-100 ">
+                        <div class="form-group-wrapper position-relative w-100">
+                            <div class="form-group-main border-0">
+                                <div class="form-group">
+                                    <div class="form-group-control">
+                                        <input type="text" class="form-control" placeholder="Doctor's license_ID"
+                                            formControlName="license_ID">
+                                        <label class="position-absolute m-0 bg-white">Doctor's license_ID</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center mb-2">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateDoctorList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #upadteMedicationPopup>
+    <div class="p-4 pb-3 pt-3 update-medication" [formGroup]="medicationForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Medication</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                                    <label class="position-absolute m-0 bg-white">Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Service Barcode" formControlName="barcode">
+                                    <label class="position-absolute m-0 bg-white">Service Barcode</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Unit" formControlName="unit">
+                                    <label class="position-absolute m-0 bg-white">Unit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Code" formControlName="code">
+                                    <label class="position-absolute m-0 bg-white">Code</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Price"
+                                        formControlName="defaultPrice">
+                                    <label class="position-absolute m-0 bg-white">Price</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateMedicationList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+<!-- service -->
+<ng-template #updateServicesPopup>
+    <div class="p-4 pb-3 pt-3 update-services" [formGroup]="updateServicesForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Services</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                                    <label class="position-absolute m-0 bg-white">Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Service Barcode" formControlName="Barcode">
+                                    <label class="position-absolute m-0 bg-white">Service Barcode</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Unit" formControlName="unit">
+                                    <label class="position-absolute m-0 bg-white">Unit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Price"
+                                        formControlName="defaultPrice">
+                                    <label class="position-absolute m-0 bg-white">Price</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Select Subcategory" [appendTo]="'body'"  class="border-0 font-numbar lab-select" formControlName="subcategories">
+                                        <ng-option *ngFor="let item of subcategoryList" [value]="item.subcategories">{{item.subcategories}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" style="z-index: 10000;">
+                                        Sub Category
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Code" formControlName="code">
+                                    <label class="position-absolute m-0 bg-white">Code</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Arabic description" formControlName="arabicName">
+                                    <label class="position-absolute m-0 bg-white">Arabic description</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" >Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Categorization" [appendTo]="'body'" formControlName="categorization" (change)="subcategories($event)"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of getCategoryList"
+                                        [value]="item.category">{{item.category}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white" >
+                                        Categorization
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateServicesList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #updateRoomsPopup>
+    <div class="p-4 pb-3 pt-3 w-100" [formGroup]="updateRoomsForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Room</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="Room Name"
+                                    formControlName="roomName">
+                                <label class="position-absolute m-0 bg-white">Room Name</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="number" class="form-control" placeholder="Room Number"
+                                    formControlName="roomNumber">
+                                <label class="position-absolute m-0 bg-white">Room Number</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <ng-select placeholder="Status" formControlName="isActive"
+                                    class="border-0 font-numbar lab-select">
+                                    <ng-option [value]=true>Active</ng-option>
+                                    <ng-option [value]=false>Not-Active</ng-option>
+                                </ng-select>
+                                <label class="position-absolute m-0 bg-white">Status
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Room Status" formControlName="roomsStatusId"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of getRoomStatusdata"
+                                            [value]="item.id">{{item.status}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Room Status</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Floor Name" formControlName="floorsId"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of floorsList" style="z-index: 999999 !important;"
+                                            [value]="item.id">{{item.floorName}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Floor Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center mt-3 mb-3">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateRoomsList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #updateBedsPopup>
+    <div class="p-4 pb-3 pt-3" [formGroup]="updateBedsForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Bed</h5>
+                <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+            </div>
+            <div class="row">
+                    <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Bed Name"
+                                        formControlName="badName">
+                                    <label class="position-absolute m-0 bg-white">Bed Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Bed Number"
+                                        formControlName="badNumber">
+                                    <label class="position-absolute m-0 bg-white">Bed Number</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Bed Status" formControlName="bedstatusId"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of getbedStatusdata"
+                                            [value]="item.id">{{item.status}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Bed Status</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-group-wrapper position-relative w-100">
+                            <div class="form-group-main border-0">
+                                <div class="form-group">
+                                    <div class="form-group-control">
+                                        <ng-select placeholder="FloorName" formControlName="floorsId"
+                                            class="border-0 font-numbar lab-select">
+                                            <ng-option *ngFor="let item of floorsList"
+                                                [value]="item.id">{{item.floorName}}</ng-option>
+                                        </ng-select>
+                                        <label class="position-absolute m-0 bg-white">FloorName</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Room Name" formControlName="roomId"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of roomsList"
+                                            [value]="item.id">{{item.roomName}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Room Name
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center mt-2 mb-2">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateBedsList()">Update</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #updateUserPopup>
+    <div class="p-4 pb-3 pt-3 w-100" [formGroup]="userForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update User</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="first Name"
+                                    formControlName="firstName">
+                                <label class="position-absolute m-0 bg-white">first Name</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="last Name"
+                                    formControlName="lastName">
+                                <label class="position-absolute m-0 bg-white">last Name</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="Password"
+                                    formControlName="password">
+                                <label class="position-absolute m-0 bg-white">Password</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="Employee Id"
+                                    formControlName="employee_id">
+                                <label class="position-absolute m-0 bg-white">Employee ID</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Doctors" formControlName="doctor_Code"
+                                        class="border-0 font-numbar lab-select" [readonly]="userForm.get('userTypeId').value !== 5">
+                                        <ng-option *ngFor="let item of doctorsList"
+                                            [value]="item.doctor_Code">{{item.doctor_Name}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Doctors</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="User Type" formControlName="userTypeId"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option *ngFor="let item of userTypeList"
+                                            [value]="item.id">{{item.name}}</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">User Type</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Status
+    
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center mt-2 mb-2">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="addUser()">Update</button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #updateBookedSlotsPopup>
+    <div class="p-4 pb-3 pt-3 w-100" [formGroup]="bookedSlotsForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Booking Slots</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <ng-select placeholder="Specialty" formControlName="speciality_Code"
+                              (change)="getDoctorBySpeciality($event)" class="border-0 font-numbar lab-select"
+                                    [readonly]="true">
+                                    <ng-option *ngFor="let item of specialityList"
+                                        [value]="item.speciality_Code">{{item.speciality_desc}}</ng-option>
+                                </ng-select>
+                                <label class="position-absolute m-0 bg-white">Specialty
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="Start Time"
+                                    formControlName="startTime" [bsConfig]="{
+                                        withTimepicker: true,
+                                        showWeekNumbers:false,
+                                        dateInputFormat:'HH:mm:ss'}" [isDisabled]="true" bsDatepicker>
+                                <label class="position-absolute m-0 bg-white">Start Time</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <ng-select placeholder="Status" formControlName="isActive"
+                                    class="border-0 font-numbar lab-select">
+                                    <ng-option [value]=true>Active</ng-option>
+                                    <ng-option [value]=false>Not-Active</ng-option>
+                                </ng-select>
+                                <label class="position-absolute m-0 bg-white">Status
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <ng-select placeholder="Doctors" formControlName="doctor_Code"
+                                    class="border-0 font-numbar lab-select" [readonly]="true">
+                                    <ng-option *ngFor="let item of getDoctor"
+                                        [value]="item.doctor_Code">{{item.doctor_Name}}</ng-option>
+                                </ng-select>
+                                <label class="position-absolute m-0 bg-white">Doctors</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group-wrapper position-relative w-100">
+                    <div class="form-group-main border-0">
+                        <div class="form-group">
+                            <div class="form-group-control">
+                                <input type="text" class="form-control" placeholder="End Time" formControlName="endTime"
+                                    [bsConfig]="{
+                                            withTimepicker: true,
+                                            showWeekNumbers:false,
+                                            dateInputFormat:'HH:mm:ss'}" [isDisabled]="true" bsDatepicker>
+                                <label class="position-absolute m-0 bg-white">End Time</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center mt-2 mb-2">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="addBookedSlots()">Update</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #upadteConsumablePopup>
+    <div class="p-4 pb-3 pt-3 update-medication" [formGroup]="consumableForm">
+        <div class="p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100">
+            <h5 style="color: #3f7473;">Update Consumable</h5>
+            <img src="assets/images/popup-close.svg" (click)="onClose()" width="25">
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 mx-2 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Name" formControlName="name">
+                                    <label class="position-absolute m-0 bg-white">Name</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 mx-2 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Unit" formControlName="unit">
+                                    <label class="position-absolute m-0 bg-white">Unit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative my-0 mx-2 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Price"
+                                        formControlName="defaultPrice">
+                                    <label class="position-absolute m-0 bg-white">Price</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group-wrapper position-relative my-0 mx-2 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <input type="text" class="form-control" placeholder="Code" formControlName="code">
+                                    <label class="position-absolute m-0 bg-white">Code</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-wrapper position-relative mx-2 w-100">
+                        <div class="form-group-main border-0">
+                            <div class="form-group">
+                                <div class="form-group-control">
+                                    <ng-select placeholder="Status" formControlName="isActive"
+                                        class="border-0 font-numbar lab-select">
+                                        <ng-option [value]=true>Active</ng-option>
+                                        <ng-option [value]=false>Not-Active</ng-option>
+                                    </ng-select>
+                                    <label class="position-absolute m-0 bg-white">Status</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-group d-flex  justify-content-center">
+            <button style="width: 150px;"
+                class="text-dark-blue bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap"
+                (click)="updateConsumableList()">Update</button>
+        </div>
+    </div>
+</ng-template>

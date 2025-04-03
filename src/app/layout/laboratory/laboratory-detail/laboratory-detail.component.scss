@@ -1,0 +1,142 @@
+.laboratory-main-wrap{
+    .emr-border {
+        border-radius: 10px;
+        border: 1px solid #D9D9D9;
+
+        .loboratory-card  {
+           
+            .emer-color {
+                border-radius: 10px;
+                background-color: #F2F4F6;
+            
+                .emer-data {
+                    background-color: #E4EDF5;
+                    font-size: 18px;
+                    color: #72767A;
+                    font-weight: bold;
+                    border-radius: 10px 10px 0px 0px;
+                    padding: 14px !important;
+                }
+                .overflow-lab {
+                    // height: calc(100vh - 48px) !important;
+                    overflow: auto;
+                    height: 500px;
+    
+                    .searc-data {
+                        border: 1px solid #D9D9D9;
+                        border-radius: 10px;
+                        background-color: #fff;
+                        .lab-color {
+                            background-color: #FBFCFF;
+                            border: 1px solid #F1F2F5 !important;
+                            margin-right: 10px;
+                            border-radius: 6px;
+                            width: 100% !important;
+                        }
+                    }
+                }
+                
+            }
+            
+        
+      
+        }
+    }
+    
+    
+
+    .lab-border {
+        border-radius: 10px;
+        .abc-p {
+            background-color: #293A4A;
+            border-radius: 10px 10px 0px 0px;
+            color: #fff;
+            padding: 11px !important;
+        }
+    
+        .lab-overflow {
+            height: auto;
+            overflow: auto;
+            border-radius: 0 0 10px 10px;
+            table{
+                border: 1px solid #F1F2F5;
+
+            
+            .lab-key {
+                background-color: #E4EDF5;
+        
+                th {
+                    border-right: 1px solid #fff !important;
+                }
+        
+                th:last-child {
+                    border-right: 0px !important;
+                }
+            }
+            .position-data {
+                position: sticky;
+                top: 0;
+            }
+            .lab-form-control {
+                display: block;
+                width: 100%;
+                height: calc(1.5em + 0.75rem + 2px);
+                padding: 0.375rem 0.75rem;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #495057;
+                background-clip: padding-box;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+            .lab-text {
+                border-bottom: 1px solid #F1F2F5;
+                tr.lab-text:last-child {
+                    border-bottom: 0px !important;
+                }
+                
+                td {
+                    background-color: #FBFCFF !important;
+            
+                    input {
+                        border-right: 1px solid #efefef !important;
+                        background-color: #FBFCFF !important;
+                    }
+                    .font-key {
+                        font-size: 13px !important;
+                        font-weight: 600 !important;
+                    }
+                    .font-numbar::placeholder {
+                        font-size: 13px !important;
+                        // color: rgb(241, 239, 239) !important;
+                        color: rgb(185, 185, 185) !important;
+                    }
+                    .lab-edit-main{
+                        border-right: 1px solid #efefef !important;
+                        input{
+                            border-right: 0px !important;
+                        }
+                    }
+                    
+                }
+            
+            }
+        }
+        }
+           
+    }
+}
+
+
+::ng-deep .lab-data .ng-select .ng-select-container {
+    border: none !important;
+    background-color: #FBFCFF !important;
+    border-right: 1px solid #efefef !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+::ng-deep .lab-data .lab-select .ng-select-container {
+    border-left: 1px solid #efefef !important;
+}
+

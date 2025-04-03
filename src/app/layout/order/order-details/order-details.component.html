@@ -1,0 +1,372 @@
+<ng-container *ngIf="dyForm && dyForm.controls">
+  <div class="service-order-list p-2 pb-0 bg-white pl-border-radius-10">
+    <div class="card-detail">
+      <div class="card-header-wrapper d-flex" *ngIf="!isIPadAir">
+        <div class="card-detail-header p-3 bg-sky-blue w-100 col-6">
+          <h3 class="main-title m-0">Billing Details</h3>
+        </div>
+          <div class="d-flex justify-content-end col-2 bg-sky-blue" >
+            <div *ngIf="UserTypeId !== 19"
+              class="d-flex ml-2 align-items-center justify-content-end">
+              <button (click)="editdetails()"
+                class="added-bgcolor text-white border-0">Add 
+                Service</button>
+            </div>
+            <div *ngIf="UserTypeId !== 19"
+              class="d-flex ml-2 align-items-center justify-content-end"
+              (click)="saveEditedData(false)">
+              <button
+                class="added-bgcolor text-white border-0">Save</button>
+            </div>
+          </div>
+        <div class="card-detail-header p-3 bg-sky-blue w-100 col-4">
+          <h3 class="main-title m-0">Payment Details</h3>
+        </div>
+      </div>
+      <form action [formGroup]="dyForm" class="p-3">
+        <div class="card-content-wrapper d-flex flex-wrap">
+          <div class="card-detail-header p-3 bg-sky-blue w-100"
+            *ngIf="isIPadAir">
+            <h3 class="main-title m-0">Billing details</h3>
+          </div>
+          <div class="card-form col-lg-8 col-12 p-0">
+            <div class="card-detail-body table-responsive">
+              <div class="order-creation-panel">
+                <table>
+                  <thead class="sticky-top">
+                    <tr class="bg-dark-blue">
+                      <th class="text-nowrap text-white w-25 pl-mw-210">Service Category</th>
+                      <th class="text-nowrap text-white w-25 pl-mw-210">Service
+                        description</th>
+                      <th
+                        class="text-nowrap text-white w-15 pl-mw-120">Date</th>
+                      <th
+                        class="text-nowrap text-white w-15 pl-mw-100">Time</th>
+                      <th
+                        class="text-nowrap text-white w-10 pl-mw-100">Qty.</th>
+                      <th
+                        class="text-nowrap text-white w-10 pl-mw-100">Unit</th>
+                      <th
+                        class="text-nowrap text-white w-10 pl-mw-100">Price
+                        (IQD)</th>
+                      <th
+                        class="text-nowrap text-white w-10 pl-mw-100">Discount</th>
+                      <th
+                        class="text-nowrap text-white w-20 pl-mw-150">Comment</th>
+                      <th
+                        class="text-nowrap text-white w-20 pl-mw-150" *ngIf="UserTypeId !== 11 && UserTypeId !== 19">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="orderServicelist">
+                    <tr>
+                      <td colspan="7" class="text-center"
+                        *ngIf="!orderService && !orderService.length">
+                        Add Service or Consultation</td>
+                    </tr>
+                    <tr *ngFor="let data of formArray.controls; let i = index"
+                      [formGroupName]="i">
+                      <!-- <td class="bg-white"><input type="text"
+                          class="form-control border-0 p-0 h-auto bg-white"
+                        readonly>
+                      </td> -->
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <ng-select (change)="getAllServices($event , i)" [readonly]="data.value.categorization ? true : false"
+                            class="form-control border-0 p-0 h-auto bg-white"
+                            formControlName="categorization">
+                            <ng-option
+                              *ngFor="let item of getCategoryList"
+                              [value]="item.category"><span [title]="item.category">{{item.category}}</span></ng-option>
+                          </ng-select>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <ng-select [searchFn]="serachInput"
+                            class="form-control border-0 p-0 h-auto bg-white"
+                            formControlName="name"
+                            (ngModelChange)="changevalue($event , i)">
+                            <ng-option
+                              *ngFor="let item of allServicesByCategoryList[i]"
+                              [value]="item"><span [title]="item.name">{{item.name}}</span></ng-option>
+                          </ng-select>
+                        </div>
+                      </td>
+                      <td class="bg-white" style="min-width: 150px;">
+                        <div
+                          class="d-flex align-items-center justify-content-start h-100 position-relative picker">
+                          <input type="text"
+                            class="form-control border-0 p-0 h-auto bg-white"
+                            [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY', isDisabled: true}"
+                            [bsValue]="data?.value?.dateTime"
+                            bsDatepicker
+                            [isDisabled]="true"> <img
+                            src="assets/images/date-picker.svg"
+                            class="position-absolute">
+                        </div>
+                      </td>
+                      <td class="bg-white" style="min-width: 150px;">
+                        <div
+                          class="d-flex align-items-center justify-content-start h-100 position-relative picker">
+                          <input type="text"
+                            class="form-control border-0 p-0 h-auto bg-white"
+                            [bsConfig]="{withTimepicker: false, showWeekNumbers: false, dateInputFormat:'HH:mm:ss', isDisabled: true}"
+                            bsDatepicker [bsValue]="data.value.dateTime"
+                            [isDisabled]="true">
+                          <img src="assets/images/time-picker.svg"
+                            class="position-absolute">
+                        </div>
+                      </td>
+                      <td class="bg-white" style="min-width: 120px;">
+                        <div
+                          class="d-flex align-items-center h-100 position-relative">
+                          <img src="assets/images/minimize-sign.svg"
+                            class="cursor-pointer"
+                            height="10px"
+                            (click)="subtract(data.value, i)">
+                          <input type="number" min="0"
+                            class="form-control border-0 p-0 text-center h-auto bg-white ml-1"
+                            formControlName="quantity">
+                          <img src="assets/images/Vector.svg" height="10px"
+                            class="cursor-pointer"
+                            (click)="add(data.value, i)">
+                        </div>
+                      </td>
+                      <td class="bg-white" style="min-width: 150px;">
+                        <div
+                          class="d-flex align-items-center h-100 position-relative">
+                          <input type="text"
+                            class="form-control border-0 p-0 h-auto bg-white ml-1"
+                            formControlName="unit">
+                        </div>
+                      </td>
+                      <td class="bg-white" style="min-width: 80px;">
+                        <div
+                          class="d-flex align-items-center h-100 position-relative">
+                          <!-- {{currency}} -->
+                          <input type="text"
+                            class="form-control border-0 p-0 h-auto bg-white ml-1"
+                            formControlName="price"
+                            [readonly]="!data.value.isNotEdit">
+                          <!-- <img src="assets/images/edit.svg" width="20"
+                            class="mx-2 cursor-pointer"
+                            (click)="editService(i)"> -->
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div
+                          class="d-flex align-items-center h-100 position-relative">
+                          %
+                          <input type="number"
+                            class="ml-1 form-control border-0 p-0 h-auto bg-white"
+                            formControlName="discount"
+                            (input)="onChangeDiscount()" max="100"
+                            [readonly]="!data.value.isNotEdit">
+                          <img src="assets/images/edit.svg" width="20"
+                            class="mx-2 cursor-pointer"
+                            (click)="editService(i)" title="Edit">
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div
+                          class="d-flex align-items-center justify-content-end h-100 position-relative edit">
+                          <input type="text"
+                            class="form-control border-0 p-0 h-auto bg-white"
+                            placeholder="Comments"
+                            formControlName="comment">
+                          <!-- (click)="editComment(data.value, i)" -->
+                          <!-- <img src="assets/images/edit-dark-icon.svg" class="position-absolute"> -->
+                        </div>
+                      </td>
+                      <td class="pb-3" *ngIf="UserTypeId !== 11 && UserTypeId !== 19">
+                        <div
+                          class="d-flex align-items-center justify-content-center h-100 position-relative edit">
+                          <img src="assets/images/delete-icon.svg"
+                            class="cursor-pointer" (click)="deleteService(data,i)" title="Delete">
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="card-detail-header p-3 bg-sky-blue w-100"
+            *ngIf="isIPadAir">
+            <h3 class="main-title m-0">Payment</h3>
+          </div>
+          <div class="card-payment-details col-lg-4 col-12 p-0">
+            <div class="px-3">
+              <div class="card-payment-wrapper overflow-auto">
+                <div
+                  class="payment-info border-medium-gray pl-border-radius-15 p-3 mb-2">
+                  <div
+                    class="payment-info-header d-flex align-items-center justify-content-between mb-2">
+                    <h3 class="m-0">Total bill</h3>
+                  </div>
+                  <div class="payment-info-body">
+                    <div
+                      class="payment-details-wrapper d-flex align-items-center justify-content-between">
+                      Total Amount
+                      <span>{{currency}} {{calculation.amount}}</span>
+                    </div>
+                    <div
+                      class="payment-details-wrapper d-flex align-items-center justify-content-between">
+                      Discount
+                      <span>
+                        <input type="number"
+                          class="ml-1 form-control border-0 p-0 h-auto bg-white text-right"
+                          (input)="onChangeGlobalDiscount($event)"
+                          [value]="this.calculation.discount">
+                      </span>
+                    </div>
+                    <div
+                      class="payment-details-wrapper d-flex align-items-center justify-content-between">
+                      Net Amount
+                      <span>{{currency}} {{calculation.payable}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="payment-info border-medium-gray pl-border-radius-15 p-3 mb-2">
+                  <div
+                    class="payment-info-header d-flex align-items-center justify-content-between mb-2">
+                    <h3 class="m-0">Payment With</h3>
+                    <span>Paid Amount</span>
+                  </div>
+                  <div class="payment-info-body">
+                    <div class="payment-details-wrapper">
+                      <div
+                        class="d-flex align-items-center justify-content-between">
+                        <div
+                          class="select-option position-relative d-flex align-items-center">
+                          <input type="checkbox"
+                            class="position-absolute cursor-pointer" id="Cash"
+                            [checked]="dyForm.value.isCash"
+                            (change)="onRequired('cashAmount',$event); onSetValue('isCash',$event)"
+                            [disabled]="disabledOptions"
+                            [readonly]="disabledOptions">
+                          <span class="d-inline-block"></span>
+                          <label for="Cash" class="m-0">Cash</label>
+                        </div>
+                        <span class="d-flex" *ngIf="dyForm.value.isCash">
+                          {{currency}} <input type="number"
+                            formControlName="cashAmount"
+                            class="p-0 amount form-control"
+                            min="0"
+                            [ngClass]="dyForm.get('cashAmount').invalid && dyForm.get('cashAmount').touched ? 'error-m' : ''"
+                            [disabled]="disabledOptions"
+                            [readonly]="disabledOptions">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="payment-details-wrapper">
+                      <div
+                        class="d-flex align-items-center justify-content-between">
+                        <div
+                          class="select-option position-relative d-flex align-items-center">
+                          <input type="checkbox"
+                            class="position-absolute cursor-pointer"
+                            id="Credit-Card"
+                            (change)="onRequired('creditCardAmount',$event);onRequired('creditCardApprovalNumber',$event); onSetValue('isCreditCard',$event)"
+                            [checked]="dyForm.value.isCreditCard"
+                            [disabled]="disabledOptions"
+                            [readonly]="disabledOptions">
+                          <span class="d-inline-block"></span>
+                          <label for="Credit-Card" class="m-0">Credit
+                            Card</label>
+                        </div>
+                        <span class="d-flex" *ngIf="dyForm.value.isCreditCard">
+                          {{currency}} <input type="number"
+                            formControlName="creditCardAmount"
+                            class="p-0 amount form-control" min="0"
+                            [ngClass]="dyForm.get('creditCardAmount').invalid && dyForm.get('creditCardAmount').touched ? 'error-m' : ''"
+                            [disabled]="disabledOptions"
+                            [readonly]="disabledOptions">
+                        </span>
+                      </div>
+                      <div class="form-group-wrapper mt-3">
+                        <div class="form-group-main position-relative border-0">
+                          <input type="number" class="form-control"
+                            placeholder="Enter credit approval number"
+                            formControlName="creditCardApprovalNumber"
+                            [ngClass]="!disabledOptions && dyForm.get('creditCardApprovalNumber').invalid && dyForm.get('creditCardApprovalNumber').touched ? 'error' : ''"
+                            (change)="onRequired('creditCardApprovalNumber',$event)"
+                            [readonly]="disabledOptions ? disabledOptions :!dyForm.value.isCreditCard"
+                            [disabled]="disabledOptions ? disabledOptions : !dyForm.value.isCreditCard">
+                          <label
+                            class="position-absolute m-0 bg-white left-8">Enter
+                            credit approval number</label>
+                        </div>
+                      </div>
+                      <!-- <input type="number" class="form-control mt-2" max="8" placeholder="Enter credit approval number"
+                        formControlName="creditCardApprovalNumber"
+                        [ngClass]="dyForm.get('creditCardApprovalNumber').invalid && dyForm.get('creditCardApprovalNumber').touched ? 'error-m' : ''"
+                        [readonly]="!dyForm.value.isCreditCard"> -->
+                    </div>
+                    <!-- <div class="payment-details-wrapper">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="select-option position-relative d-flex align-items-center">
+                          <input type="checkbox" class="position-absolute cursor-pointer" id="isvoucher"
+                            (change)="onRequired('voucherAmount',$event);onRequired('voucherNumber',$event);onSetValue('isVoucher',$event)"
+                            [checked]="dyForm.value.isVoucher" [disabled]="disabledOptions"
+                            [readonly]="disabledOptions">
+                          <span class="d-inline-block"></span>
+                          <label for="isvoucher" class="m-0">Voucher</label>
+                        </div>
+                        <span class="d-flex" *ngIf="dyForm.value.isVoucher">
+                          {{currency}} <input type="number" formControlName="voucherAmount"
+                            class="p-0 amount form-control" min="0"
+                            [ngClass]="dyForm.get('voucherAmount').invalid && dyForm.get('voucherAmount').touched ? 'error-m' : ''"
+                            [disabled]="true" [readonly]="true">
+                        </span>
+                      </div>
+                      <div class="form-group-wrapper mt-3">
+                        <div class="form-group-main position-relative border-0">
+                          <input type="number" class="form-control" placeholder="Enter voucher number"
+                            formControlName="voucherNumber"
+                            [ngClass]="!disabledOptions && dyForm.get('voucherNumber').invalid && dyForm.get('voucherNumber').touched ? 'error' : ''"
+                            (change)="onRequired('voucherNumber',$event)"
+                            [readonly]="disabledOptions ? disabledOptions: !dyForm.value.isVoucher"
+                            [disabled]="disabledOptions ? disabledOptions : !dyForm.value.isCreditCard"
+                            (input)="onCheckValidVoucherNumber()">
+                          <label class="position-absolute m-0 bg-white left-8">Enter voucher number</label>
+                        </div>
+                      </div> -->
+                    <!-- <input type="number" class="form-control mt-2" max="8" placeholder="Enter Enter voucher number"
+                        formControlName="voucherNumber"
+                        [ngClass]="dyForm.get('voucherNumber').invalid && dyForm.get('voucherNumber').touched ? 'error-m' : ''"
+                        [readonly]="!dyForm.value.isVoucher"> -->
+                    <!-- </div> -->
+                  </div>
+                </div>
+                <div
+                  class="payment-info border-medium-gray pl-border-radius-15 p-3 mb-2">
+                  <div class="payment-info-body">
+                    <div
+                      class="payment-details-wrapper d-flex align-items-center justify-content-between p-0">
+                      Balance
+                      <span
+                        [ngClass]="calculation.balance < 0? 'text-danger' : ''">{{currency}}
+                        {{
+                        calculation.balance}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="button-group" *ngIf="!isBilled || billedData">
+                  <button type="button"
+                    class="text-white d-flex align-items-center justify-content-center bg-dark-blue cursor-pointer w-100"
+                    (click)="onSubmit()"
+                    [disabled]="dyForm.value.netAmount !== dyForm.value.netAmount">
+                    Pay Now
+                  </button>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>
+<edit-comment-popup #editCommentPopup></edit-comment-popup>

@@ -1,0 +1,148 @@
+.bed-img {
+  width: 18px;
+  height: 18px;
+}
+
+.Patients-ul li {
+  position: relative;
+  transform: translateZ(0);
+}
+
+.Patients-ul li .tooltip {
+  font-size: 12px;
+  background: #000;
+  top: 25px;
+  color: #fff;
+  display: block;
+  left: 50%;
+  opacity: 0;
+  padding: 5px;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  -ms-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+  border-radius: 3px;
+}
+
+/* This bridges the gap so you can mouse into the tooltip without it disappearing */
+.Patients-ul li .tooltip:before {
+  bottom: -20px;
+  content: " ";
+  display: block;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+/* CSS Triangles - see Trevor's post */
+.Patients-ul li .tooltip:after {
+  border-left: solid transparent 4px;
+  border-right: solid transparent 4px;
+  border-bottom: solid #000 4px;
+  top: -4px;
+  content: " ";
+  height: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  width: 0;
+}
+
+.Patients-ul li:hover .tooltip {
+  width: max-content;
+  opacity: 1;
+  pointer-events: auto;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+/* IE can just show/hide with no transition */
+.Patients-ul li .tooltip {
+  display: none;
+}
+
+.Patients-ul li:hover .tooltip {
+  display: block;
+}
+
+.transfer-blue {
+  width: 18px;
+  height: 18px;
+}
+
+::ng-deep .patient-panel {
+  .patient-panel-wrapper {
+    .table-responsive {
+      overflow: auto;
+      .layout-table {
+        table {
+          tbody {
+            tr {
+              td {
+                ul {
+                  popover-container {
+                    border: none;
+
+                    .popover-content {
+                      padding: 0;
+                    }
+
+                    .popover-arrow {
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .history-popup.modal-dialog {
+  max-width: 576px !important;
+  border-radius: 20px;
+}
+
+::ng-deep .emergency-content {
+  height: 80%;
+
+  .modal-content {
+    height: 80%;
+  }
+}
+
+::ng-deep .modal .filterPopup {
+  max-width: 400px !important;
+}
+
+::ng-deep .request-popup-details #printPatients {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  padding: 20px;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .request-popup-details .barcode-print {
+  transform: rotate(270deg);
+}
+
+::ng-deep .emergency-barcode {
+  svg {
+    scale: 1.2;
+  }
+}

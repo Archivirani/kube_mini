@@ -1,0 +1,145 @@
+.bed-img {
+  width: 18px;
+  height: 18px;
+}
+.book-img {
+  width: 25px;
+  height: 25px;
+}
+.Patients-ul li {
+  position: relative;
+  transform: translateZ(0);
+  margin: 0 5px;
+  .reactive-icon{
+    width: 17px;
+    height: 17px;
+    background: #3f7473;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img{
+      max-width: 13px;
+      width: 13px;
+    height: 13px;
+    }
+  }
+}
+
+.Patients-ul li .tooltip {
+  font-size: 12px;
+  background: #000;
+  top: 25px;
+  color: #fff;
+  display: block;
+  left: 50%;
+  opacity: 0;
+  padding: 5px;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  -ms-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
+  border-radius: 3px;
+}
+
+/* This bridges the gap so you can mouse into the tooltip without it disappearing */
+.Patients-ul li .tooltip:before {
+  bottom: -20px;
+  content: " ";
+  display: block;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+/* CSS Triangles - see Trevor's post */
+.Patients-ul li .tooltip:after {
+  border-left: solid transparent 4px;
+  border-right: solid transparent 4px;
+  border-bottom: solid #000 4px;
+  top: -4px;
+  content: " ";
+  height: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  width: 0;
+}
+
+.Patients-ul li:hover .tooltip {
+  width: max-content;
+  opacity: 1;
+  pointer-events: auto;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+/* IE can just show/hide with no transition */
+.Patients-ul li .tooltip {
+  display: none;
+}
+
+.Patients-ul li:hover .tooltip {
+  display: block;
+}
+
+.tooltip-left {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip-left {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 110%;
+}
+
+.tooltip-left::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent black;
+}
+.Patients-ul li:hover .tooltip-left {
+  visibility: visible;
+}
+::ng-deep .patient-popup {
+  .swal2-popup {
+    padding: 15px;
+  }
+  .swal2-close {
+    display: flex;
+    background: red;
+    border-radius: 50%;
+    color: white;
+    width: 30px;
+    font-size: 25px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+::ng-deep .qr-popup.modal-dialog{
+  max-width: 530px !important;
+}

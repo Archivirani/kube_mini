@@ -1,0 +1,34 @@
+<ng-template #invoiceHistoryPopup>
+  <div class="history-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Invoice History</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePopup()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+      <div class="history p-3">
+        <div class="history-list pl-border-radius-10" *ngIf="invoiceorders && invoiceorders.length">
+          <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+            *ngFor="let data of invoiceorders">
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{data.dateTime | date: 'dd-MM-YYYY'}}</b></p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-85 d-flex align-items-center justify-content-between bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{data.patient.firstName}} {{data.patient.familyName}}</b></p>
+              <img src="assets/images/print.svg" (click)="openInvoice(data)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<invoice-generator #generateInvoice></invoice-generator>

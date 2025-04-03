@@ -1,0 +1,394 @@
+<div class="site-panel-register p-3 ">
+  <div class="site-register-wrapper">
+    <form [formGroup]="registerPatient" (ngSubmit)="onSave()">
+      <div class="form-group-wrapper form-group-main-div bg-white">
+        <div class="form-group-main">
+          <div class="addmission-main-wrapper">
+            <div class="form-title">
+              <h2 class="pl-border-radius-0 bg-sky-blue">Admission Data</h2>
+            </div>
+            <div class="form-group-main-wrapper addmission-wrap py-3">
+              <div class="container-fluid">
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <input type="text"
+                        class="form-control" placeholder="MRN"
+                        formControlName="mrn" readonly>
+                      <label class="position-absolute m-0 bg-white">MRN</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <input type="text" name id
+                        class="f-size-field form-control"
+                        formControlName="patientId"
+                        placeholder="Patient Name" readonly />
+                      <label class="position-absolute m-0 bg-white">Patient
+                        Name</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div class="form-group-control">
+                      <ng-select placeholder="Case Type"
+                        formControlName="caseType"
+                        class="border-0 font-numbar lab-select"
+                        (change)="setErPatientValue($event)">
+                        <ng-option *ngFor="let item of caseTypelist"
+                          [value]="item.id">{{item.caseName}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Case
+                        Type</label>
+                    </div>
+                    <ng-container
+                      *ngIf="registerPatient.get('caseType').invalid && registerPatient.get('caseType').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('caseType').errors.required">
+                        Case Type is required
+                      </span>
+                    </ng-container>
+                    <ng-container
+                      *ngIf="registerPatient.get('caseType').hasError('invalidCaseType')
+                      ">
+                      <span class="error-message">
+                        Please choose a valid type
+                      </span>
+                    </ng-container>
+                  </div>
+                  <div class="col-4">
+                    <ng-select placeholder="Addmission Type"
+                      formControlName="admissionType"
+                      class="border-0 font-numbar lab-select"
+                      [readonly]="registerPatient.controls['caseType'].value == 3"
+                      [ngClass]="registerPatient.get('admissionType').invalid && registerPatient.get('admissionType').touched ? 'error' : ''">
+                      <ng-option *ngFor="let item of admissionTypeslist"
+                        [value]="item.id">{{item.admissionTypeName}}</ng-option>
+                    </ng-select>
+                    <label class="position-absolute m-0 bg-white">Admission
+                      Type
+                    </label>
+                    <ng-container
+                      *ngIf="registerPatient.get('admissionType').invalid && registerPatient.get('admissionType').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('admissionType').errors.required">
+                        Admission Type is required
+                      </span>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <input type="text" class="form-control"
+                        formControlName="admReason"
+                        placeholder="Admission Reason">
+                      <label class="position-absolute m-0 bg-white">Admission
+                        Reason</label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group mb-0 d-flex p-0 col-12">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-11">
+                        <input type="text" class="form-control"
+                          formControlName="comment" placeholder="Comment">
+                        <label
+                          class="position-absolute m-0 bg-white">Comment</label>
+                      </div>
+                      <div class="comment-main px-0">
+                        <ul class="comment-ul pl-0 mb-0">
+                          <li class="comment-li">
+                            <a href="#">
+                              <img
+                                src="../../../assets/images/mdi--file-edit-outline.svg">
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <input type="text" class="form-control"
+                        formControlName="admDate"
+                        [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                        bsDatepicker
+                        [ngClass]="registerPatient.get('admDate').invalid && registerPatient.get('admDate').touched ? 'error' : ''"
+                        placeholder="Admitted On">
+                      <label class="position-absolute m-0 bg-white">Admitted
+                        On</label>
+                    </div>
+                    <ng-container
+                      *ngIf="registerPatient.get('admDate').invalid && registerPatient.get('admDate').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('admDate').errors.required">
+                        Appointment Date is required
+                      </span>
+                    </ng-container>
+                    <ng-container
+                      *ngIf="registerPatient.get('admDate').hasError('pastDate')">
+                      <span class="error-message"> Cannot select a past
+                        date</span>
+                    </ng-container>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 col-12 position-relative">
+                      <input type="text" class="form-control"
+                        formControlName="admTime"
+                        [bsConfig]="{showWeekNumbers: false,withTimepicker:true, dateInputFormat:'HH:mm:ss'}"
+                        bsDatepicker />
+                      <label class="position-absolute m-0 bg-white">Admitted
+                        At</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <ng-select placeholder="AdmissionStatus"
+                        formControlName="admissionStatus"
+                        class="border-0 font-numbar lab-select"
+                        [readonly]="registerPatient.controls['caseType'].value == 3">
+                        <ng-option *ngFor="let item of admissionStatus"
+                          [value]="item.id">{{item.status}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Admission
+                        Status </label>
+                      <ng-container
+                        *ngIf="registerPatient.get('admissionStatus').invalid && registerPatient.get('admissionStatus').touched">
+                        <span class="error-message"
+                          *ngIf="registerPatient.get('admissionStatus').errors.required">
+                          Admission Status is required
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="d-flex mb-0 col-12 px-0 align-items-center">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <input type="number" name id
+                          class="f-size-field form-control"
+                          formControlName="estLeght"
+                          placeholder="Estimeted length Of Staty" />
+                        <label class="position-absolute m-0 bg-white">Estimated
+                          Length of Staty</label>
+                        <!-- <ng-container
+                          *ngIf="registerPatient.get('estLeght').invalid && registerPatient.get('estLeght').touched">
+                          <span class="error-message"
+                            *ngIf="registerPatient.get('estLeght').errors.required">
+                            Estimated Length is required
+                          </span>
+                        </ng-container> -->
+                      </div>
+                      <div class="emargency-div m-0 px-0 w-100 ">
+                        <p class=" mb-0 px-0">Day(s)</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="organization-main-wrapper mb-4">
+            <div class="form-title">
+              <h2 class="pl-border-radius-0 bg-sky-blue">Organizational
+                Assignment</h2>
+            </div>
+            <div class="form-group-main-wrapper py-3 addmission-wrap">
+              <div class="container-fluid">
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0  position-relative col-12">
+                      <ng-select placeholder="Specialty"
+                        formControlName="speciality_Code"
+                        class="border-0 font-numbar lab-select"
+                        (change)="getAttendingPhysician($event)"
+                        [readonly]="registerPatient.controls['caseType'].value == 3"
+                        [ngClass]="registerPatient.get('speciality_Code').invalid && registerPatient.get('speciality_Code').touched ? 'error' : ''">
+                        <ng-option *ngFor="let item of getSpecialitylist"
+                          [value]="item.speciality_Code">{{item.speciality_desc}}
+                        </ng-option>
+                      </ng-select>
+                      <label
+                        class="position-absolute m-0 bg-white">Specialty</label>
+                      <ng-container
+                        *ngIf="registerPatient.get('speciality_Code').invalid && registerPatient.get('speciality_Code').touched">
+                        <span class="error-message"
+                          *ngIf="registerPatient.get('speciality_Code').errors.required">
+                          Specialty is required
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <ng-select placeholder="Floor"
+                        class="border-0 font-numbar lab-select"
+                        formControlName="floorId"
+                        (change)="getSelectgetRooms($event)"
+                        [readonly]="registerPatient.controls['caseType'].value == 3"
+                        [ngClass]="registerPatient.get('floorId').invalid && registerPatient.get('floorId').touched ? 'error' : ''">
+                        <ng-option *ngFor="let item of getFloorslist"
+                          [value]="item.id">{{item.floornumber+"-"+item.floorName}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Floor
+                      </label>
+                      <ng-container
+                      *ngIf="registerPatient.get('floorId').invalid && registerPatient.get('floorId').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('floorId').errors.required">
+                        Floor is required
+                      </span>
+                    </ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <ng-select placeholder="Room"
+                        class="border-0 font-numbar lab-select"
+                        formControlName="roomId"
+                        (change)="getSelectgetBads($event)"
+                        [ngClass]="registerPatient.get('roomId').invalid && registerPatient.get('roomId').touched ? 'error' : ''">
+                        <ng-option *ngFor="let item of getRoomslist"
+                          [value]="item.id">{{item.roomNumber+"-"+item.roomName}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Room
+                      </label>
+                      <ng-container
+                      *ngIf="registerPatient.get('roomId').invalid && registerPatient.get('roomId').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('roomId').errors.required">
+                        Room is required
+                      </span>
+                    </ng-container>
+                    </div>
+                  </div>
+                
+                  <div class="col-4">
+                    <div
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <ng-select placeholder="Bed"
+                        class="border-0 font-numbar lab-select"
+                        formControlName="badId"
+                        [ngClass]="registerPatient.get('badId').invalid && registerPatient.get('badId').touched ? 'error' : ''">
+                        <ng-option *ngFor="let item of getBadlist"
+                          [value]="item.id">{{item.badNumber+"-"+item.badName}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Bed</label>
+                      <ng-container
+                      *ngIf="registerPatient.get('badId').invalid && registerPatient.get('badId').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('badId').errors.required">
+                        Bed is required
+                      </span>
+                    </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group-main">
+          <div class="form-title">
+            <h2 class="pl-border-radius-0 bg-sky-blue">Attending physicians</h2>
+          </div>
+          <div class="form-group-main-wrapper py-3 addmission-wrap">
+            <div class="container-fluid">
+              <div class="row mb-3">
+                <div class="col-4 ">
+                  <div
+                    class="form-group-control m-0 px-0 position-relative col-12">
+
+                    <ng-select placeholder="Attending Doctor"
+                      formControlName="attendDoctor_code"
+                      class="border-0 font-numbar lab-select"
+                      [ngClass]="registerPatient.get('attendDoctor_code').invalid && registerPatient.get('attendDoctor_code').touched ? 'error' : ''">
+                      <ng-option *ngFor="let item of getPhysicianlist"
+                        [value]="item.doctor_Code">{{item.doctor_Name}}
+                      </ng-option>
+                    </ng-select>
+                    <label class="position-absolute m-0 bg-white">Attending
+                      Physician</label>
+                    <ng-container
+                      *ngIf="registerPatient.get('attendDoctor_code').invalid && registerPatient.get('attendDoctor_code').touched">
+                      <span class="error-message"
+                        *ngIf="registerPatient.get('attendDoctor_code').errors.required">
+                        Attending Physician is required
+                      </span>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class=" col-4">
+                  <div
+                    class="form-group-control m-0 px-0 pr-2 position-relative col-12">
+                    <ng-select placeholder="Admitted Physician"
+                      formControlName="admittingPhysician"
+                      class="border-0 font-numbar lab-select">
+                      <ng-option *ngFor="let item of getPhysicianlist"
+                        [value]="item.doctor_Code">{{item.doctor_Name}}
+                      </ng-option>
+                    </ng-select>
+                    <label class="position-absolute m-0 bg-white">Admitting
+                      Physician</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <ul class="visite-note-ul-btn list-unstyled">
+            <li>
+              <a href="#0">
+                <div class="button-group">
+                  <button type="submit"
+                    class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap">Save</button>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#0">
+                <div class="button-group" (click)="onCancel()">
+                  <button
+                    class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap cancel-btn">Cancel</button>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

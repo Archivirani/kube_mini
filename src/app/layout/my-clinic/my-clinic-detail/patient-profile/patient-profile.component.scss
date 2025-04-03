@@ -1,0 +1,192 @@
+.pdf-title {
+  color: #969696;
+}
+
+.face-neck-popup {
+  max-height: 80vh;
+  overflow-y: scroll !important;
+}
+
+.img-ul-new li {
+  list-style: none;
+}
+
+.print-li {
+  margin-right: 10px;
+}
+
+
+/************/
+.lab-border {
+  border: 1px solid #F1F2F5;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  // gap: 30px;
+  margin: 10px 0;
+
+  .abc-p {
+    background-color: #293A4A;
+    border-radius: 10px 10px 0px 0px;
+    color: #fff;
+    padding: 11px !important;
+  }
+
+  .lab-key {
+    background-color: #E4EDF5;
+
+    th {
+      border-right: 1px solid #fff !important;
+    }
+
+    .lab-border .lab-key th:last-child {
+      border-right: 0px !important;
+    }
+  }
+
+  .lab-form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-clip: padding-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+}
+
+.lab-text {
+  border-bottom: 1px solid #F1F2F5;
+
+  td {
+    background-color: #FBFCFF !important;
+
+    input {
+      border-right: 1px solid #efefef !important;
+      background-color: #FBFCFF !important;
+    }
+  }
+
+}
+
+::ng-deep .lab-data .ng-select .ng-select-container {
+  border: none !important;
+  background-color: #FBFCFF !important;
+  border-right: 1px solid #efefef !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .lab-data .lab-select .ng-select-container {
+  border-left: 1px solid #efefef !important;
+}
+
+.lab-overflow {
+  height: auto;
+  overflow: auto;
+}
+
+tr.lab-text:last-child {
+  border-bottom: 0px !important;
+}
+
+.lab-overflow {
+  border-radius: 0 0 10px 10px;
+}
+
+.position-data {
+  position: sticky;
+  top: 0;
+}
+
+.font-key {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+.font-numbar::placeholder {
+  font-size: 13px !important;
+  // color: rgb(241, 239, 239) !important;
+  color: rgb(185, 185, 185) !important;
+}
+
+.lab-text .lab-edit-main input {
+  border-right: 0px !important;
+}
+
+.lab-text .lab-edit-main {
+  border-right: 1px solid #efefef !important;
+}
+
+.modal-wrapper {
+  .modal-header {
+    gap: 30px;
+    align-items: center;
+    background-color: #3f7473;
+    justify-content: space-between;
+    background-color: #3f7473;
+
+    .custom-input {
+      color: #000000;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 20px;
+    }
+
+    .close-btn {
+      border: none;
+      color: #ffffff;
+      min-width: 45px;
+      min-height: 45px;
+      border-radius: 50%;
+      background-color: #ff0000;
+
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  .modal-wrap {
+    .layout-patient-table {
+      height: auto;
+      max-height: 330px;
+      overflow: auto;
+
+      table {
+        thead {
+          tr {
+            th {
+              color: #000000;
+              font-size: 16px;
+              line-height: 1.5;
+              font-weight: 700;
+            }
+          }
+        }
+
+        tbody {
+          tr {
+
+            td {
+              color: #333333;
+              font-size: 16px;
+              line-height: 1.5;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.quantity-td {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

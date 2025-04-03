@@ -1,0 +1,432 @@
+
+<ng-container *ngIf="specialtyList && specialtyList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Specialty List</h5>
+    <div>
+        <img src="assets/images/add.svg" class="cursor-pointer" width="28" title="Insert" (click)="addSpecialityList()">
+        <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onDownloadSpeciality()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Specialty Description</th>
+                        <th class="text-center">Specialty Code</th>
+                        <th class="text-center">Specialty Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of specialtyList">
+                        <td class="pl-3">{{data.speciality_desc}}</td>
+                        <td class="text-center">{{data.speciality_Code}}</td>
+                        <td class="text-center">{{data.active == '1'? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer"(click)="onUpdateSpeciality(data)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25" title="Delete" class="cursor-pointer" (click)="onDeleteSpeciality(data.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="doctorsList && doctorsList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Doctors List</h5>
+       <div>
+        <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addDoctorList()">
+        <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onDoctorDownload()">
+       </div>
+      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Doctor Name</th>
+                        <th class="text-center">Doctor Code</th>
+                        <th class="text-center">Specialty Description</th>
+                        <th class="text-center">Doctor Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of doctorsList">
+                        <td class="pl-3">{{data.doctor_Name}}</td>
+                        <td class="text-center">{{data.doctor_Code}}</td>
+                        <td class="text-center">{{data.specialities.speciality_desc}}</td>
+                        <td class="text-center">{{data.active == '1'? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer"(click)="onUpdatedoctor(data)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25" title="Delete" class="cursor-pointer" (click)="onDeleteDoctors(data.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="floorsList && floorsList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Floors List</h5>
+        <div>
+        <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addFloorList()">
+        <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onFloorDownload()">
+        </div>
+      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>floor Name
+                        </th>
+                        <th class="text-center">floor Number</th>
+                        <th class="text-center">Floor Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of floorsList" >
+                        <td class="pl-3">{{data.floorName}}</td>
+                        <td class="text-center">{{data.floornumber}}</td>
+                        <td class="text-center">{{data.isActive == true?"Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer" (click)="onUpdateFloor(data)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25"  title="Delete" class="cursor-pointer" (click)="onDeleteFloor(data.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="bedList && bedList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Beds List</h5>
+        <div>
+            <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addBedList()">
+            <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onBedsDownload()">
+      </div>                  
+    </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100 ">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Bed Name</th>
+                        <th class="text-center">Bed Number</th>
+                        <th class="text-center">Bed Status</th>
+                        <th class="text-center">Floor Name</th>
+                        <th class="text-center">Floor Number</th>
+                        <th class="text-center">Room Name</th>
+                        <th class="text-center">Room Number</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of bedList">
+                        <td class="pl-3">{{item.badName}}</td>
+                        <td class="text-center">{{item.badNumber}}</td>
+                        <td class="text-center">{{item.badsStatus.status}}</td>
+                        <td class="text-center">{{item.floors.floorName}}</td>
+                        <td class="text-center">{{item.floors.floornumber}}</td>
+                        <td class="text-center">{{item.rooms.roomName}}</td>
+                        <td class="text-center">{{item.rooms.roomNumber}}</td>
+                        <td class="text-center">{{item.isActive?'Active':'Not-Active'}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21"title="Update" class="mx-2 cursor-pointer" (click)="onUpdateBeds(item)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25" title="Delete" class="cursor-pointer" (click)="onDeleteBeds(item.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="roomsList && roomsList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Rooms List</h5>
+        <div>
+            <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addRoomList()">
+            <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)='onRoomDownload()'>
+      </div>      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Floor Name</th>
+                        <th class="text-center">Floor Number</th>
+                        <th class="text-center">Room Name</th>
+                        <th class="text-center">Room Number</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of roomsList">
+                        <td class="pl-3">{{item.floors.floorName}}</td>
+                        <td class="text-center">{{item.floors.floornumber}}</td>
+                        <td class="text-center">{{item.roomName}}</td>
+                        <td class="text-center">{{item.roomNumber}}</td>
+                        <td class="text-center">{{item.isActive?'Active':'Not-Active'}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer" (click)="onUpdateRoom(item)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25"  title="Delete" class="cursor-pointer" (click)="onDeleteRoom(item.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="medicationData && medicationData.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Medications' List</h5>
+        <div>
+            <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addMedicationList()">
+            <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onMedicationDownload()">
+      </div>      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of medicationData">
+                        <td class="pl-3">{{data.name}}</td>
+                        <td class="text-center">{{data.unit}}</td>
+                        <td class="text-center">{{data.defaultPrice}}</td>
+                        <td class="text-center">{{data.isActive? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update"class="mx-2 cursor-pointer"(click)="onUpdateMedication(data)">
+                                <ng-container *ngIf="userType == 6">
+                                <img src="assets/images/ConversatioTable.png" alt width="35"  title="Conversion-Table" class="cursor-pointer" (click)="onConversationTab(data)" style="background-color: white;">
+                                </ng-container>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="serviceData && serviceData.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Services List</h5>
+        <div class="d-flex service-maintennance">
+            <ng-select placeholder="Select Category" class=" border-0 font-numbar lab-select mb-2" style="margin-right: 10px;"[(ngModel)]="category" (change)="subcategories($event)">
+                <ng-option class="dropdown-list" *ngFor="let item of getCategoryList" [value]="item.category" >{{item.category}}</ng-option>
+            </ng-select>
+            <ng-select placeholder="Select Subcategory" class="border-0 font-numbar lab-select" (change)="getAllServices()" [(ngModel)]="subcategory">
+                <ng-option *ngFor="let item of subcategoryList" [value]="item.subcategories">{{item.subcategories}}</ng-option>
+            </ng-select>
+            <div>
+                <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addServicesList()">
+                <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onServiceDownload()">
+          </div>        </div>
+      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-center">category</th>
+                        <th class="text-center">subcategory</th>
+                        <th class="text-center">Arabic service</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of allServicesByCategoryList">
+                        <td class="pl-3">{{data.name}}</td>
+                        <td class="text-center">{{data.categorization}}</td>
+                        <td class="text-center">{{data.subcategories}}</td>
+                        <td class="text-center">{{data.arabicName}}</td>
+                        <td class="text-center">{{data.unit}}</td>
+                        <td class="text-center">{{data.defaultPrice}}</td>
+                        <td class="text-center">{{data.isActive? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update"class="mx-2 cursor-pointer"(click)="onUpdateServices(data)">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="userList && userList.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Users List</h5>
+        <div>
+            <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addUserList()">
+            <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onUsersDownload()">
+      </div>      </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>login Name</th>
+                        <th class="text-center">UserName</th>
+                        <th class="text-center">UserType Name</th>
+                        <th class="text-center">USer Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of userList">
+                        <td class="pl-3">{{data?.loginname}}</td>
+                        <td class="text-center">{{data?.username}}</td>
+                        <td class="text-center">{{data?.userType?.name}}</td>
+                        <td class="text-center">{{data?.isActive == true? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer"(click)="onUpdateUser(data)">
+                                <!-- <img src="assets/images/delete-icon.svg" alt width="25" title="Delete" class="cursor-pointer" (click)="onDeleteDoctors(data.id)"> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="bookedSlots && bookedSlots.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Booking Slots</h5>
+    <div>
+        <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert"  (click)="addBookedSlotsList()">
+        <img src="assets/images/download-icon.svg" class="ml-3 cursor-pointer" width="28"  title="download" (click)="onBookingSlotsDownload()">
+    </div>
+    </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Speciality</th>
+                        <th class="text-center">Doctor</th>
+                        <th class="text-center">Start Time</th>
+                        <th class="text-center">End Time</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of bookedSlots">
+                        <td class="pl-3">{{data?.specialities?.speciality_desc}}</td>
+                        <td class="text-center">{{data?.doctors?.doctor_Name}}</td>
+                        <td class="text-center">{{data?.startTime | date: "HH:mm:ss"}}</td>
+                        <td class="text-center">{{data?.endTime | date: "HH:mm:ss"}}</td>
+                        <td class="text-center">{{data.isActive?'Active':'Not-Active'}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update" class="mx-2 cursor-pointer"(click)="onUpdateBookedSlots(data)">
+                                <img src="assets/images/delete-icon.svg" alt width="21" title="Delete" class="mx-2 cursor-pointer" (click)="deleteSpecialtyBookingSlots(data)">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</ng-container>
+<!-- <ng-container *ngIf="consumables && consumables.length">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-3">Consumables</h5>
+        <img src="assets/images/add.svg" class="ml-3 cursor-pointer" width="28" title="Insert" (click)="addConsumables()">
+    </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>Name</th>
+                        <th class="text-center">Unit</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of consumablesData">
+                        <td class="pl-3">{{data.name}}</td>
+                        <td class="text-center">{{data.unit}}</td>
+                        <td class="text-center">{{data.defaultPrice}}</td>
+                        <td class="text-center">{{data.isActive? "Active":"Not-Active"}}</td>
+                        <td class="text-center">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <img src="assets/images/edit-icon.svg" alt width="21" title="Update"class="mx-2 cursor-pointer" (click)="onUpdateConsumable(data)">
+                                <ng-container *ngIf="userType == 6">
+                                </ng-container>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</ng-container> -->
+<ng-container *ngIf="!(bedList && bedList.length) && !(floorsList && floorsList.length) && !(doctorsList && doctorsList.length) && !(specialtyList && specialtyList.length) &&!(medicationData && medicationData.length) && !(serviceData && serviceData.length) && !(roomsList && roomsList.length) && !(userList && userList.length) && !(bookedSlots && bookedSlots.length) && !(consumables && consumables.length)" >
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto d-flex justify-content-center align-items-center">
+        <img  src="assets/images/Safeer_Hospital_Logo.jpeg" width="300">
+    </div>
+</ng-container>
+
+
+<app-update-configurationlist #updatePopup (sendOnload)="getOutput($event)"></app-update-configurationlist>
+<app-add-configurationlist #addPopup (sendOnload)="getOutput($event)"></app-add-configurationlist>
+<app-conversation-table #conversationTable (sendMedicationData)="getMedicationList($event)"></app-conversation-table>

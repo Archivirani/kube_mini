@@ -1,0 +1,170 @@
+<div class="patient-panel p-3 bg-white pl-border-radius-10">
+  <div class="patient-panel-wrapper pl-border-radius-10">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table overflow-auto">
+        <table class="w-100">
+          <thead class="sticky-top">
+            <tr>
+              <th class="text-center">MRN</th>
+              <th class="text-center">Patient Name</th>
+              <th class="text-center">Gender</th>
+              <th class="text-center">Date of birth</th>
+              <th class="text-center">Created At</th>
+              <th class="text-center">Created On</th>
+              <th class="text-center">Attending physician</th>
+              <th class="text-center">Specialty</th>
+              <th class="text-center">Medications Order</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-center">Unit</th>
+              <th class="text-center">Comments</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of parmacyList; let i = index" (click)="showpopup(data)" class="border_bottom">
+              <td class="text-center">{{data.patient.medicalRecordNumber}}</td>
+              <td class="align-middle cursor-pointer text-center">
+                {{data.patient.firstName}}
+                {{data.patient.secondName}}
+                {{data.patient.thirdName}}
+                {{data.patient.familyName}}
+              </td>
+              <td class="text-center">{{data.patient.gender}}</td>
+              <td class="text-center">{{data.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+              <td class="text-center">{{data?.dateTime |date:'dd-MM-yyyy'}}</td>
+              <td class="text-center">{{data?.orderServices[0]?.desiredTime | date:'hh:mm:ss'}}</td>
+              <td class="text-center">{{data?.doctors?.doctor_Name}}
+              </td>
+              <td class="text-center"> {{data?.doctors?.specialities?.speciality_desc}}
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service">{{item.name}}</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.orderServices">{{item.quantity}}</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service">{{item.unit}}</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.orderServices">{{item.comment}}</p>
+              </td>
+              <td class="text-center">
+                <img src="assets/images/payment_icon.png" title="Payment" (click)="onPayment($event,data)"
+                  class="mx-2 cursor-pointer" style="width: 18px;">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #pharmacypopup>
+  <div class="modal-wrapper pb-3">
+    <div class="modal-header">
+      <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="d-flex align-items-center text-white gap-10">
+         <div class="p-2 d-flex pharmac-border">
+          <h6 class="mr-3 ml-1 mb-0">Patient Name: </h6>{{medicationData.patient.firstName}} {{medicationData.patient.secondName}}
+          {{medicationData.patient.thirdName}}
+          {{medicationData.patient.familyName}}
+         </div>
+         <div class="p-2 d-flex pharmac-border">
+          <h6 class="mr-3 ml-1 mb-0">MRN:</h6>{{medicationData.patient.medicalRecordNumber}}
+         </div>
+         <div class="p-2 d-flex pharmac-border">
+          <h6 class="mr-3 ml-1 mb-0">Date of birth: </h6>{{medicationData.patient.dateOfBirth | date: "dd-MM-yyyy"}}
+         </div>
+        </div>
+      </div>
+      <button type="submit" (click)="onclose()" class="close-btn overflow-hidden"><img src="assets/images/close.svg"
+          alt="close"></button>
+    </div>
+    <div class="table-responsive modal-wrap p-4">
+      <div class="layout-table layout-patient-table">
+        <div class="modal-wrapper">
+          <div class="modal-header bg-white pt-0 pb-4">
+            <input type="text" placeholder="Search" class="custom-input px-3 py-2 w-100 border"
+              [(ngModel)]="searchQuery">
+          </div>
+        </div>
+        <form class="service-medication-popup" [formGroup]="pharmacyForm">
+          <table class="w-100">
+            <thead>
+              <tr>
+                <th class="w-15 text-center">Medication Name</th>
+                <th class="w-8 text-center">Dose</th>
+                <th class="w-8 text-center">Unit</th>
+                <th class="w-15 text-center">Route</th>
+                <th class="w-15 text-center">Cycle</th>
+                <th class="w-8 text-center">Duration</th>
+                <th class="w-10 text-center">Duration Unit</th>
+                <th class="w-10 text-center">Quantity</th>
+                <th class="w-10 text-center">Unit</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="pharmacyArray">
+              <tr *ngFor="let data of formArray.controls | search : searchQuery ; let i = index;" [formGroupName]="i">
+                <td class="pl-2 py-2" style="text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 100px;">
+                  <input type="text" formControlName="name" class="form-control w-100" style="max-width: 100%;"
+                    [readonly]="true">
+                </td>
+                <td class="pl-2 py-2"><input type="number" formControlName="dose" class="form-control"
+                    [readonly]="true"></td>
+                <td class="pl-2 py-2"><input type="text" formControlName="unit" class="form-control" [readonly]="true">
+                </td>
+                <td class="pl-2 py-2">
+                  <ng-select formControlName="routeid" class="border-0 font-numbar lab-select" placeholder="Routes"
+                    [readonly]="true">
+                    <ng-option *ngFor="let data of routesList" [value]="data.id">{{data.routes_Description}}</ng-option>
+                  </ng-select>
+                </td>
+                <td class="pl-2 py-2">
+                  <ng-select formControlName="cycleId" class="border-0 font-numbar lab-select" placeholder="Cycle"
+                    [readonly]="true">
+                    <ng-option *ngFor="let data of cycleList" [value]="data.id">{{data.cycles_Description}}</ng-option>
+                  </ng-select>
+                </td>
+                <td class="pl-2 py-2"><input type="number" formControlName="duration" class="form-control"
+                    [readonly]="true"></td>
+                <td class="pl-2 py-2">
+                  <ng-select formControlName="durationUnitId" class="border-0 font-numbar lab-select"
+                    placeholder="Duration Unit" [readonly]="true">
+                    <ng-option *ngFor="let data of DurationList" [value]="data.id">{{data.duration_Units}}</ng-option>
+                  </ng-select>
+                </td>
+                <td class="pl-2 py-2 quantity-td">
+                  <div class="popup-service-qua">
+                    <img src="assets/images/minimize-sign.svg" class="cursor-pointer" (click)="decrementQuantity(i)"
+                      height="10px">
+                    <input type="text" formControlName="quantity" class="form-control mx-2">
+                    <img src="assets/images/Vector.svg" height="10px" class="cursor-pointer" alt
+                      (click)="incrementQuantity(i)">
+                  </div>
+                </td>
+                <td class="text-center bg-white px-2 p-0">
+                  <ng-select class="border-0 font-numbar lab-select" [appendTo]="'body'"
+                    formControlName="medicationUnitId">
+                    <ng-option *ngFor="let item of MedicationUnitList"
+                      [value]="item.id">{{item.units}}</ng-option>
+                    </ng-select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+    <div class="w-100 d-flex align-items-center justify-content-center">
+      <button type="submit"
+        class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center px-5 py-2"
+        (click)="OnSave()">Save</button>
+    </div>
+  </div>
+</ng-template>
+<app-search-patient-popup #searchPatient></app-search-patient-popup>

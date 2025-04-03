@@ -1,0 +1,10 @@
+<div class="default-views">
+  <ng-container *ngIf="defaultTimePeriod && defaultTimePeriod.value === timeRange.Weekly">
+    <appointment-weekly-view [days]="days" (previousEvent)="previousDays()" (nextEvent)="nextDays()"
+      (selectedDate)="onSelectDate($event)" (loadAppointment)="getDays(selectedDate, $event);"></appointment-weekly-view>
+  </ng-container>
+  <ng-container *ngIf="defaultTimePeriod && defaultTimePeriod.value === timeRange.Daily">
+    <appointment-daily-view [days]="days"  [currentDateAppointment]="selectedDate"
+      (loadAppointment)="getDays(selectedDate, $event);"></appointment-daily-view>
+  </ng-container>
+</div>

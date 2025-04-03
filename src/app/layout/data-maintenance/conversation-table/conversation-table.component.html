@@ -1,0 +1,44 @@
+<ng-template #conversationTable>
+    <div class="table-responsive conversation-wrap w-100">
+        <div class="layout-table position-relative p-3">
+            <div class="w-100 d-flex mb-3  p-2 pb-3 justify-content-between  cursor-pointer d-flex w-100" style="background-color: #3f7473;">
+                <h5 style="color: #ffff;">Conversion Table</h5>
+                <img src="assets/images/popup-close.svg" width="30" (click)="onClose()">
+            </div>
+            <form [formGroup]="medicationTableForm">
+                <div class="table-responsive">
+                    <div class="layout-patient-table">
+                        <table class="w-100">
+                            <thead class="sticky-top">
+                                <tr>
+                                    <th class="text-center">Service Code</th>
+                                    <th class="text-center">Service Description</th>
+                                    <th class="text-center">Number</th>
+                                    <th class="text-center">Unit</th>
+                                    <th class="text-center">Conversation factor</th>
+                                    <th class="text-center">Packs and Tablets</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center bg-white px-2 p-0"><input class="border-0" type="text" formControlName="code"></td>
+                                    <td class="text-center bg-white px-2 p-0"><input class="border-0" type="text" formControlName="name"></td>
+                                    <td class="text-center bg-white px-2 p-0"><input class="border-0" type="number" formControlName="number"></td>
+                                    <td class="text-center bg-white px-2 p-0"><input class="border-0" type="text" formControlName="unit"></td>
+                                    <td class="text-center bg-white px-2 p-0"><input class="border-0" type="number" formControlName="conversionFactor"></td>
+                                    <td class="text-center bg-white px-2 p-0">
+                                        <ng-select class="border-0 font-numbar lab-select" [appendTo]="'body'" formControlName="medicationUnitId"><ng-option *ngFor="let item of MedicationUnitList" [value]="item.id">{{item.units}}</ng-option></ng-select></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <div class="button-group mt-5 d-flex  justify-content-center">
+                <button style="width: 150px;"
+                    class="text-dark-blue bg-white bg-hover-transparent pl-border-radius-10 cursor-pointer text-nowrap m-10" (click)="saveMedicationTable()">Save</button>
+            </div>
+        </div>
+        
+    </div>
+</ng-template>

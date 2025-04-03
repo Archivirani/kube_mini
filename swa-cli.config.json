@@ -1,0 +1,14 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "kube-mini-frontend-qa": {
+      "appLocation": ".",
+      "outputLocation": "dist\\healthcare",
+      "appBuildCommand": "npm run build",
+      "run": "npm start",
+      "appDevserverUrl": "http://localhost:4200",
+      "appName": "kube-mini-frontend-qa",
+      "resourceGroup": "KubeMini"
+    }
+  }
+}

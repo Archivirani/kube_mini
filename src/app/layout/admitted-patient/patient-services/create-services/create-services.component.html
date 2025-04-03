@@ -1,0 +1,491 @@
+<div class="mt-3">
+    <div class="d-flex">
+        <div class="button-group">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap" (click)="onSaveAndPrint()">Save
+            and
+            Print
+          </button>
+        </div>
+        
+        <div class="button-group ml-2">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap" (click)="onUpdateServices()">Save
+          </button>
+        </div>
+        
+      </div>
+    <div class="mt-2">
+    <form [formGroup]="createClinicForm">
+        <div class="p-0 lab-border m-2 h-25"
+            *ngIf="createClinicForm.get('orderServices')['controls'] && createClinicForm.get('orderServices')['controls'].length">
+            <div>
+                <p class="m-0 font-weight-bolder abc-p">LAB Orders</p>
+            </div>
+            <div class="lab-overflow">
+                <table class="w-100 border-0">
+                    <thead>
+                        <tr class="lab-key position-data">
+                            <th class="border-0 text-left p-2 w-25">Service
+                                Description</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Date</th>
+                            <th class="border-0 text-left p-2 w-12">Service
+                                Time</th>
+                            <th class="border-0 text-left p-2 w-10">Fasting</th>
+                            <th
+                                class="border-0 text-left p-2 Loc-data w-15">Localization</th>
+                            <th
+                                class="border-0 text-left p-2 w-20">Comments</th>
+                            <th class="border-0 text-left p-2 w-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="orderServices">
+                        <tr>
+                            <td colspan="8" class="text-center"
+                                *ngIf="!createClinicForm.get('orderServices')['controls'] || !createClinicForm.get('orderServices')['controls'].length">
+                                Add Service or Consultation</td>
+                        </tr>
+                        <tr class="lab-text"
+                            *ngFor="let data of this.createClinicForm.get('orderServices')['controls']; let i = index"
+                            [formGroupName]="i">
+                            <td class="p-0 text-center border-0 ">
+                                <input type="text"
+                                    class="lab-form-control border-0 font-key"
+                                    [disabled]="true" placeholder="CBC"
+                                    formControlName="name" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control input-type-date  border-0 font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                    bsDatepicker />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control border-0 input-type-time font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'HH:mm:ss'}"
+                                    bsDatepicker />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="checkbox"
+                                    class="checkbox-input border-0 font-key" />
+                            </td>
+                            <td
+                                class="p-0 text-center border-0 lab-data font-key">
+                                <ng-select [searchable]="true"
+                                    formControlName="localization"
+                                    class="border-0 font-numbar lab-select">
+                                    <ng-option>
+                                    </ng-option>
+                                </ng-select>
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <div
+                                    class="d-flex justify-content-between pr-2 lab-edit-main">
+                                    <input type="text"
+                                        class="lab-form-control border-0 font-key font-numbar"
+                                        formControlName="comment"
+                                        placeholder="comment" />
+                                    <img src="assets/images/edit-dark-icon.svg"
+                                        alt>
+                                </div>
+                            </td>
+                            <td class="p-0 text-center border-0 c-pointer">
+                                <img src="assets/images/delete-icon.svg"
+                                    height="18"
+                                    (click)="onDelete('LABOrders',i)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-0 lab-border m-2 h-25"
+            *ngIf="createClinicForm.get('radiology')['controls'] && createClinicForm.get('radiology')['controls'].length">
+            <div>
+                <p class="m-0 font-weight-bolder abc-p"> RAD Orders</p>
+            </div>
+            <div class="lab-overflow">
+                <table class="w-100 border-0">
+                    <thead>
+                        <tr class="lab-key position-data">
+                            <th class="border-0 text-left p-2 w-25">Service
+                                Description</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Date</th>
+                            <th class="border-0 text-left p-2 w-12">Service
+                                Time</th>
+                            <!-- <th class="border-0 text-left p-2 w-10">Fasting</th> -->
+                            <th
+                                class="border-0 text-left p-2 Loc-data w-15">Localization</th>
+                            <th
+                                class="border-0 text-left p-2 w-30">Comments</th>
+                            <th class="border-0 text-left p-2 w-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="radiology">
+                        <tr>
+                            <td colspan="8" class="text-center"
+                                *ngIf="!createClinicForm.get('radiology')['controls'] || !createClinicForm.get('radiology')['controls'].length">
+                                Add Service or Consultation</td>
+                        </tr>
+                        <tr class="lab-text"
+                            *ngFor="let data of this.createClinicForm.get('radiology')['controls']; let i = index"
+                            [formGroupName]="i">
+                            <td class="p-0 text-center border-0 ">
+                                <input type="text"
+                                    class="lab-form-control border-0 font-key"
+                                    [disabled]="true"
+                                    placeholder="CTA Coronary"
+                                    formControlName="name" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control input-type-date  border-0 font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                    bsDatepicker />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control border-0 input-type-time font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'hh:mm:ss'}"
+                                    bsDatepicker />
+                            </td>
+                            <td
+                                class="p-0 text-center border-0 lab-data font-key">
+                                <ng-select [searchable]="true"
+                                    formControlName="localization"
+                                    class="border-0 font-numbar">
+                                    <ng-option>
+                                    </ng-option>
+                                </ng-select>
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <div
+                                    class="d-flex justify-content-between pr-2 lab-edit-main">
+                                    <input type="text"
+                                        class="lab-form-control border-0 font-key font-numbar"
+                                        placeholder="Comments"
+                                        formControlName="comment" />
+                                    <img src="assets/images/edit-dark-icon.svg"
+                                        alt>
+                                </div>
+                            </td>
+                            <td class="p-0 text-center border-0 c-pointer">
+                                <img src="assets/images/delete-icon.svg"
+                                    height="18"
+                                    (click)="onDelete('RADOrders',i)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-0 lab-border m-2 h-25"
+            *ngIf="createClinicForm.get('Procedurespackages')['controls'] && createClinicForm.get('Procedurespackages')['controls'].length">
+            <div>
+                <p class="m-0 font-weight-bolder abc-p"> PROC Orders</p>
+            </div>
+            <div class="lab-overflow">
+                <table class="w-100 border-0">
+                    <thead>
+                        <tr class="lab-key position-data">
+                            <th class="border-0 text-left p-2 w-25">Service
+                                Description</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Date</th>
+                            <!-- <th class="border-0 text-left p-2 w-12">Service Time</th> -->
+                            <!-- <th class="border-0 text-left p-2 w-10">Fasting</th> -->
+                            <th
+                                class="border-0 text-left p-2 Loc-data w-20">Localization</th>
+                            <th
+                                class="border-0 text-left p-2 w-37">Comments</th>
+                            <th class="border-0 text-left p-2 w-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="Procedurespackages">
+                        <tr class="lab-text"
+                            *ngFor="let data of this.createClinicForm.get('Procedurespackages')['controls']; let i = index"
+                            [formGroupName]="i">
+                            <td class="p-0 text-center border-0 ">
+                                <input type="text"
+                                    class="lab-form-control border-0 font-key"
+                                    [disabled]="true"
+                                    placeholder="ECG - 12 Lead"
+                                    formControlName="name" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control input-type-date  border-0 font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                    bsDatepicker />
+                            </td>
+                            <!-- <td class="p-0 text-center border-0">
+                <input type="time" class="lab-form-control border-0 input-type-time font-key" />
+              </td> -->
+                            <!-- <td class="p-0 text-center border-0">
+                <input type="checkbox" class="checkbox-input border-0 font-key" />
+              </td> -->
+                            <td
+                                class="p-0 text-center border-0 lab-data font-key">
+                                <ng-select [searchable]="true"
+                                    formControlName="localization"
+                                    class="border-0 font-numbar">
+                                    <ng-option>
+                                    </ng-option>
+                                </ng-select>
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <div
+                                    class="d-flex justify-content-between pr-2 lab-edit-main">
+                                    <input type="text"
+                                        class="lab-form-control border-0 font-key font-numbar"
+                                        placeholder="Comments"
+                                        formControlName="comment" />
+                                    <img src="assets/images/edit-dark-icon.svg"
+                                        alt>
+                                </div>
+                            </td>
+                            <td class="p-0 text-center border-0 c-pointer">
+                                <img src="assets/images/delete-icon.svg"
+                                    height="18"
+                                    (click)="onDelete('PROCOrders',i)">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-0 lab-border m-2 h-25"
+            *ngIf="createClinicForm.get('consultation')['controls'] && createClinicForm.get('consultation')['controls'].length">
+            <div>
+                <p class="m-0 font-weight-bolder abc-p">Consultation Orders</p>
+            </div>
+            <div class="lab-overflow">
+                <table class="w-100 border-0">
+                    <thead>
+                        <tr class="lab-key position-data">
+                            <th class="border-0 text-left p-2 w-25">Service
+                                Description</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Date</th>
+                            <th
+                                class="border-0 text-left p-2 Loc-data w-20">Localization</th>
+                            <th
+                                class="border-0 text-left p-2 w-37">Comments</th>
+                            <th class="border-0 text-left p-2 w-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="consultation">
+                        <tr class="lab-text"
+                            *ngFor="let data of this.createClinicForm.get('consultation')['controls']; let i = index"
+                            [formGroupName]="i">
+                            <td class="p-0 text-center border-0 ">
+                                <input type="text"
+                                    class="lab-form-control border-0 font-key"
+                                    [disabled]="true"
+                                    placeholder="ECG - 12 Lead"
+                                    formControlName="name" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control input-type-date  border-0 font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                    bsDatepicker />
+                            </td>
+                            <td
+                                class="p-0 text-center border-0 lab-data font-key">
+                                <ng-select [searchable]="true"
+                                    formControlName="localization"
+                                    class="border-0 font-numbar">
+                                    <ng-option>
+                                    </ng-option>
+                                </ng-select>
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <div
+                                    class="d-flex justify-content-between pr-2 lab-edit-main">
+                                    <input type="text"
+                                        class="lab-form-control border-0 font-key font-numbar"
+                                        placeholder="Comments"
+                                        formControlName="comment" />
+                                    <img src="assets/images/edit-dark-icon.svg"
+                                        alt>
+                                </div>
+                            </td>
+                            <td class="p-0 text-center border-0 c-pointer">
+                                <img src="assets/images/delete-icon.svg"
+                                    height="18"
+                                    (click)="onDelete('IconSubstation',i)">
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-0 lab-border m-2 h-25"
+            *ngIf="createClinicForm.get('medication')['controls'] && createClinicForm.get('medication')['controls'].length">
+            <div>
+                <p class="m-0 font-weight-bolder abc-p"> Medication</p>
+            </div>
+            <div class="lab-overflow">
+                <table class="w-100 border-0">
+                    <thead>
+                        <tr class="lab-key position-data">
+                            <th class="border-0 text-left p-2 w-25">Service
+                                Description</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Date</th>
+                            <th class="border-0 text-left p-2 w-12">Desired
+                                Time</th>
+                            <th
+                                class="border-0 text-left p-2 w-15">Quantity</th>
+                            <th class="border-0 text-left p-2 w-15">Unit</th>
+                            <th
+                                class="border-0 text-left p-2 w-37">Comments</th>
+                            <th class="border-0 text-left p-2 w-6">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="medication">
+                        <tr class="lab-text"
+                            *ngFor="let data of this.createClinicForm.get('medication')['controls']; let i = index"
+                            [formGroupName]="i">
+                            <td class="p-0 text-center border-0 ">
+                                <input type="text"
+                                    class="lab-form-control border-0 font-key"
+                                    [disabled]="true"
+                                    placeholder="ECG - 12 Lead"
+                                    formControlName="name" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control input-type-date  border-0 font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                    bsDatepicker />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control border-0 input-type-time font-key"
+                                    formControlName="dateTime"
+                                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'hh:mm:ss'}"
+                                    bsDatepicker />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control border-0 input-type-time font-key"
+                                    formControlName="quantity" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <input type="text"
+                                    class="lab-form-control border-0 input-type-time font-key"
+                                    formControlName="unit" />
+                            </td>
+                            <td class="p-0 text-center border-0">
+                                <div
+                                    class="d-flex justify-content-between pr-2 lab-edit-main">
+                                    <input type="text"
+                                        class="lab-form-control border-0 font-key font-numbar"
+                                        placeholder="Comments"
+                                        formControlName="comment" />
+                                    <img src="assets/images/edit-dark-icon.svg"
+                                        alt>
+                                </div>
+                            </td>
+                            <td class="p-0 text-center border-0 c-pointer">
+                                <img src="assets/images/delete-icon.svg"
+                                    height="18"
+                                    (click)="onDelete('Medication',i)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<ng-template #medicatedPopup>
+    <div class="modal-wrapper pb-3">
+      <div class="modal-header">
+        <input type="text" placeholder="Search" class="custom-input px-3 py-2 w-100 border-0">
+        <button type="submit" (click)="onclose()" class="close-btn overflow-hidden"><img src="assets/images/close.svg"
+            alt="close"></button>
+      </div>
+      <div class="table-responsive modal-wrap p-4">
+        <div class="layout-table layout-patient-table">
+          <form class="service-medication-popup">
+            <table class="w-100">
+              <thead>
+                <tr>
+                  <th class="w-15 text-center">Medication Name</th>
+                  <th class="w-8 text-center" >Dose</th>
+                  <th class="w-8 text-center" >Unit</th>
+                  <th class="w-15 text-center">Route</th>
+                  <th class="w-15 text-center">Cycle</th>
+                  <th class="w-8 text-center" >Duration</th>
+                  <th class="w-10 text-center">Duration Unit</th>
+                  <th class="w-10 text-center">Quantity</th>
+                  <th class="w-10 text-center">Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of medicationData;let i = index;">
+                  <td class="pl-2 py-2 " style="text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  max-width: 100px;">{{data.name}}</td>
+                  <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.dose" name="dose" class="form-control"></td>
+                  <td class="pl-2 py-2">{{data.unit}}</td>
+                  <td class="pl-2 py-2"> 
+                    <ng-select  [appendTo]="'body'"  [(ngModel)]="data.routeid" name="routeid" class="border-0 font-numbar lab-select" placeholder="Routes" [searchFn]="searchRoutes">
+                    <ng-option *ngFor="let data of routesList" [value]="data">{{data.routes_Description}}</ng-option>
+                  </ng-select></td>
+                  <td class="pl-2 py-2">
+                    <ng-select  [appendTo]="'body'" [(ngModel)]="data.cycleId" name="cycleId" class="border-0 font-numbar lab-select" placeholder="Cycle" [searchFn]="searchCycle">
+                      <ng-option *ngFor="let data of cycleList" [value]="data">{{data.cycles_Description}}</ng-option>
+                    </ng-select>
+                  </td>
+                  <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.duration" name="duration" class="form-control"></td>
+                  <td class="pl-2 py-2">
+                  <ng-select   [appendTo]="'body'" [(ngModel)]="data.duration_Unit" name="duration_Unit" class="border-0 font-numbar lab-select" placeholder="Duration Unit">
+                    <ng-option *ngFor="let data of DurationList"  [value]="data.duration_Units">{{data.duration_Units}}</ng-option>
+                  </ng-select>
+                </td>
+                  <td class="pl-2 py-2 quantity-td">
+                    <div class="popup-service-qua">
+                      <img src="assets/images/minimize-sign.svg" class="cursor-pointer"
+                      (click)="decrementQuantity(data)" height="10px">{{data.quantity}}
+                      <img
+                      src="assets/images/Vector.svg" height="10px" class="cursor-pointer" alt
+                      (click)="incrementQuantity(data)">
+                    </div>
+                  </td>
+                  <td class="pl-2 py-2"> <input type="text" [(ngModel)]="data.unit1" name="unit1" [value]="data.unit1" class="form-control"></td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+      <div class="w-100 d-flex align-items-center justify-content-center">
+        <button type="submit"
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center px-5 py-2"
+          (click)="onSave()">Save</button>
+      </div>
+    </div>
+  </ng-template>
+  <app-admitpatient-request-form #requestForm></app-admitpatient-request-form>

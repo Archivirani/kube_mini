@@ -1,0 +1,16 @@
+::ng-deep .modal .discharge-popup {
+  max-width: 1200px !important;
+  border-radius: 20px;
+  // overflow: hidden;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  .addmission-main-wrapper{
+    .addmission-wrap{
+      .form-group-control{
+        label{
+          z-index: 1111;
+        }
+      }
+    }
+  }
+}

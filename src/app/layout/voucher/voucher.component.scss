@@ -1,0 +1,109 @@
+.row-color {
+  margin: 5px 15px 15px 15px;
+  background: #f3f6f9;
+  width: 100%;
+  height: 30px;
+}
+
+.row .mt-3 .mx-0 {
+  box-sizing: border-box;
+}
+
+.bg-light-orange {
+  background-color: #d7d2c6;
+  background-image: url(../../../assets/images/card/card-background.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 34%;
+}
+
+.card-front,
+.card-back {
+  border-radius: 10px;
+}
+.error {
+  color: red;
+}
+.card-info {
+  padding-right: 20px;
+}
+
+.card-info h3 {
+  font: 500 14px/1.25 "Roboto", sans-serif;
+  text-transform: uppercase;
+  word-spacing: 4px;
+  letter-spacing: 2px;
+  color: #ac955f;
+}
+.card-info h3 b {
+  font-weight: 900;
+}
+
+.card-info p {
+  font: 500 14px/1.25 "Roboto", sans-serif;
+  text-transform: uppercase;
+  word-spacing: 4px;
+  letter-spacing: 2px;
+  color: #ac955f;
+}
+
+.card-info p.small-text {
+  font: 500 12px/1.25 "Roboto", sans-serif;
+}
+
+.card-profile img.profile-picture {
+  border: 2px solid #a89a68;
+}
+
+.patient-details {
+  max-width: 200px;
+}
+
+.patient-details p span {
+  border-bottom: 1px solid #ac955f;
+  width: 100%;
+}
+.card-profile .qr-code-image img {
+  padding: 8px;
+  border: 1px solid #ac955f;
+  border-radius: 10px;
+}
+.card-front-wrapper {
+  border: 2px solid #ac955f;
+}
+
+.card-code {
+  width: 100px;
+}
+
+.card-logo {
+  width: 100px;
+}
+
+@media screen and (max-width: 820px) {
+  .card-info h3 {
+    font: 400 14px/1.25 "Roboto", sans-serif;
+  }
+  .bg-light-orange {
+    background-size: 60%;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .card-info p {
+    font: 500 14px/1.25 "Roboto", sans-serif;
+  }
+
+  .card-info p.small-text {
+    font: 400 10px/1.25 "Roboto", sans-serif;
+  }
+}
+
+@media (max-width: 820px) {
+  .card-code {
+    width: 75px;
+  }
+  .card-logo {
+    width: 75px;
+  }
+}

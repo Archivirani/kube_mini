@@ -1,0 +1,59 @@
+<div class="dashboard-sidebar">
+  <ul class="list-unstyled m-0 bg-white">
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Dashboard)" [routerLink]="routerLink.Dashboard"
+      routerLinkActive="active" tooltip="Dashboard" placement="left"><img src="assets/images/category-icon.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.DoctorDashboard)" [routerLink]="routerLink.DoctorDashboard"
+      routerLinkActive="active" tooltip="Dashboard" placement="left"><img src="assets/images/category-icon.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.PharmacistDashboard)" [routerLink]="routerLink.PharmacistDashboard"
+      routerLinkActive="active" tooltip="Dashboard" placement="left"><img src="assets/images/category-icon.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Patient)" [routerLink]="routerLink.Patient" routerLinkActive="active"
+      tooltip="Patients" placement="left"><img src="assets/images/patient.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Appointment)" [routerLink]="routerLink.Appointment"
+      routerLinkActive="active" tooltip="Appointment" placement="left"><img src="assets/images/calendar-edit.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.MyClinic)" [routerLink]="routerLink.MyClinic"
+      routerLinkActive="active" tooltip="OP Clinics" placement="left"><img src="assets/images/doctor.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.ErPatient)" [routerLink]="routerLink.ErPatient"
+      routerLinkActive="active" tooltip="ER Patients" placement="left"><img src="assets/images/ER.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Admittedpatient)" [routerLink]="routerLink.Admittedpatient"
+      routerLinkActive="active" tooltip="Admitted Patients" placement="left"><img
+        src="assets/img/file/Inpatient_Admissio.svg"></li>
+
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.DischargedPatients)" [routerLink]="routerLink.DischargedPatients"
+      routerLinkActive="active" tooltip="Discharged Patients" placement="left"><img
+        src="assets/images/admission-discharge.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Pharmacy)" [routerLink]="routerLink.Pharmacy"
+      routerLinkActive="active" tooltip="Pharmacy" placement="left"><img src="assets/images/pharmacist.png" height="20">
+    </li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.laboratory)" [routerLink]="routerLink.laboratory"
+      routerLinkActive="active" tooltip="laboratory" placement="left"><img src="assets/images/laboratory-La.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Radiology)" [routerLink]="routerLink.Radiology"
+      routerLinkActive="active" tooltip="Radiology" placement="left"><img src="assets/images/radiology-Ra.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"
+      *ngIf="this.onCheckAccessDetails(routerLink.Order)" [routerLink]="routerLink.Order" routerLinkActive="active"
+      tooltip="Payments" placement="left"><img src="assets/images/dollar-icon.svg"></li>
+    <!-- <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer" *ngIf="this.8(routerLink.Voucher)" [routerLink]="routerLink.Voucher" routerLinkActive="active" tooltip="Voucher" placement="left"><img src="assets/images/task-square.svg"></li> -->
+    <!-- <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer" *ngIf="this.onCheckAccessDetails(routerLink.Settings)" (click)="navigateToSettings()" routerLinkActive="active" tooltip="setting" placement="left"><img src="assets/images/setting.svg"></li> -->
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer" tooltip="Reports"
+      *ngIf="this.onCheckAccessDetails(routerLink.Reports)" [routerLink]="routerLink.Reports" routerLinkActive="active"
+      placement="left"><img src="assets/images/reports.svg"></li>
+    <li class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer" tooltip="Settings"
+      *ngIf="this.onCheckAccessDetails(routerLink.Datamaintenance)" [routerLink]="routerLink.Datamaintenance"
+      routerLinkActive="active" placement="left"><img src="assets/images/setting.svg"></li>
+
+    <!-- <li
+      class="m-0 d-flex align-items-center justify-content-center mb-2 cursor-pointer"><img
+        src="assets/images/activity.svg"></li> -->
+  </ul>
+</div>

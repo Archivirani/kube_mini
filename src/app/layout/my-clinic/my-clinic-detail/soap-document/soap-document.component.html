@@ -1,0 +1,68 @@
+<div class="site-panel-register p-3 ">
+    <div class="site-register-wrapper">
+      <form [formGroup]="dyForm">
+        <div class="form-group-wrapper">
+          <div class="form-title">
+            <h2 class="pl-border-radius-10 bg-sky-blue">SOAP Document</h2>
+          </div>
+          <div class="form-group-main px-2">
+            <div class="form-group-main-wrapper py-3">
+              <div class="form-group mb-2 d-flex p-0">
+                <div class="form-group-control m-0 px-2 col-6 position-relative">
+                  <input type="text" class="form-control" placeholder="Date" formControlName="Date"
+                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker />
+                  <label class="position-absolute m-0 bg-white">Date:</label>
+                </div>
+              </div>
+
+              <div class="form-group mb-2 d-flex p-0">
+              </div>
+              <div class="form-group mb-2 d-flex p-0">
+                <div class="form-group-control m-0 px-2 col-12 position-relative">
+                  <input type="text" class="form-control"
+                    placeholder="Current Meds"
+                    formControlName="CurrentMeds"
+                    [ngClass]="dyForm?.get('CurrentMeds').invalid && dyForm?.get('CurrentMeds').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">Current Meds:</label>
+                  <ng-container
+                    *ngIf="dyForm?.get('CurrentMeds').invalid && dyForm?.get('CurrentMeds').touched">
+                    <span class="error-message"
+                      *ngIf="dyForm?.get('CurrentMeds').errors.required">
+                      Current Meds is required
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="form-group mb-2 d-block p-0 ">
+                <div class="form-group-control mb-3 px-2 col-12 position-relative">
+                  <textarea class="form-control" placeholder="subjective" rows="5"
+                    formControlName="Subjective"></textarea>
+                  <label class="position-absolute m-0 bg-white">Subjective</label>
+                </div>
+                <div class="form-group-control mb-3 px-2 col-12 position-relative">
+                  <textarea class="form-control" placeholder="Objective Findings"
+                    rows="5"
+                    formControlName="ObjectiveFindings"></textarea>
+                  <label class="position-absolute m-0 bg-white">Objective
+                    Findings</label>
+                </div>
+                <div class="form-group-control mb-3 px-2 col-12 position-relative">
+                  <textarea class="form-control" placeholder="Assessment Goals"
+                    rows="5" formControlName="AssessmentGoals"></textarea>
+                  <label class="position-absolute m-0 bg-white">Assessment
+                    Goals</label>
+                </div>
+                <div class="form-group-control mb-3 px-2 col-12 position-relative">
+                  <textarea class="form-control" placeholder="Plan Of Treatment"
+                    rows="5"
+                    formControlName="PlanOfTreatment"></textarea>
+                  <label class="position-absolute m-0 bg-white">Plan Of
+                    Treatment</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

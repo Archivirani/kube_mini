@@ -1,0 +1,84 @@
+label.btn-label-bg {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 10px;
+    background: #3f7473;
+    color: #fff;
+    height: 40px;
+  }
+  .emergency-checkbox,
+  input.form-control.miision-inp {
+    width: 25px;
+    height: 25px;
+  }
+  .status-ul li,
+  .comment-ul li {
+    list-style: none;
+    border: 1px solid #ced4da;
+    padding: 5px;
+    width: fit-content;
+  }
+  .emargency-div {
+    height: fit-content;
+  }
+  .emargency-div label {
+    width: 100%;
+  }
+  .comment-label {
+    max-width: 145px;
+  }
+
+  .form-group-main-div > .form-group-main {
+    border-radius: 0px;
+  }
+  .organization-main-wrapper {
+    border: 1px solid #d9d9d9;
+    border-radius: 0px;
+  }
+  .addmission-wrap {
+    height: 100%;
+    overflow: unset;
+  }
+  .comment-li {
+    width: fit-content;
+  }
+  .status-ul img {
+    border: 1px solid #d9d9d9;
+  }
+  .status-main {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .visite-note-ul-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    gap: 10px;
+  }
+  .visite-note-ul-btn li a {
+    text-decoration: none;
+  }
+  .button-group button.visit-note.bg-hover-transparent {
+    border: 2px solid;
+  }
+  .button-group button.visit-note.bg-hover-transparent:hover {
+    border-color: #c6c8ca !important;
+  }
+  .button-group button.visit-note.bg-hover-transparent.cancel-btn {
+    background-color: #e71d36 !important;
+    border-color: #e71d36 !important;
+  }
+  .button-group button.visit-note.bg-hover-transparent.cancel-btn:hover {
+    border-color: rgb(208 26 49) !important;
+    background-color: rgb(208 26 49) !important;
+    color: #fff !important;
+  }
+  
+  ::ng-deep .form-group-control ng-select .ng-dropdown-panel {
+    z-index: 10000;
+  }
+  

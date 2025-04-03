@@ -1,0 +1,37 @@
+.added-bgcolor {
+    padding: 8px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    border-radius: 10px;
+    background-color: #3f7473;
+}
+
+.card-payment-wrapper {
+    .payment-info {
+        .payment-info-body {
+            .payment-details-wrapper {
+                input {
+                    width: 150px;
+                }
+            }
+        }
+    }
+}
+
+.order-creation-panel {
+    table {
+        tbody {
+            tr {
+                td {
+                    .edit {
+                        img {
+                            position: unset;
+                            transform: unset;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

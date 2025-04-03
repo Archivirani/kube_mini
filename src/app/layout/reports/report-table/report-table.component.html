@@ -1,0 +1,483 @@
+<!-- Register Patient -->
+<ng-container *ngIf="register">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Registered Patients</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getRegisterPatientList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onRegisterPatientDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>Gender</th>
+                        <th>Date of birth</th>
+                        <th>Email ID</th>
+                        <th>Contact No</th>
+                        <th>Identification Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of registerPatientList">
+                        <td class="pl-3">{{data?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.firstName}} {{data?.secondName}} {{data?.thirdName}} {{data?.familyName}}</td>
+                        <td class="pl-3">{{data?.gender}}</td>
+                        <td class="pl-3">{{data?.dateOfBirth | date: "dd MMM, yyyy"}}</td>
+                        <td class="pl-3">{{data?.email}}</td>
+                        <td class="pl-3">{{data?.contactNo1}}</td>
+                        <td class="pl-3">{{data?.identificationNo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Admitted Patient -->
+<ng-container *ngIf="admitted">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Admitted patients</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getAdmittedPatientList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onAdmittedPatientDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>Gender</th>
+                        <th>Date of birth</th>
+                        <th>Admitted On</th>
+                        <th>Admitted At</th>
+                        <th>Visit ID</th>
+                        <th>Floor</th>
+                        <th>Room/Bed</th>
+                        <th>Room Status</th>
+                        <th>Attending physician</th>
+                        <th>Specialty</th>
+                        <th>Admission Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of admittedPatientList">
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.firstName}} {{data?.patientAdmission?.patient?.secondName}} {{data?.patientAdmission?.patient?.thirdName}} {{data?.patientAdmission?.patient?.familyName}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.gender}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.dateOfBirth | date: "dd MMM, yyyy"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admDate | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patientVisit?.visitId}}</td>
+                        <td class="pl-3">{{data?.floors?.floornumber}}</td>
+                        <td class="pl-3">{{data?.rooms?.roomNumber}}/{{data.bads?.badNumber}}</td>
+                        <td class="pl-3">{{data?.rooms?.roomsStatus?.status}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.attendDoctor?.doctor_Name}}</td>
+                        <td class="pl-3">{{data?.specialities?.speciality_desc}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admissionStatus?.status}}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- ER Patient -->
+<ng-container *ngIf="er">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">ER Patients</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getErPatientList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onErPatientDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>Gender</th>
+                        <th>Date of birth</th>
+                        <th>Admitted On</th>
+                        <th>Admitted At</th>
+                        <th>Visit Status</th>
+                        <th>Floor</th>
+                        <th>Room/Bed</th>
+                        <th>Attending physician</th>
+                        <th>Specialty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of erPatientList">
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.firstName}} {{data?.patientAdmission?.patient?.secondName}} {{data?.patientAdmission?.patient?.thirdName}} {{data?.patientAdmission?.patient?.familyName}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient.gender}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admDate | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.visitStatus?.status}}</td>
+                        <td class="pl-3">{{data?.floors?.floornumber}}</td>
+                        <td class="pl-3">{{data?.rooms?.roomNumber}}/{{data.bads?.badNumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.attendDoctor?.doctor_Name}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.doctors?.specialities?.speciality_desc}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Discharge Patient -->
+<ng-container *ngIf="discharge">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Discharged Patients</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getDischargePatient()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onDischargePatientDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>Admitted On</th>
+                        <th>Admitted At</th>
+                        <th>Discharge On</th>
+                        <th>Discharge At</th>
+                        <th>Visit ID</th>
+                        <th>LOS</th>
+                        <th>Floor</th>
+                        <th>Room/Bed</th>
+                        <th>Attending physician</th>
+                        <th>Specialty</th>
+                        <th>Discharge Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of dischargePatientList">
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patient?.firstName}} {{data?.patientAdmission?.patient?.secondName}} {{data?.patientAdmission?.patient?.thirdName}} {{data?.patientAdmission?.patient?.familyName}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admDate | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.admTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.dischargeDate | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.dischargeTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.visitId}}</td>
+                        <td class="pl-3">{{data?.losDays}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patientRoomsAssigned?.floors?.floornumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.patientRoomsAssigned?.rooms?.roomNumber}}/{{data?.patientAdmission?.patientRoomsAssigned?.bads?.badNumber}}</td>
+                        <td class="pl-3">{{data?.patientAdmission?.attendDoctor?.doctor_Name}}</td>
+                        <td class="pl-3">{{data?.specialities?.speciality_desc}}</td>
+                        <td class="pl-3">{{data?.dischargeStatuses?.status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Invoices -->
+<ng-container  *ngIf="invoices">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Invoices</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getOrderList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="oninvoiceDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>created On</th>
+                        <th>created At</th>
+                        <th>created by</th>
+                        <th>posted by</th>
+                        <th>paid amount</th>
+                        <th>payment method</th>
+                        <th>services</th>
+                        <th>Billing Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of orderList" class="border_bottom">
+                        <td class="pl-3">{{data?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patient?.firstName}} {{data?.patient?.secondName}} {{data?.patient?.thirdName}} {{data?.patient?.familyName}}</td>
+                        <td class="pl-3">{{data?.dateTime | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.orderServices[0]?.desiredTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.createUser}}</td>
+                        <td class="pl-3">
+                            <p class="mb-0" *ngFor="let item of data.orderPayments">{{item?.user?.loginname}}</p>
+                        </td>
+                        <td class="pl-3">
+                            <p class="mb-0" *ngFor="let item of data.orderPayments">{{item?.payment?.paymentDetails[0]?.amount}}</p>
+                        </td>
+                        <td class="pl-3">
+                            <p class="mb-0" *ngFor="let item of data.orderPayments">{{item?.payment?.paymentDetails[0]?.paymentType}}</p>
+                        </td>
+                        <td class="pl-3">
+                            <p class="mb-0" *ngFor="let item of data.orderServices">{{item?.name}}</p>
+                        </td>
+                        <td class="text-center">
+                            <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                            <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+                        </td>
+                    </tr>
+                    <ng-container  *ngIf="orderList?.length>0">
+                        <tr style="background: #e8f4ff;">
+                            <th class="text-nowrap pl-3">Posted Invoices</th>
+                            <td colspan="4" class="pl-3">{{count}}</td>
+                            <th class="text-nowrap pl-3">Total paid Amount</th>
+                            <td colspan="4" class="pl-3">{{invoiceSum}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Laboratory -->
+<ng-container *ngIf="laboratory">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Laboratory Orders</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getlaboratoryList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onlaboratoryDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>service description</th>
+                        <th>created by</th>
+                        <th>created On</th>
+                        <th>visit ID</th>
+                        <th>Case type</th>
+                        <th>order comments</th>
+                        <th>Billing status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of laboratoryList" class="border_bottom">
+                        <td class="pl-3">{{data?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patient?.firstName}} {{data?.patient?.secondName}} {{data?.patient?.thirdName}} {{data?.patient?.familyName}}</td>
+                        <td class="pl-3">
+                            <p *ngFor="let item of data.orderServices">{{item?.name}}</p>
+                        </td>
+                        <td class="pl-3">{{data?.user?.username}}</td>
+                        <td class="pl-3">{{data?.orderServices[0]?.desiredTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.visitId|| data?.appointmentId}}</td>
+                        <td class="pl-3">{{data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName}}</td>
+                        <td class="pl-3">{{data?.comment || data?.appointment?.comment}}</td>
+                        <td class="text-center">
+                            <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                            <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Radiology -->
+<ng-container *ngIf="radiology">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Radiology Orders</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getRadiologyList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onRadiologyDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>service description</th>
+                        <th>created by</th>
+                        <th>created On</th>
+                        <th>visit ID</th>
+                        <th>Case type</th>
+                        <th>order comments</th>
+                        <th>Billing status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of radiologyList" class="border_bottom">
+                        <td class="pl-3">{{data?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patient?.firstName}} {{data?.patient?.secondName}} {{data?.patient?.thirdName}} {{data?.patient?.familyName}}</td>
+                        <td class="pl-3">
+                            <p *ngFor="let item of data.orderServices">{{item?.name}}</p>
+                        </td>
+                        <td class="pl-3">{{data?.user?.username}}</td>
+                        <td class="pl-3">{{data?.orderServices[0]?.desiredTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.visitId|| data?.appointmentId}}</td>
+                        <td class="pl-3">{{data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl ? data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName : 'Out patient'}}</td>
+                        <td class="pl-3">{{data?.comment || data?.appointment?.comment}}</td>
+                        <td class="text-center">
+                            <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                            <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+<!-- Appointments List -->
+<ng-container *ngIf="appointments">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="mb-3">Appointments List</h5>
+    <div>
+        <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getAppointmentsList()">
+        <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onAppointmentsDownload()">
+    </div>
+  </div>
+    <div class="table-responsive w-100">
+        <div class="layout-table position-relative">
+            <table class="w-100">
+                <thead class="sticky-top">
+                    <tr>
+                        <th>MRN</th>
+                        <th>Patient Name</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time</th>
+                        <th>Attending Physician</th>
+                        <th>Speciality</th>
+                        <th>Appointment Type</th>
+                        <th>Status</th>
+                        <th>Comments</th>
+                        <th>Appointment ID</th>
+                        <th>Canceled Date</th>
+                        <th>Canceled Time</th>
+                        <th>Canceled By</th>
+                        <th>Cancellation Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of appointmentsList">
+                        <td class="pl-3">{{data?.patient?.medicalRecordNumber}}</td>
+                        <td class="pl-3">{{data?.patient.firstName}} {{data?.patient.secondName}} {{data?.patient.thirdName}} {{data?.patient.familyName}}</td>
+                        <td class="pl-3">{{data?.appointmentDateTime | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.appointmentDateTime | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.doctors?.doctor_Name}}</td>
+                        <td class="pl-3">{{data?.specialities?.speciality_desc}}</td>
+                        <td class="pl-3">{{data?.appointmentType?.name}}</td>
+                        <td class="pl-3">
+                                {{data?.appointmentStatus === 1 ? 'Planned' :
+                                  data?.appointmentStatus === 2 ? 'Not Show' :
+                                  data?.appointmentStatus === 3 ? 'Checked In' :
+                                  data?.appointmentStatus === 4 ? 'Cancelled' :
+                                  data?.appointmentStatus === 5 ? 'Closed Encounter' :
+                                  ''}}
+                        </td>
+                        <td class="pl-3">{{data?.comment}}</td>
+                        <td class="pl-3">{{data?.id}}</td>
+                        <td class="pl-3">{{data?.canceledDate | date: "dd-MM-yyyy"}}</td>
+                        <td class="pl-3">{{data?.canceledDate | date: "hh:mm a"}}</td>
+                        <td class="pl-3">{{data?.canceledByUser}}</td>
+                        <td class="pl-3">{{data?.cancelComment}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</ng-container>
+
+<!-- userAuthorityLog -->
+<ng-container *ngIf="userAuthorityLog">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-3">User Authority List</h5>
+            <div>
+                <img src="assets/images/filter.svg" class="cursor-pointer" width="20" title="Insert" (click)="getUserList()">
+                <img src="assets/images/download-icon.svg" class="ml-2 cursor-pointer" width="28"  title="download" (click)="onUserDownload()">
+            </div>
+        </div>
+        <div class="table-responsive w-100">
+            <div class="layout-table position-relative">
+                <table class="w-100">
+                    <thead class="sticky-top">
+                        <tr>
+                            <th>Name</th>
+                            <th>Employee Id</th>
+                            <th>User Name</th>
+                            <th>User Type</th>
+                            <th>Status</th>
+                            <th>Create Date</th>
+                            <th>Create Time</th>
+                            <th>Create By</th>
+                            <th>Changed By</th>
+                            <th>Changed On</th>
+                            <th>Changed From</th>
+                            <th>Changed To</th>
+                            <th>Inactivation Date</th>
+                            <th>Inactivation Time</th>
+                            <th>Inactivated By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of userAuthorityList">
+                            <td class="pl-3">{{data?.firstName}} {{data?.lastName}}</td>
+                            <td class="pl-3">{{data?.employee_id}}</td>
+                            <td class="pl-3">{{data?.username}}</td>
+                            <td class="pl-3">{{data?.userType.name}}</td>
+                            <td class="pl-3">{{data?.status}}</td>
+                            <td class="pl-3">{{data?.createdOnDate }}</td>
+                            <td class="pl-3">{{data?.createdOnTime  }}</td>
+                            <td class="pl-3">{{data?.createdUser}}</td>
+                            <td class="pl-3">{{data?.updateUser}}</td>
+                            <td class="pl-3">{{data?.updateOnDate }}</td>
+                            <td class="pl-3">{{data?.lastUserType?.name}}</td>
+                            <td class="pl-3">{{data?.lastUserType?.name ? data?.userType?.name : ' '}}</td> 
+                            <td class="pl-3">{{data?.inactivationDate }}</td>
+                            <td class="pl-3">{{data?.inactivationTime }}</td>
+                            <td class="pl-3">{{data?.inactivatedUser}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!(register) && !(admitted) && !(er) && !(discharge) && !(invoices) && !(laboratory) && !(radiology) && !(appointments) && !(userAuthorityLog)">
+    <div class="bg-white p-3 maintenance-table common-height overflow-auto d-flex justify-content-center align-items-center">
+        <img  src="assets/images/Safeer_Hospital_Logo.jpeg" width="300">
+    </div>
+</ng-container>
+
+<app-report-filter-popup #filterPopup (filterRegisterData)="filterRegisterData($event)"></app-report-filter-popup>

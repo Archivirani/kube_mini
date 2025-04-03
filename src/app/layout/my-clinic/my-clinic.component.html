@@ -1,0 +1,722 @@
+<div class="patient-panel p-3 pl-border-radius-10 bg-white">
+  <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table my-clinic-table">
+        <!-- <table class="w-100" [ngClass]="(!visibleOrderedData || !visibleOrderedData.length) ? 'h-100' : ''"
+          *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+            <tr>
+              <th class="p-0">
+                <table class="w-100">
+                  <tr>
+                    <th class="text-center">Appointment Time</th>
+                  </tr>
+                </table>
+              </th>
+              <th class="p-0">
+                <table class="w-100">
+                  <tr>
+                    <th class="w-25">Patient Name</th>
+                    <th class="w-15">MRN</th>
+                    <th class="w-20">Type of visit</th>
+                    <th class="w-20">Gender</th>
+                    <th class="w-20">Date of birth</th>
+                  </tr>
+                </table>
+              </th>
+              <th class="p-0">
+                <table class="w-100">
+                  <tr>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </table>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="(!visibleOrderedData || !visibleOrderedData.length)">
+              <td colspan="10" class="text-center">No Patient Is In Clinic !</td>
+            </tr>
+            <tr *ngFor="let data of visibleOrderedData ; let i = index" [ngClass]="i === 0 ? 'seperator-line': ''"
+              class="cursor-pointer" (click)="patientDetails(data)">
+              <td class="py-2">
+                <table class="w-100">
+                  <tr>
+                    <td class="p-0">
+                      <div class="current-inclinic-wrapper fixed-height appointment-status-blue pl-border-radius-10">
+                        <h3 class="m-0 text-center">{{data.appointmentDateTime | date: "hh:mm a"}} -
+                          {{convertToEndTime(data.appointmentDateTime, data) | date: "hh:mm a"}}</h3>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td class="py-2 px-0">
+                <table
+                  class="w-100 current-inclinic-wrapper appointment-status-blue pl-border-radius-10 overflow-hidden">
+                  <tr>
+                    <td class="py-2 w-25">
+                      <div>
+                        <div class="appointment-profile">
+                          <h3>{{data.patient.firstName}} {{data.patient.familyName}}</h3>
+                          <p class="m-0">{{data.patientDisease}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="w-15">
+                      <div>
+                        <div class="appointment-profile">
+                          <p class="m-0">{{data.patient.medicalRecordNumber}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="w-20">
+                      <div>
+                        <div class="appointment-profile">
+                          <p class="m-0">{{data.appointmentType.name}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="w-20">
+                      <div>
+                        <div class="appointment-profile">
+                          <p class="m-0">{{data.patient.gender}}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="w-20">
+                      <div>
+                        <div class="appointment-profile">
+                          <p class="m-0">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}</p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td class="text-center py-2">
+                <table
+                  class="w-100 current-inclinic-wrapper fixed-height-last appointment-status-blue pl-border-radius-10">
+                  <tr>
+                    <td class="p-0 w-50">
+                      <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                        {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+                    </td>
+                    <td class="p-0 w-50">
+                      <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                        (click)="onStatusChangeToCloseEncounter(data)"
+                        [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                        {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Close"}}
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr> -->
+            <!-- <tr *ngFor="let data of visibleNotOrderedData; let i = index" class="cursor-pointer"
+              (click)="patientDetails(data)"
+              [ngClass]="(visibleOrderedData && visibleOrderedData.length) && i === 0 ? 'separator' : ''">
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div" *ngIf="data.patient && data.patient.gender">
+                  <img [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime | date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientDisease}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                  {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                  (click)="onStatusChangeToCloseEncounter(data)"
+                  [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                  {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let data of visibleOrderedData; let i = index" class="cursor-pointer"
+              [ngClass]="(visibleNotOrderedData && visibleNotOrderedData.length) && i === 0 ? 'separator' : ''"
+              (click)="patientDetails(data)">
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div" *ngIf="data.patient && data.patient.gender">
+                  <img [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime | date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientDisease}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                  {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                  (click)="onStatusChangeToCloseEncounter(data)"
+                  [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                  {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                </div>
+              </td>
+            </tr> -->
+          <!-- </tbody> -->
+        <!-- </table> -->
+        <table class="w-100"  [ngClass]="(!visibleOrderedData || !visibleOrderedData.length) ? 'h-100' : ''"
+        *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+              <tr>
+                  <th class="text-center">MRN</th>
+                  <th class="text-center">Patient Name</th>
+                  <th class="text-center">Gender</th>
+                  <th class="text-center">Date of birth</th>
+                  <th class="text-center">Visit Date</th>
+                  <th class="text-center">Visit Time</th>
+                  <th class="text-center">Visit Status</th>
+                  <th class="text-center">Visit Type</th>
+                  <th class="text-center">Comments</th>
+                  <th class="text-center">Order Status</th>
+                  <th class="text-center">Attending physician</th>
+                  <th class="text-center">Specialty</th>
+                  <th class="text-center">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="(!visibleOrderedData || !visibleOrderedData.length)">
+              <td colspan="13" class="text-center">No Patient Is In Clinic !</td>
+            </tr>
+              <tr *ngFor="let data of visibleOrderedData ; let i = index" [ngClass]="i === 0 ? 'seperator-line': ''"
+              class="cursor-pointer" (click)="patientDetails(data)">
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div border-0">
+                          {{data?.patient.medicalRecordNumber}}</div>
+                  </td>
+                  <td
+                      class="align-middle cursor-pointer">
+                      <div
+                          class="d-flex align-items-center table-inner-div border-0">
+
+                          {{data.patient.firstName}}
+                          {{data.patient.secondName}}
+                          {{data.patient.thirdName}}
+                          {{data.patient.familyName}}
+                      </div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.patient.gender}}
+                      </div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.patient.dateOfBirth
+                          | date: "dd-MM-yyyy"}}
+                      </div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.appointmentDateTime | date: "dd-MM-yyyy"}}</div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.appointmentDateTime | date: "hh:mm a"}} -
+                          {{convertToEndTime(data.appointmentDateTime, data) | date: "hh:mm a"}}</div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center table-inner-div">
+                      {{data?.appointmentStatus === 1 ? 'Planned' :
+                        data?.appointmentStatus === 2 ? 'Not Show' :
+                        data?.appointmentStatus === 3 ? 'Checked In' :
+                        data?.appointmentStatus === 4 ? 'Cancelled' :
+                        data?.appointmentStatus === 5 ? 'Closed Encounter' :
+                        ''}}
+                    </div>
+                    
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data.appointmentType.name}}</div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.patient?.comment}}
+                      </div>
+                  </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div"> {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}
+                         </div>
+                  </td>
+                  <td>
+                    <div
+                        class="d-flex align-items-center table-inner-div"> {{data?.physician?.name || data?.doctors?.doctor_Name}}
+                       </div>
+                </td>
+                  <td>
+                      <div
+                          class="d-flex align-items-center table-inner-div">{{data?.specialities?.speciality_desc}}</div>
+                  </td>
+                  <td>
+                      <ul
+                          class="d-flex align-items-center justify-content-center list-unstyled Patients-ul table-inner-div mb-0">
+                          <li>
+                            <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                              (click)="onStatusChangeToCloseEncounter(data)"
+                              [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                              {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Close"}}
+                            </div>
+                          </li>
+                      </ul>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+
+
+
+
+        <!-- <table class="w-100"
+          [ngClass]="(!visibleOrderedData || !visibleOrderedData.length) && (!visibleNotOrderedData || !visibleNotOrderedData.length) && (!visibleOrderedNonCounterData || !visibleOrderedNonCounterData.length)? 'h-100' : ''"
+          *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+            <tr>
+              <th>MRN</th>
+              <th>Patient Name</th>
+              <th>Gender</th>
+              <th>Date of birth</th>
+              <th>Appointment Date Time</th>
+              <th>Type of visit</th>
+              <th>Reason for Visit description</th>
+              <th>Contact No</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="(!visibleOrderedData || !visibleOrderedData.length) && (!visibleNotOrderedData || !visibleNotOrderedData.length) && (!visibleOrderedNonCounterData || !visibleOrderedNonCounterData.length)">
+              <td colspan="10" class="text-center">No Patient Is In Clinic !</td>
+            </tr>
+            <tr *ngFor="let data of visibleOrderedNonCounterData" class="cursor-pointer" (click)="patientDetails(data)">
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div" *ngIf="data.patient && data.patient.gender">
+                  <img [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime | date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientDisease}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                  {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                  (click)="onStatusChangeToCloseEncounter(data)"
+                  [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                  {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let data of visibleNotOrderedData; let i = index" class="cursor-pointer"
+              (click)="patientDetails(data)"
+              [ngClass]="(visibleOrderedData && visibleOrderedData.length) && i === 0 ? 'separator' : ''">
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div" *ngIf="data.patient && data.patient.gender">
+                  <img [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime | date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientDisease}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                  {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                  (click)="onStatusChangeToCloseEncounter(data)"
+                  [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                  {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let data of visibleOrderedData; let i = index" class="cursor-pointer"
+              [ngClass]="(visibleNotOrderedData && visibleNotOrderedData.length) && i === 0 ? 'separator' : ''"
+              (click)="patientDetails(data)">
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div" *ngIf="data.patient && data.patient.gender">
+                  <img [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">{{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime | date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientDisease}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                  {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+              </td>
+              <td class="text-center p-2">
+                <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                  (click)="onStatusChangeToCloseEncounter(data)"
+                  [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                  {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table> -->
+        <div class="w-100" *ngIf="isIPadAir">
+          <div class="d-flex flex-wrap pl-row-gap-15">
+            <div
+              *ngIf="(!visibleOrderedData || !visibleOrderedData.length) && (!visibleNotOrderedData || !visibleNotOrderedData.length)">
+              <div colspan="9" class="text-center">No Patient Is In Clinic !</div>
+            </div>
+            <div *ngFor="let data of visibleNotOrderedData" class="w-100 pl-border-radius-10 overflow-hidden"
+              (click)="patientDetails(data)">
+              <div class="d-flex justify-content-between">
+                <div class="bg-dark-blue text-white col-6 p-2">MRN</div>
+                <div class="col-6 p-2 bg-dark-blue text-white">
+                  <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Patient Name</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Gender</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <img *ngIf="data.patient.gender"
+                    [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Appointment Date Time</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime |date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Type of visit</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Reason for Visit description</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Contact No</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.contactNo1}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Status</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                    {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Action</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                    (click)="onStatusChangeToCloseEncounter(data)"
+                    [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                    {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let data of visibleOrderedData" class="w-100 pl-border-radius-10 overflow-hidden"
+              (click)="patientDetails(data)">
+              <div class="d-flex justify-content-between">
+                <div class="bg-dark-blue text-white col-6 p-2">MRN</div>
+                <div class="col-6 p-2 bg-dark-blue text-white">
+                  <div class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Patient Name</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div border-0">
+                  <img [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.patient.firstName}} {{data.patient.familyName}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Gender</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <img *ngIf="data.patient.gender"
+                    [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Appointment Date Time</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentDateTime |date: "dd MMM, yyyy HH:mm a"}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Type of visit</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Reason for Visit description</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.appointmentType.name}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Contact No</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.contactNo1}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Status</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <div class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                    {{data.patient.isOrdered ? "Ordered" : "Not Ordered"}}</div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Action</div>
+                <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <div class="d-inline-block pl-border-radius-5 text-white p-1 px-2"
+                    (click)="onStatusChangeToCloseEncounter(data)"
+                    [ngClass]="data.appointmentStatus === appointmentStatus.ClosedEncounter ? 'order-status-gray': 'order-status-red'">
+                    {{data.appointmentStatus === appointmentStatus.ClosedEncounter ? "Closed" : "Enclose Encounter"}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #AppointmentPopup>
+  <div class="bg-white pl-border-radius-10">
+    <div class="bg-dark-blue d-flex align-items-center justify-content-between p-3">
+      <h2 class="m-0 text-white w-30">Appointments</h2>
+      <div class="position-relative w-40">
+        <div class="d-flex arrow prev-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+          *ngIf="clinicService.isShowArrow" (click)="clinicService.prevEvent.next(true)">
+          <img class src="assets/images/prev-arrow.svg" />
+        </div>
+        <div class="title text-center text-white m-0">
+            <h3 class="m-0" 
+            [bsValue]="clinicService.currentDate"
+            [bsConfig]="{showWeekNumbers: false, dateInputFormat: 'DD-MM-YYYY'}"
+            (bsValueChange)="clinicService.selectedClinicDate.next($event)"
+            bsDatepicker>{{clinicService?.dayOnlyAppointmentLabel }}</h3>
+        </div>
+        <div class="d-flex arrow next-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+          *ngIf="clinicService.isShowArrow" (click)="clinicService.nextEvent.next(true)">
+          <img class src="assets/images/next-arrow.svg" />
+        </div>
+      </div>
+      <div class="close-icon d-flex align-items-center justify-content-end cursor-pointer w-30 text-right"
+        (click)="closePopup()">
+        <img src="assets/images/popup-close.svg" width="30">
+      </div>
+    </div>
+    <div class="form-group-wrapper">
+      <div class="form-group-main d-flex p-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <div class="form-group-control m-0 mb-3 position-relative">
+            <appointment-popup></appointment-popup>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,32 @@
+.maintenance-table {
+    border-radius: 10px;
+
+    >h5 {
+        font-size: 22px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    .table-responsive {
+        .layout-table {
+            height: calc(100vh - 290px);
+
+            table {                
+                border-radius: 10px;
+                tbody{
+                    .table-margin{
+                        padding-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+.service-maintennance{
+    ng-select{
+        width: 150px;
+    }
+}
+.border_bottom{
+    border-bottom: 2px solid #f1f1f1;
+}

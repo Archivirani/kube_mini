@@ -1,0 +1,355 @@
+<ng-template #editPopup>
+
+  <div class="site-panel-register p-3 ">
+    <div class="site-register-wrapper">
+      <form [formGroup]="dischargePatientEdit">
+        <div class="form-group-wrapper form-group-main-div">
+          <div class="form-group-main">
+            <div class="addmission-main-wrapper">
+              <div class="form-title">
+                <h2 class="pl-border-radius-0 bg-sky-blue">Discharge Data</h2>
+              </div>
+              <div class=" addmission-wrap py-3">
+                <div class="container-fluid col-gap">
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <input type="text" class="form-control"
+                          placeholder="MRN" formControlName="mrn" #mrn readonly>
+                        <label
+                          class="position-absolute m-0 bg-white">MRN</label>
+                      </div>
+                    </div>
+                   <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <input type="text" name id
+                          class="f-size-field form-control"
+                          placeholder="Patient Name"
+                          formControlName="patientName" readonly />
+                        <label class="position-absolute m-0 bg-white">Patient
+                          Name</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group-control">
+                        <ng-select placeholder="Case Type"
+                          formControlName="caseType"
+                          class="border-0 font-numbar lab-select" [readonly]="true">
+                          <ng-option *ngFor="let item of caseTypelist"
+                            [value]="item.id">{{item.caseName}}</ng-option>
+                        </ng-select>
+                        <label class="position-absolute m-0 bg-white">Case
+                          Type</label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('caseType').invalid && dischargePatientEdit.get('caseType').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('caseType').errors.required">
+                            Case Type is required
+                          </span>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('caseType').hasError('invalidCaseType')">
+                          <span class="error-message">
+                            Please choose a valid caseType.
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <ng-select placeholder="discharge Type"
+                        formControlName="dischargeTypesId"
+                        class="border-0 font-numbar lab-select"
+                        [readonly]="dischargePatientEdit.controls['dischargeStatusId'].value == 1">
+                        <ng-option *ngFor="let item of getDischargeTypeData"
+                          [value]="item.id">{{item.status}}</ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Discharge
+                        Type
+                      </label>
+                      <ng-container
+                        *ngIf="dischargePatientEdit.get('dischargeTypesId').invalid && dischargePatientEdit.get('dischargeTypesId').touched">
+                        <span class="error-message"
+                          *ngIf="dischargePatientEdit.get('dischargeTypesId').errors.required">
+                          Discharge Type is required
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <input type="text" class="form-control"
+                          placeholder="Discharge Reason"
+                          formControlName="dischargeReason"
+                          [readOnly]="dischargePatientEdit.controls['dischargeStatusId'].value == 1">
+                        <label class="position-absolute m-0 bg-white">Discharge
+                          Reason</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group mb-0 d-flex p-0 col-12 align-items-center">
+                        <div
+                          class="form-group-control m-0 px-0 position-relative col-11">
+                          <input type="text" class="form-control"
+                            placeholder="Comment" formControlName="comment">
+                          <label
+                            class="position-absolute m-0 bg-white">Comment</label>
+                        </div>
+                        <div class="comment-main px-0 pl-1">
+                          <ul class="comment-ul pl-0 mb-0">
+                            <li class="comment-li">
+                              <a href="#">
+                                <img
+                                  src="../../../assets/images/mdi--file-edit-outline.svg">
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <input type="text" class="form-control"
+                          [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                          bsDatepicker
+                          placeholder="discharge On"
+                          formControlName="dischargeDate">
+                        <label class="position-absolute m-0 bg-white">Discharge
+                          On</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 col-12 position-relative">
+                        <input type="text" class="form-control"
+                          [bsConfig]="{showWeekNumbers: false,withTimepicker:true, dateInputFormat:'HH:mm:ss'}"
+                          bsDatepicker placeholder="discharge At"
+                          formControlName="dischargeTime" />
+                        <label class="position-absolute m-0 bg-white">Discharge
+                          At</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <ng-select placeholder="discharge status"
+                          class="border-0 font-numbar lab-select"
+                          formControlName="dischargeStatusId">
+                          <ng-option *ngFor="let item of dischargeStatusList"
+                            [value]="item.id">{{item.status}}</ng-option>
+                        </ng-select>
+                        <label class="position-absolute m-0 bg-white">Discharge
+                          Status </label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('dischargeStatusId').invalid && dischargePatientEdit.get('dischargeStatusId').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('dischargeStatusId').errors.required">
+                            Discharge Status is required
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="d-flex mb-0 col-12 px-0 align-items-center">
+                        <div
+                          class="form-group-control m-0 px-0 position-relative col-10 pr-2">
+                          <input type="text" class="form-control"
+                          placeholder="Length of Stay"
+                          readonly 
+                          [value]="daysDifference">
+                        <label class="position-absolute m-0 bg-white">Length of Stay</label>
+                        </div>
+                        <div class="emargency-div m-0 px-0 w-100 ">
+                          <p class=" mb-0 px-0">Day(s)</p>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="organization-main-wrapper mb-4">
+              <div class="form-title">
+                <h2 class="pl-border-radius-0 bg-sky-blue">Organizational
+                  Assignment</h2>
+              </div>
+              <div class=" py-3 addmission-wrap">
+                <div class="container-fluid col-gap">
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0  position-relative col-12">
+                        <ng-select placeholder="Specialty"
+                          formControlName="speciality_Code"
+                          class="border-0 font-numbar lab-select"
+                          (change)="getAttendingPhysician($event)" [readonly]="true">
+                          <ng-option *ngFor="let item of getSpecialitylist"
+                            [value]="item.speciality_Code">{{item.speciality_desc}}
+                          </ng-option>
+                        </ng-select>
+                        <label
+                          class="position-absolute m-0 bg-white">Specialty</label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('speciality_Code').invalid && dischargePatientEdit.get('speciality_Code').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('speciality_Code').errors.required">
+                            Specialty is required
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <ng-select placeholder="Floor"
+                          class="border-0 font-numbar lab-select"
+                          formControlName="floorId"
+                          (change)="getSelectgetRooms($event);" [readonly]="true">
+                          <ng-option *ngFor="let item of getFloorslist"
+                            [value]="item.id">{{item.floornumber+"-"+item.floorName}}</ng-option>
+                        </ng-select>
+                        <label class="position-absolute m-0 bg-white">Floor
+                        </label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('floorId').invalid && dischargePatientEdit.get('floorId').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('floorId').errors.required">
+                            floor is required
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <ng-select placeholder="Room"
+                          class="border-0 font-numbar lab-select"
+                          formControlName="roomId"
+                          (change)="getSelectgetBads($event)" [readonly]="true">
+                          <ng-option *ngFor="let item of getRoomslist"
+                            [value]="item.id">{{item.roomNumber+"-"+item.roomName}}</ng-option>
+                        </ng-select>
+                        <label class="position-absolute m-0 bg-white">Room
+                        </label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('roomId').invalid && dischargePatientEdit.get('roomId').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('roomId').errors.required">
+                            Room is required
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12">
+                        <ng-select placeholder="Bed"
+                          class="border-0 font-numbar lab-select"
+                          formControlName="badId" [readonly]="true">
+                          <ng-option *ngFor="let item of getBadlist"
+                            [value]="item.id">{{item.badNumber+"-"+item.badName}}</ng-option>
+                        </ng-select>
+                        <label
+                          class="position-absolute m-0 bg-white">Bed</label>
+                        <ng-container
+                          *ngIf="dischargePatientEdit.get('badId').invalid && dischargePatientEdit.get('badId').touched">
+                          <span class="error-message"
+                            *ngIf="dischargePatientEdit.get('badId').errors.required">
+                            Bed is required
+                          </span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group-main">
+            <div class="form-title">
+              <h2 class="pl-border-radius-0 bg-sky-blue">Attending
+                Physicians</h2>
+            </div>
+            <div class=" py-3 addmission-wrap">
+              <div class="container-fluid col-gap">
+                <div class="row mb-3">
+                  <div class="col-12 col-sm-6">
+                    <div 
+                      class="form-group-control m-0 px-0 position-relative col-12">
+                      <ng-select placeholder="Attending Doctor"
+                        class="border-0 font-numbar lab-select"
+                        formControlName="attendDoctor_code" [readonly]="true">
+                        <ng-option *ngFor="let item of getPhysicianlist"
+                          [value]="item.doctor_Code">{{item.doctor_Name}}
+                        </ng-option>
+                      </ng-select>
+                      <label class="position-absolute m-0 bg-white">Attending
+                        Physician</label>
+                      <ng-container
+                        *ngIf="dischargePatientEdit.get('attendDoctor_code').invalid && dischargePatientEdit.get('attendDoctor_code').touched">
+                        <span class="error-message"
+                          *ngIf="dischargePatientEdit.get('attendDoctor_code').errors.required">
+                          Attending Physician is required
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="d-flex mb-0 col-12 px-0 align-items-center">
+                      <div
+                        class="form-group-control m-0 px-0 position-relative col-12 pr-2">
+                        <ng-select placeholder="Discharge Physician"
+                          class="border-0 font-numbar lab-select"
+                          formControlName="dischargeDoctor_code">
+                          <ng-option
+                            *ngFor="let item of getDischargePysicianList"
+                            [value]="item.doctor_Code">{{item.doctor_Name}}</ng-option>
+                        </ng-select>
+                        <label
+                          class="position-absolute m-0 bg-white">Discharging 
+                          Physician
+                        </label>
+                      </div>
+                
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div
+            class="action-buttons d-flex align-items-center justify-content-center my-3">
+            <div class="button-group mx-2">
+              <button type="submit"
+                class="d-flex align-items-center pl-border-radius-10 text-white p-2 px-3 text-nowrap default-btn"
+                (click)="onEditSave()">Save</button>
+            </div>
+            <div class="button-group mx-2">
+              <button
+                class="d-flex align-items-center pl-border-radius-10 text-white p-2 px-3 text-nowrap cancel-btn"
+                (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</ng-template>

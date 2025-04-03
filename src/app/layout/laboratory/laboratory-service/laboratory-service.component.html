@@ -1,0 +1,26 @@
+<div class="my-clinic-tab my-3 mr-3">
+    <ul class="list-unstyled d-flex">
+        <li>
+            <a class="text-decoration-none">
+                <div class="button-group">
+                    <button type="button" class="text-dark-blue d-flex text-nowrap align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer">Services</button>
+                </div>
+            </a>
+        </li>
+        <div class="d-flex justify-content-end mr-2">
+            <input type="text" placeholder="Search Services..." class="form-control pl-border-radius-10" [(ngModel)]="clinicService.serviceModel">
+        </div>
+        <li
+            class="d-flex justify-content-end">
+            <div class="button-group d-flex justify-content-end mr-2">
+                <button type="button" class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer" (click)="clinicService.orderSet.next(true)">Save and Print</button>
+            </div>
+            <div class="button-group d-flex justify-content-end">
+                <button class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer" (click)="documentationService.submitEvent.next(true)">Save</button>
+                <button class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer" (click)="documentationService.cancelEvent.next(true)">Cancel</button>
+            </div>
+        </li>
+    </ul>
+    <app-laboratory-detail></app-laboratory-detail>
+   
+</div>

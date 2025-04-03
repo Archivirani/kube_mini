@@ -1,0 +1,135 @@
+<div class="appointment-section p-3 weekly-view bg-white pl-border-radius-10" *ngIf="days && days.length">
+  <div class="appointment-wrapper position-relative">
+    <div class="form-group-wrapper mb-3">
+      <div class="form-group-main">
+        <div class="form-group m-0">
+          <div
+            class="d-flex align-items-center justify-content-end my-3 px-3 form-group-control">
+            <ng-select placeholder="Specialty" style="width: 250px;"
+              class="mr-3"
+              [(ngModel)]="selectedSpeciality"
+              (change)="getDoctorBySpeciality($event)">
+              <ng-option *ngFor="let item of specialitiesData"
+                [value]="item">{{item.speciality_desc}}</ng-option>
+            </ng-select>
+            <ng-select placeholder="Doctors" style="width: 250px;" class="me-3"
+              [(ngModel)]="selectedDoctor"
+              (change)="getAppoinmentData($event)">
+              <ng-option *ngFor="let item of getDoctor"
+                [value]="item">{{item.doctor_Name}}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="navigation-view d-flex flex-wrap position-relative">
+      <div
+        class="d-flex align-items-center justify-content-between arrow-wrapper position-absolute w-100">
+        <div
+          class="d-flex prev-arrow arrow justify-content-center align-items-center cursor-pointer"
+          (click)="previousDays()">
+          <img class src="assets/images/prev-arrow.svg" alt="prev" />
+        </div>
+        <div
+          class="d-flex next-arrow arrow justify-content-center align-items-center cursor-pointer"
+          (click)="nextDays()">
+          <img src="assets/images/next-arrow.svg" alt="next" />
+        </div>
+      </div>
+      <div class="navigation-days col-14 p-0 cursor-pointer"
+        *ngFor="let data of days"
+        [ngClass]="(currentDate | date: 'YYYY-MM-dd') === (data.date | date: 'YYYY-MM-dd') ? 'active': ''">
+        <div class="navigation-title">
+          <div class="navigation-title-wrapper">
+            <h3>
+              <span class="title">{{data.date | date: "dd"}}</span>
+            </h3>
+            <h3 class="m-0">
+              <span class="title m-0">{{data.date | date: "EEE"}}</span>
+            </h3>
+          </div>
+        </div>
+        <div class="content-view py-2">
+          <div class="content-view-wrapper"
+            *ngIf="data.item && data.item.length">
+            <div class="current-wrapper" *ngFor="let item of data.item">
+              <div class="current-appointment p-0 ap-border-radius-10"
+                [ngClass]="item.statusColor">
+                <div class="current-appointment-wrapper">
+                  <div class="appointment-profile d-flex align-items-center">
+                    <img
+                      [src]="!!data.profileUrl ? data.profileUrl : 'assets/images/default-avatar.svg'"
+                      class="rounded-circle">
+                    <h3 class="m-0 cursor-pointer"
+                      title="{{item.patient.firstName}} {{item.patient.secondName}} {{item.patient.thirdName}} {{item.patient.familyName}}">
+                      {{item.patient.firstName}} {{item.patient.secondName}} {{item.patient.thirdName}} {{item.patient.familyName}}
+                    </h3>
+                  </div>
+                  <h4>{{item.appointmentDateTime | date:"HH:mm a"}} -
+                    {{convertToEndTime(item.appointmentDateTime, item)
+                    | date:"HH:mm a"}}</h4>
+                  <p class="m-0 cursor-pointer"
+                    [title]="item.patientDisease">{{item.patientDisease}}</p>
+                    <small class="m-0 cursor-pointer"
+                    [title]="item.status">{{item.statusText}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content-view-wrapper"
+            *ngIf="data.item && !data.item.length">
+            <div class="current-wrapper h-100 py-0">
+              <div
+                class="no-appointment-data ap-border-radius-10 h-100 d-flex align-items-center justify-content-center">
+                <h3>No Appointments</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+
+<book-appointment-popup #bookAppointment></book-appointment-popup>
+<ng-template #filterPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment ">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="m-0 px-2">Appointment Filter</h3>
+  
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-group-main d-flex pt-3 border-0">
+          <div class="form-group m-0 p-0 w-100">
+                <div class="d-flex justify-content-between">
+                  <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                    <input type="text" class="form-control" placeholder="Date From"  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                    bsDatepicker [(ngModel)]="startDate">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date From</label>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                    <input type="text" class="form-control" placeholder="Date To"  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                    bsDatepicker [(ngModel)]="endDate">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date To</label>
+                  </div>
+                </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class=" w-30 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2" (click)="filterAppointment()">
+            Filter</button>
+        </div>
+        <div class=" w-30 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-danger align-items-center w-100 p-2" (click)="onHideFilterPopup()">
+            Cancel</button>
+        </div>
+      </div>
+    </div>
+</ng-template>

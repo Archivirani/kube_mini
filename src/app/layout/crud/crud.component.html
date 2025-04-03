@@ -1,0 +1,48 @@
+<!-- Service Data -->
+ <div class="section-container1" [ngSwitch]="currentActiveTab">
+  <div class="patient-panel p-3" *ngSwitchCase="'Services'">
+    <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+      <div class="table-responsive">
+        <div class="layout-table layout-patient-table">
+          <table class="w-100" [ngClass]="!serviceData || !serviceData.length ? 'h-1' : ''"  >
+            <thead class="sticky-top">
+              <tr>
+                <th>Code</th>
+                <th>Service Name</th>
+                <th>Default Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody >
+              <ng-container >
+                <tr *ngIf="!serviceData || !serviceData.length">
+                  <td colspan="9" class="text-center">No Service Registered !</td>
+                </tr>
+                <tr *ngFor="let data of serviceData" class="text-center">
+                  <td>
+                    <div class="d-flex align-items-center table-inner-div border-0">{{data.code}}</div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center table-inner-div border-0">{{data.name}}</div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center table-inner-div border-0">{{data.defaultPrice}}</div>
+                  </td>
+                  <td >
+                    <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                     
+                      <img src="assets/images/trash.svg" class="mx-2 cursor-pointer" (click)="onDelete(data)">
+                      <img src="assets/images/edit.svg" class="mx-2 cursor-pointer" (click)="onEdit(data)">
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<router-outlet></router-outlet>

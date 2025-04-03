@@ -1,0 +1,36 @@
+::ng-deep .book-appointment {
+  ng-dropdown-panel {
+    z-index: 99999;
+  }
+}
+::ng-deep .book-appointment {
+  ng-dropdown-panel {
+    z-index: 99999;
+  }
+}
+::ng-deep .book-appointment-modal {
+  max-width: 500px !important;
+  .appointment-content {
+    .patient-list {
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid #cccccc;
+      ul {
+        max-height: 200px;
+        list-style-type: none;
+        li {
+          cursor: pointer;
+          color: #333333;
+          font-size: 15px;
+          font-weight: 500;
+          padding: 8px;          
+          border-bottom: 1px solid #ddd;
+          &:hover {
+            color: #ffffff;
+            background-color: #3f7473;
+          }
+        }
+      }
+    }
+  }
+}

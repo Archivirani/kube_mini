@@ -1,0 +1,7 @@
+.col-gap {
+    .row {
+        @media screen and (max-width:991px) {
+            row-gap: 15px;
+        }
+    }
+}

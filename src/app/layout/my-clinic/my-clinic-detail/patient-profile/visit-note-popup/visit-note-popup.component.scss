@@ -1,0 +1,83 @@
+.top-label{
+    font: 500 16px/1.25 "Outfit", sans-serif;
+  }
+  
+  label.btn-label-bg {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 10px;
+    background: #3f7473;
+    color: #fff;
+    height: 40px;
+  }
+  .visite-note-ul-btn li{
+    list-style: none;
+  }
+  .visite-note-ul-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    gap: 10px;
+  }
+  .visite-note-ul-btn li a {
+    text-decoration: none;
+  }
+  .button-group button.visit-note.bg-hover-transparent{
+    border: 2px solid;
+  
+  }
+  .button-group button.visit-note.bg-hover-transparent:hover{
+    border-color: #c6c8ca !important; 
+  }
+  
+  input.f-size-field.cal-input {
+    width: 23px;
+    outline: none;
+    border: none;
+  }
+  img.diagnosis-img ,img.diagnosis-img-texteditor{
+    width: 20px;
+  }
+  a.diagnosis-a {
+    border: 1px solid #ced4da;
+    padding: 6px;
+    border-radius: 5px;
+    margin: 0 5px;
+  }
+  .diagnosis-inp::after {
+    position: absolute;
+    content: '';
+    top: 50%;
+      right: 5px;
+      transform: translate(-50%, -50%);
+      width: 15px;
+      height: 15px;
+      background-size: 18px;
+   // background-image: url(../../../../../assets/images/search.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  ::ng-deep.visit-note-Popup.modal-dialog{
+    max-width: 1200px !important;
+  }
+  .form-group-wrapper {
+    .form-group-main {
+      .form-group-main-wrapper {
+        padding: 10px 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+  
+        @media screen and (max-width:575px) {}
+  
+        .container-fluid {
+          .row {
+            @media screen and (max-width:575px) {
+              gap: 15px;
+            }
+          }
+        }
+      }
+    }
+  }

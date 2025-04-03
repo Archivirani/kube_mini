@@ -1,0 +1,222 @@
+<div class="container-fluid px-2">
+  <div class="d-flex flex-wrap pl-row-gap-15 dashboard-content">
+
+    <div class="site-panel-header w-100">
+      <dashboard-panel-header
+        [systemCounts]="systemCounts"></dashboard-panel-header>
+    </div>
+    <div
+      class="dashboard-wrapper pl-column-gap-15 pl-row-gap-15 w-100">
+      <div
+        class="container-fluid">
+        <div class="row">
+          <div class="col-9 pl-0">
+            <div
+              class="dashboard-panel-wrapper bg-white p-15px pl-border-radius-10 h-100"
+              [ngClass]="isIPadAir ? 'w-100' : 'w-100'">
+              <div
+                class="table-caption d-flex align-items-center justify-content-between">
+                <h2 class="m-0 text-dark-black">Todays Planned Appointment List</h2>
+                <div class="button-group d-flex">
+                  <input type="text" class="form-control"
+                    [bsConfig]="{showWeekNumbers: false, rangeInputFormat: 'DD-MM-YYYY'}"
+                    [bsValue]="currentDate"
+                    (bsValueChange)="getAppointmentToday($event)"
+                    *ngIf="isIPadAir"
+                    bsDatepicker>
+                  <button type="button"
+                    class="text-white d-flex align-items-center bg-dark-blue cursor-pointer"
+                    (click)="getAppointmentToday(currentDate);">Reload<img
+                      src="assets/images/reload-icon.svg" 
+                      class="m-0 ml-1 reload-white-icon"><img
+                      src="assets/images/reload-blue-icon.svg"
+                      class="m-0 ml-1 reload-blue-icon d-none"></button>
+                </div>
+              </div>
+              <div class="pl-border-radius-10 overflow-hidden">
+                <div class="table-responsive mt-3">
+                  <div class="layout-table">
+                    <table class="w-100"
+                      [ngClass]="!todayAppointments || !todayAppointments.length ? 'h-100' : ''">
+                      <thead class="sticky-top">
+                        <tr>
+                          <th>MRN</th>
+                          <th>Patient Name</th>
+                          <th *ngIf="!isIPadAir">Gender</th>
+                          <th *ngIf="!isIPadAir">Date of birth</th>
+                          <th>Appointment time</th>
+                          <th>Visit Type</th>
+                          <th>Contact No</th>
+                          <th>Specialty</th>
+                          <th>Attending doctor</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngIf="!todayAppointments || !todayAppointments.length">
+                          <td colspan="10" class="text-center">No Appointments
+                            Booked
+                            !</td>
+                        </tr>
+                        <tr *ngFor="let data of todayAppointments">
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div border-0">
+                              {{data.patient.medicalRecordNumber}}
+                            </div>
+                          </td>
+                          <td class="align-middle">
+                            <div
+                              class="d-flex align-items-center table-inner-div border-0">
+                              <img
+                                [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                                (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'"
+                                class="mr-2 rounded-circle" width="26"
+                                height="26">
+                              {{data.patient.firstName}}
+                              {{data.patient.secondName}}
+                              {{data.patient.thirdName}}
+                              {{data.patient.familyName}}
+                            </div>
+                          </td>
+                          <td *ngIf="!isIPadAir">
+                            <div
+                              class="d-flex align-items-center table-inner-div"
+                              *ngIf="data.patient && data.patient.gender">
+                              <img
+                                [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                                class="mr-2">{{data.patient.gender}}
+                            </div>
+                          </td>
+                          <td *ngIf="!isIPadAir">
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              <img src="assets/images/calendar.svg"
+                                class="mr-2">
+                              {{data.patient.dateOfBirth | date:
+                              "dd MMM, yyyy"}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              {{data.appointmentDateTime | date: "hh:mm a"}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              {{data?.appointmentType?.name}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              {{data.patient.contactNo1}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              {{data?.specialities?.speciality_desc}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div">
+                              {{data?.doctors?.doctor_Name}}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              class="d-flex align-items-center table-inner-div justify-content-center">
+                              <div class="in-clinic-icon mx-2 position-relative" (click)="onStatusChange(data)">
+                                <input type="checkbox"
+                                  [ngModel]="data.appointmentStatus === appointmentStatus.CheckedIn"
+                                  (ngModelChange)="onStatusChange(data)"
+                                  class="position-absolute w-100 h-100 cursor-pointer"
+                                  style="opacity: 0; background-color: transparent;">
+                              
+                                <img [title]="data.appointmentStatus == appointmentStatus.CheckedIn ? 'Check Out' : 'Check In'"
+                                  [src]="data.appointmentStatus == appointmentStatus.CheckedIn ? 'assets/images/check-in.svg' : 'assets/images/check-out.svg'"
+                                  style="position: relative; z-index: 1; cursor: pointer;">
+                              </div>
+                              <img src="assets/images/edit.svg" title="Edit"
+                                class="mx-2 cursor-pointer"
+                                (click)="openBookAppointment(data)">
+                              <img src="assets/images/cancel-icon.svg"
+                                class="mx-2 cursor-pointer" title="Cancel"
+                                (click)="onCancel(data)">
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 pr-0">
+            <div
+              class="dashboard-panel-wrapper bg-white w-100 pl-border-radius-10 mb-4"
+              [ngClass]="isIPadAir ? 'is-ipad-air' : ''">
+              <bs-datepicker-inline [bsValue]="currentDate"
+                (bsValueChange)="getAppointmentToday($event)"
+                [bsConfig]="{showWeekNumbers: false}"></bs-datepicker-inline>
+            </div>
+            <div
+              class="dashboard-panel w-100 d-block pl-column-gap-15 pl-row-gap-15">
+              <!-- <div class="dashboard-panel-wrapper bg-white  pl-border-radius-10 " [ngClass]="isIPadAir ? 'w-100' : 'w-76'">
+              <div [class]="'card dashboard-filled-line-chart border-0'+class">
+                <div class="card-body">
+                  <div class="float-left float-none-xs">
+                    <div class="d-inline-block">
+                      <h5 class="d-inline">{{ 'Billing analysis' }}</h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body pt-0">
+                  <area-chart [shadow]="true" class="chart" [options]="chartDataConfig.areaChartOptions"
+                    [data]="areaChartData"></area-chart>
+                </div>
+              </div>
+            </div> -->
+              <div class="dashboard-panel-wrapper bg-white pl-border-radius-10"
+                [ngClass]="isIPadAir ? 'w-100' : 'w-100'">
+                <div class="card h-100 pl-border-radius-10 border-0">
+                  <div class="card-body">
+                    <div
+                      class="card-info d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="card-title m-0">{{'Appointments'}}</h5>
+                      <ng-select *ngIf="viewOfChart && viewOfChart.length"
+                        [ngModel]="selectedChart"
+                        (ngModelChange)="onloadAppointmentCount($event);">
+                        <ng-option *ngFor="let item of viewOfChart"
+                          [value]="item.Value">{{item.Value}}</ng-option>
+                      </ng-select>
+                    </div>
+                    <div class="chart-container h-50"
+                      *ngIf="appointmentCount > 0">
+                      <app-doughnut-chart
+                        [options]="chartDataConfig.doughnutChartOptions"
+                        [AppointmentChart]="appointmentChart"></app-doughnut-chart>
+                    </div>
+                    <div
+                      class="chart-container h-50 d-flex align-items-center justify-content-center"
+                      *ngIf="appointmentCount == 0">
+                      <div>No Appointments Booked !</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<book-appointment-popup #bookAppointment (onclose)="getAppointmentToday(this.currentDate)"></book-appointment-popup>
+<reason-popup #reasonPopup></reason-popup>

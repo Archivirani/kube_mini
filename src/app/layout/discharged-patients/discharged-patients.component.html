@@ -1,0 +1,164 @@
+<div class="patient-panel p-3 bg-white pl-border-radius-10" *ngIf="!isCounter">
+  <div class="patient-panel-wrapper pl-border-radius-10">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table overflow-auto">
+        <table class="w-100">
+          <thead class="sticky-top">
+            <tr>
+              <th>MRN</th>
+              <th>Patient Name</th>
+              <th>Admitted On</th>
+              <th>Admitted At</th>
+              <th>Discharge On</th>
+              <th>Discharge At</th>
+              <th>Visit ID</th>
+              <th>LOS</th>
+              <th>Floor</th>
+              <th>Room/Bed</th>
+              <th>Attending Physician</th>
+              <th>Specialty</th>
+              <th>Discharge Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of visibleData ; let i = index">
+              <td (click)="onRedirect(data)">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  {{data.patientAdmission.patient.medicalRecordNumber}}</div>
+              </td>
+              <td class="align-middle cursor-pointer"
+                (click)="onRedirect(data)">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  {{data.patientAdmission.patient.firstName}}
+                  {{data.patientAdmission.patient.secondName}}
+                  {{data.patientAdmission.patient.thirdName}}
+                  {{data.patientAdmission.patient.familyName}}
+                </div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patientAdmission.admDate
+                  | date: "dd-MM-yyyy"}}
+                </div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patientAdmission.admTime
+                  | date: "hh:mm a"}}
+                </div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.dischargeDate
+                  | date: "dd-MM-yyyy"}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.dischargeTime
+                  | date: "hh:mm a"}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.visitId}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.losDays}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patientAdmission?.patientRoomsAssigned?.floors?.floornumber}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patientAdmission.patientRoomsAssigned.rooms.roomNumber}}/{{data.patientAdmission.patientRoomsAssigned.bads.badNumber}}
+                </div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div class="d-flex align-items-center table-inner-div">
+                  {{data.patientAdmission.attendDoctor.doctor_Name}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.specialities.speciality_desc}}</div>
+              </td>
+              <td (click)="onRedirect(data)">
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.dischargeStatuses.status}}
+                </div>
+              </td>
+              <td>
+                <ul
+                  class="d-flex align-items-center justify-content-center list-unstyled Patients-ul table-inner-div mb-0">
+                  <li>
+                    <img src="assets/images/edit.svg"
+                      class="mx-2 cursor-pointer" (click)="onEdit(data)">
+                    <a>
+                      <div class="tooltip">Edit</div>
+                    </a>
+                  </li>
+                  <li>
+                    <img src="assets/images/cancel-icon.svg"
+                      class="mx-2 cursor-pointer"
+                      (click)="onDeleteRecord(data)">
+                    <div class="tooltip">Cancel</div>
+                  </li>
+                  <li>
+                    <img src="assets/images/payment_icon.png"
+                      class="mx-2 cursor-pointer" style="width: 18px;"
+                      (click)="onPayment(data)">
+                    <div class="tooltip">Payment</div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #filterPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="m-0 px-2">Filter Discharged Patients</h3>
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-group-main d-flex pt-3 border-0">
+          <div class="form-group m-0 p-0 w-100">
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Date From" [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                bsDatepicker [(ngModel)]="startDate">
+                <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date From</label>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Date To" [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                bsDatepicker [(ngModel)]="endDate">
+                <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date To</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class=" w-20 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2" (click)="filterData()">
+            Filter</button>
+        </div>
+        <div class=" w-20 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-danger align-items-center w-100 p-2" (click)="onCancel()">
+            Cancel</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<app-edit-discharge-popup #dischargededitPopup
+  (sendOnload)="onload(this.selectedDate)"></app-edit-discharge-popup>

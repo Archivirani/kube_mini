@@ -1,0 +1,14 @@
+.pdf-title {
+  color: #969696;
+}
+
+.face-neck-popup {
+  max-height: 80vh;
+  overflow-y: scroll !important;
+}
+
+::ng-deep {
+  modal-container {
+    background: rgb(0 0 0 / 50%) !important;
+  }
+}

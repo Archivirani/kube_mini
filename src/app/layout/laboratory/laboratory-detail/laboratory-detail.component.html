@@ -1,0 +1,139 @@
+<div class="laboratory-main-wrap row p-3 bg-white">
+    <div class="emr-border p-0 mt-3 bg-white pl-border-radius-10 col-2">
+        <div class=" w-100 mr-1 loboratory-card">
+            <div class="px-0">
+                <div class="emer-color">
+                    <div class="emer-data">
+                        Laboratory
+                    </div>
+                    <div class="p-3 overflow-lab ">
+                        <div>
+                            <ul class="p-0"
+                                *ngFor="let item of loboratory | filterName: clinicService.serviceModel;let i=index">
+                                <li
+                                    class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                                    <div class="mr-0 p-2 lab-color w-100">
+                                        <p
+                                            class="m-0 d-flex align-items-center">
+                                            <input type="checkbox"
+                                                class="mr-1"
+                                                (change)="getCheckedService(item,$event)"  [name]="item.name"  #checboxes/>
+                                            <label
+                                                class="m-0 se-fontsize">{{item.name}}</label>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="w-100 col-10">
+        <div class="p-0 lab-border m-2 h-25" >
+            <div class="lab-overflow" *ngIf="this.createServiceForm.get('laboratory').value && this.createServiceForm.get('laboratory').value.length">
+
+                <form [formGroup]="createServiceForm">
+                    <div class="p-0 lab-border m-2 h-25"
+                        >
+                        <div>
+                            <p class="m-0 font-weight-bolder abc-p">Laboratory Orders</p>
+                        </div>
+                        <div class="lab-overflow">
+                            <table class="w-100 ">
+                                <thead>
+                                    <tr class="lab-key position-data">
+                                        <th class="border-0 text-left p-2 w-25">Service
+                                            Description</th>
+                                        <th class="border-0 text-left p-2 w-12">Desired
+                                            Date</th>
+                                        <th class="border-0 text-left p-2 w-12">Service
+                                            Time</th>
+                                        <th class="border-0 text-left p-2 w-10">Fasting</th>
+                                        <th
+                                            class="border-0 text-left p-2 Loc-data w-15">Localization</th>
+                                        <th
+                                            class="border-0 text-left p-2 w-20">Comments</th>
+                                        <th class="border-0 text-left p-2 w-6">Action</th>
+                                    </tr>
+                                </thead>
+                                 <tbody formArrayName="laboratory">
+                                    <tr>
+                                        <!-- <td colspan="8" class="text-center"
+                                            *ngIf="!createServiceForm.get('laboratory')['controls'] || !createServiceForm.get('laboratory')['controls'].length">
+                                            Add Service or Consultation</td> -->
+                                    </tr>
+                                    <tr class="lab-text"
+                                        *ngFor="let data of this.createServiceForm.get('laboratory')['controls']; let i = index"
+                                        [formGroupName]="i">
+                                        <td class="p-0 text-center border-0 ">
+                                            <input type="text"
+                                                class="lab-form-control border-0 font-key"
+                                                 placeholder="CBC"
+                                                formControlName="name" />
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            class="lab-form-control border-0 font-key"
+                                             placeholder="CBC"
+                                            formControlName="DesiredDate" />
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            class="lab-form-control border-0 font-key"
+                                             placeholder="CBC"
+                                            formControlName="DesiredTime" />
+                                        </td>
+                                        <!-- <td class="p-0 text-center border-0">
+                                            <input type="text"
+                                                class="lab-form-control input-type-date  border-0 font-key"
+                                                formControlName="DesiredDate"
+                                                [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                                                bsDatepicker />
+                                        </td> -->
+                                        <!-- <td class="p-0 text-center border-0">
+                                            <input type="text"
+                                                class="lab-form-control border-0 input-type-time font-key"
+                                                formControlName="DesiredTime"
+                                                [bsConfig]="{showWeekNumbers: false, dateInputFormat:'HH:mm:ss'}"
+                                                bsDatepicker />
+                                        </td> -->
+                                        <td class="p-0 text-center border-0">
+                                            <input type="checkbox"
+                                                class="checkbox-input border-0 font-key" />
+                                        </td>
+                                        <td
+                                            class="p-0 text-center border-0 lab-data font-key">
+                                            <!-- <ng-select [searchable]="true"
+                                                formControlName="localization"
+                                                class="border-0 font-numbar lab-select">
+                                                <ng-option>
+                                                </ng-option>
+                                            </ng-select> -->
+                                        </td>
+                                        <td class="p-0 text-center border-0">
+                                            <div
+                                                class="d-flex justify-content-between pr-2 lab-edit-main">
+                                                <input type="text"
+                                                    class="lab-form-control border-0 font-key font-numbar"
+                                                    formControlName="comment"
+                                                    placeholder="comment" [readonly]="!isReadonly[i]"/>
+                                                <img src="assets/images/edit-dark-icon.svg" (click)="editList(i)" class="cursor-pointer" alt title="Edit">
+                                            </div>
+                                        </td>
+                                        <td class="p-0 text-center border-0 cursor-pointer">
+                                            <img src="assets/images/delete-icon.svg"
+                                                height="18" (click)="deleteService(i)" title="Delete">
+                                        </td>
+                                    </tr>
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+<app-lab-request-form #laboratoryPrint></app-lab-request-form>

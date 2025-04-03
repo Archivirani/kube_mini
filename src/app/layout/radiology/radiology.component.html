@@ -1,0 +1,165 @@
+<div class="patient-panel p-3 bg-white pl-border-radius-10">
+  <div class="patient-panel-wrapper pl-border-radius-10">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table overflow-auto">
+        <table class="w-100">
+          <thead class="sticky-top">
+            <tr>
+              <th class="text-center">MRN</th>
+              <th class="text-center">Patient Name</th>
+              <th class="text-center">Gender</th>
+              <th class="text-center">Contact Number</th>
+              <th class="text-center">Date of birth</th>
+              <!-- <th class="text-center">Created At</th>
+              <th class="text-center">Created On</th> -->
+              <th class="text-center">Attending physician</th>
+              <th class="text-center">Specialty</th>
+              <th class="text-center">Created On</th>
+              <th class="text-center">Created At</th>
+              <th class="text-center">Services Description</th>
+              <th class="text-center">Billing Status</th>
+              <th class="text-center">Report Status</th>
+            
+              <!-- <th class="text-center">Quantity</th>
+              <th class="text-center">Unit</th> -->
+              <th class="text-center">Comments</th>
+              <th class="text-center">Appointment Status</th>
+              <th class="text-center ms-3">Action</th>
+              <!-- <th class="text-center">Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of radiologyNotBilledData; let i = index"  class="border_bottom">
+              <td class="text-center">{{data.patient.medicalRecordNumber}}</td>
+              <td class="align-middle cursor-pointer text-center">
+                {{data.patient.firstName}}
+                {{data.patient.secondName}}
+                {{data.patient.thirdName}}
+                {{data.patient.familyName}}
+              </td>
+              <td class="text-center">{{data.patient.gender}}</td>
+              <td class="text-center">{{data.patient.contactNo1}}</td>
+              <td class="text-center">{{data.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+              <td class="text-center">{{data?.doctors?.doctor_Name}}
+              </td>
+              <td class="text-center"> {{data?.doctors?.specialities?.speciality_desc}}
+              </td>
+              <td class="text-center" >
+                <p class="text-center mb-2">{{data?.dateTime |date:'dd-MM-yyyy'}}</p>
+              </td>
+              <td class="text-center">
+                <p class="text-center mb-2">{{data?.orderServices[0]?.desiredTime | date:'hh:mm:ss'}}</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.orderServices">{{item.name}}</p>
+              </td>
+             
+              <td class="text-center">
+                 <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                 <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+             </td>
+              <td class="text-center">
+                <ng-container *ngIf="data.orderServices.length > 0">
+                  <ng-select (change)="saveReportStatus(data,$event)" [(ngModel)]="data.orderServices[0].reportStatus" [readonly]='data.orderServices[0].reportStatus === "Done"'>
+                    <ng-option value="Done">Done</ng-option>
+                    <ng-option value="Not Done">Not Done</ng-option>
+                  </ng-select>
+                </ng-container>
+
+                <ng-container *ngIf="data.orderServices.length <= 0">
+                  <ng-select (change)="saveReportStatus(data,$event)">
+                    <ng-option value="Done">Done</ng-option>
+                    <ng-option value="Not Done" >Not Done</ng-option>
+                  </ng-select>
+                </ng-container>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.orderServices || data.orderServices">{{item.comment}}</p>
+              </td>
+              <td class="text-center">
+                <ng-container *ngIf="orderId==data.orderServices[0].orderId && checkDropdown">
+                  <ng-select (change)="saveRadiologyStatus(data,$event)" [(ngModel)]="data.radiologyStatus">
+                    <ng-option value="checked In">checked In</ng-option>
+                    <ng-option value="checked out">checked out</ng-option>
+                  </ng-select>
+                </ng-container>
+                <span *ngIf="!(orderId == data.orderServices[0].orderId && checkDropdown)">
+                  {{ data.radiologyStatus }}
+                </span>
+              </td>
+            <!-- <td class="text-center"> <img src="assets/images/payment_icon.png" title="Payment"
+                class="mx-2 cursor-pointer" style="width: 18px;" (click)="onPayment(data)"> </td> -->
+              <td class="text-center" > <img src="assets/images/edit.svg" title="Edit"
+                class="mx-2 cursor-pointer" style="width: 18px;" (click)="onEdit(data)"> </td>
+            </tr>
+            <tr *ngFor="let data of radiologyBilledData; let i = index"  class="border_bottom">
+              <td class="text-center">{{data.patient.medicalRecordNumber}}</td>
+              <td class="align-middle cursor-pointer text-center">
+                {{data.patient.firstName}}
+                {{data.patient.secondName}}
+                {{data.patient.thirdName}}
+                {{data.patient.familyName}}
+              </td>
+              <td class="text-center">{{data.patient.gender}}</td>
+              <td class="text-center">{{data.patient.contactNo1}}</td>
+              <td class="text-center">{{data.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+              <td class="text-center">{{data?.doctors?.doctor_Name}}
+              </td>
+              <td class="text-center"> {{data?.doctors?.specialities?.speciality_desc}}
+              </td>
+              <td class="text-center" >
+                <p class="text-center mb-2">{{data?.dateTime |date:'dd-MM-yyyy'}}</p>
+              </td>
+              <td class="text-center">
+                <p class="text-center mb-2">{{data?.orderServices[0]?.desiredTime | date:'hh:mm:ss'}}</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service" >{{item.name}}</p>
+              </td>
+              <td class="text-center">
+                <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+              </td>
+              <td class="text-center">
+                <ng-container *ngIf="data.orderServices.length > 0">
+                  <ng-select (change)="saveReportStatus(data,$event)" [(ngModel)]="data.orderServices[0].reportStatus" [readonly]='data.orderServices[0].reportStatus === "Done"'>
+                    <ng-option value="Done">Done</ng-option>
+                    <ng-option value="Not Done">Not Done</ng-option>
+                  </ng-select>
+                </ng-container>
+
+                <ng-container *ngIf="data.orderServices.length <= 0">
+                  <ng-select (change)="saveReportStatus(data,$event)">
+                    <ng-option value="Done">Done</ng-option>
+                    <ng-option value="Not Done">Not Done</ng-option>
+                  </ng-select>
+                </ng-container>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.orderServices || data.orderServices">{{item.comment}}</p>
+              </td>
+              <td class="text-center">
+                <ng-container *ngIf="orderId==data.orderServices[0].orderId && checkDropdown">
+                  <ng-select (change)="saveRadiologyStatus(data,$event)" [(ngModel)]="data.radiologyStatus">
+                    <ng-option value="checked In">checked In</ng-option>
+                    <ng-option value="checked out">checked out</ng-option>
+                  </ng-select>
+                </ng-container>
+                <span *ngIf="!(orderId == data.orderServices[0].orderId && checkDropdown)">
+                  {{ data.radiologyStatus }}
+                </span>
+              </td>
+            <!-- <td class="text-center"> <img src="assets/images/payment_icon.png" title="Payment"
+                class="mx-2 cursor-pointer" style="width: 18px;" (click)="onPayment(data)"> </td> -->
+
+                <td class="text-center"> <img src="assets/images/edit.svg" title="Edit"
+                  class="mx-2 cursor-pointer" style="width: 18px;" (click)="onEdit(data)"> </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-search-patient-popup #searchPatient></app-search-patient-popup>

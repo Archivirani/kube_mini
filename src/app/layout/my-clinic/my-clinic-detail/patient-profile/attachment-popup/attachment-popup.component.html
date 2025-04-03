@@ -1,0 +1,47 @@
+<ng-template #attachmentPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment">
+    <h3 class="m-0 px-2">Attach Document</h3>
+    <div class="form-group-wrapper">
+      <div class="form-group-main d-flex pt-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <div class="form-group-control m-0 px-2 col position-relative h-300">
+            <div class="dragdrop-file position-relative pl-border-radius-10 h-100 d-flex align-content-center justify-content-center flex-wrap">
+              <span class="hover-icon camera-hover-icon d-flex align-items-center justify-content-center"
+              *ngIf="!existingImageUrl && !uploadImageUrl">
+              <img src="assets/images/camera.svg" class="camera-icon position-absolute cursor-pointer"
+                (click)="takePicture()">
+            </span>
+            <span
+              class="hover-icon position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+              *ngIf="uploadImageUrl || existingImageUrl">
+              <img src="assets/images/eye.svg" class="preview-icon cursor-pointer">
+            </span>
+            <img *ngIf="uploadImageUrl || existingImageUrl" src="assets/images/trash.svg"
+              class="delete-icon position-absolute cursor-pointer" (click)="removeFile()">
+              <ng-container *ngIf="uploadImageUrl">
+                <iframe [src]="uploadImageUrl" class="position-absolute uploaded-pdf" width="100%" height="100%"></iframe>
+              </ng-container>
+
+            <img *ngIf="!existingImageUrl && !uploadImageUrl" src="assets/images/gallery-add.svg" class="mb-1">
+            <span *ngIf="!existingImageUrl && !uploadImageUrl" class="d-inline-block w-100 text-center">Select
+              your
+              picture</span>
+            <input #uploadFile type="file" accept="application/pdf" class="position-absolute w-100 h-100 cursor-pointer"
+              id="addPatientPicture" (change)="setFile($event)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class=" w-100 m-1">
+        <button class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+          (click)="submitForm()">Save</button>
+      </div>
+      <div class="w-100 m-1">
+        <button class="pl-border-radius-10 border-0 text-white d-flex justify-content-center align-items-center bg-danger w-100 p-2"
+          (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

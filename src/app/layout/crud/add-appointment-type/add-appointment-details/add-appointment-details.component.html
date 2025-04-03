@@ -1,0 +1,42 @@
+<div class="section-container2" >
+    <div class="patient-panel p-3">
+      <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+        <div class="table-responsive">
+          <div class="layout-table layout-patient-table">
+            <table class="w-100">
+              <thead class="sticky-top ">
+                <tr>
+                  <th>Id</th>
+                  <th [width]="700">Appointment Type</th>
+                  <th [width]="300">Action</th>
+                </tr>
+              </thead>
+              <tbody >
+                <ng-container >
+                  <tr *ngIf="!AppointmentData || !AppointmentData.length">
+                    <td colspan="9" class="text-center">No Appointment Registered !</td>
+                  </tr>
+                  <tr *ngFor="let data of AppointmentData" class="text-center">
+                  
+                    <td>
+                      <div class="d-flex align-items-center table-inner-div border-0 ">{{data.id}}</div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center table-inner-div border-0">{{data.name}}</div>
+                    </td>
+                    <td >
+                      <div class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                       
+                        <img src="assets/images/trash.svg" class="mx-2 cursor-pointer" (click)="onDeleteAppointment(data)">
+                        <img src="assets/images/edit.svg" class="mx-2 cursor-pointer" (click)="onEditAppointment(data)">
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>   
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

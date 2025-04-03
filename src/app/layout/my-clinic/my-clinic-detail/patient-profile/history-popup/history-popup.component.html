@@ -1,0 +1,132 @@
+<ng-template #historyPopup>
+  <div class="history-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">{{documents && documents.length ? 'Document History': 'Services History'}}</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePopup()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+      <div class="history p-3">
+        <div class="history-list pl-border-radius-10" *ngIf="orderServices && orderServices.length">
+          <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+            *ngFor="let service of groupedServicesList">
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{service.dateTime | date: 'dd-MM-YYYY'}}</b></p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-85 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0">{{service.names}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-list pl-border-radius-10" *ngIf="documents && documents.length">
+          <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+            *ngFor="let document of documents" (click)="openPreviewDocument(document)">
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{ document.createdDate | date: 'dd-MM-YYYY'}}</b></p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-25 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0 text-truncate"><b>Created by :
+                </b>{{document?.patientDocuments?.createdUser?.username ||
+                document?.visitNoteGeneralDocuments.patientDocuments?.createdUser?.username}}</p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-35 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0">{{document.type || document.patientDocuments?.documentName ||
+                document.visitNoteGeneralDocuments.patientDocuments.documentName
+                }}</p>
+            </div>
+            <div (click)="openPreviewDocument(document)"
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center justify-content-center bg-light-blue border-sky-blue-thin">
+              <ng-container *ngIf="document?.visitNoteGeneralDocuments?.documentType !== 'Visit Note' && document?.type !== 'General Document'">
+                <button
+                  class="border-0 released-button pl-border-radius-30 bg-light-sky-blue">{{"Saved"}}</button>
+              </ng-container>
+              <ng-container *ngIf="document?.visitNoteGeneralDocuments?.documentType === 'Visit Note' || document?.type === 'General Document'">
+                <button class="border-0 released-button pl-border-radius-30 bg-light-sky-blue">{{document?.visitNoteStatus|| document?.generalDocumentStatus}}</button>
+              </ng-container>
+            </div>
+            <div *ngIf="document?.visitNoteGeneralDocuments?.documentType === 'Visit Note' || document?.documentType === 'Soap Note Document' || document.type === 'Attachment Document' || document?.type === 'Surgery Procedure'">
+              <ng-container *ngIf="document?.visitNoteStatus !== 'Draft' || document.type === 'Attachment Document' || document?.documentType === 'Soap Note Document' || document?.type === 'Surgery Procedure'">
+                <ul class="img-ul-new  d-flex align-items-center justify-content-center pl-0 mb-0">
+                    <li class="print-li">
+                      <a><img src="assets/images/print_icon.svg" alt="print" (click)="onPrintVisitnote(document)" title="Print"></a>
+                    </li>
+                    <li *ngIf="document.type !== 'Attachment Document'">
+                      <a><img src="assets/images/copy_icon.svg" alt="copy" title="Copy" (click)="visitNoteList(document,'copy')"></a>
+                    </li>
+                  </ul>
+                </ng-container>
+                <ng-container *ngIf="document?.visitNoteStatus === 'Draft'">
+                  <ul class="img-ul-new  d-flex align-items-center justify-content-center pl-0 mb-0">
+                    <li class="print-li">
+                      <a><img src="assets/images/edit.svg" alt="" (click)="visitNoteList(document)" title="Edit"></a>
+                    </li>
+                    <li>
+                      <a><img src="assets/images/download_icon.svg" title="Download"></a>
+                    </li>
+                  </ul>
+                </ng-container>
+              </div>
+              <div *ngIf="document?.type === 'General Document'">
+                <ng-container *ngIf="document?.generalDocumentStatus !=='Draft'">
+                  <ul class="img-ul-new  d-flex align-items-center justify-content-center pl-0 mb-0">
+                    <li class="print-li">
+                      <a><img src="assets/images/print_icon.svg" (click)="onPrintGeneralDocument(document)" alt="print" title="Print"></a>
+                    </li>
+                    <li>
+                      <a><img src="assets/images/copy_icon.svg"(click)="visitNoteList(document,'copy')" alt="copy" title="Copy"></a>
+                    </li>
+                  </ul>
+                </ng-container>
+                <ng-container *ngIf="document?.generalDocumentStatus ==='Draft'">
+                  <ul class="img-ul-new  d-flex align-items-center justify-content-center pl-0 mb-0">
+                    <li class="print-li">
+                      <a><img src="assets/images/edit.svg" (click)="visitNoteList(document)" alt="" title="Edit" ></a>
+                    </li>
+                    <li>
+                      <a><img src="assets/images/download_icon.svg" title="Download"></a>
+                    </li>
+                  </ul>
+                </ng-container>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<!-- <ng-template #faceReading>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Document Preview</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <face-reading-document [documentData]="documentPreview"></face-reading-document>
+  </div>
+</ng-template> -->
+
+<app-print-visitnote #printVisitnote></app-print-visitnote>
+<app-visit-note-popup #visitNotePopup (onCloseevent)="this.onCloseevent.emit()"></app-visit-note-popup>
+<general-popup #generalePopup></general-popup>

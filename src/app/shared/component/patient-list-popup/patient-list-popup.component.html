@@ -1,0 +1,149 @@
+<ng-template #patientList>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment">
+    <h3 class="m-0 px-2"> Patient List</h3>
+
+    <div class="form-group-wrapper">
+      <div class="form-group-main d-flex pt-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <div class="form-group-control m-0 mb-3 px-2 position-relative">
+            <input type="text" class="form-control" placeholder="Medical record number" [ngModel]="Mrn" #mrnModel
+              (ngModelChange)="getPatient(mrnModel.value)" >
+            <label class="position-absolute m-0 bg-white">Medical record number</label>
+          </div>
+          <form [formGroup]="dyForm">
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <ng-select placeholder="Appointment Type" [searchable]="true" formControlName="appointmentTypeId"
+                  [ngClass]="dyForm.get('appointmentTypeId').invalid && dyForm.get('appointmentTypeId').touched ? 'error' : ''">
+                  <ng-option *ngFor="let item of AppointmentType" [value]="item.key">{{item.value}}</ng-option>
+                </ng-select>
+                <label class="position-absolute m-0 bg-white">Appointment Type</label>
+                <ng-container *ngIf="dyForm.get('appointmentTypeId').invalid && dyForm.get('appointmentTypeId').touched">
+                  <span class="error-message" *ngIf="dyForm.get('appointmentTypeId').errors.required">
+                    Appointment Type is required
+                  </span>
+                </ng-container>
+              </div>
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Appointment Date" formControlName="appointmentDateTime"
+                  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker
+                  [ngClass]="dyForm.get('appointmentDateTime').invalid && dyForm.get('appointmentDateTime').touched ? 'error' : ''">
+                <label class="position-absolute m-0 bg-white">Appointment Date</label>
+                <ng-container *ngIf="dyForm.get('appointmentDateTime').invalid && dyForm.get('appointmentDateTime').touched">
+                  <span class="error-message" *ngIf="dyForm.get('appointmentDateTime').errors.required">
+                    Appointment Date is required
+                  </span>
+                </ng-container>
+              </div>
+              <div class="d-flex justify-content-center w-100 px-2">
+                <div class="form-group-control w-100 m-0 mb-3 pr-2 pl-0 position-relative">
+                  <input type="time" class="form-control" formControlName="startTime"
+                    [ngClass]="dyForm.get('startTime').invalid && dyForm.get('startTime').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">Start Time</label>
+                  <ng-container *ngIf="dyForm.get('startTime').invalid && dyForm.get('startTime').touched">
+                    <span class="error-message" *ngIf="dyForm.get('startTime').errors.required">
+                      Start Time is required
+                    </span>
+                  </ng-container>
+                </div>
+                <div class="form-group-control w-100 m-0 mb-3 pl-2 pr-0 position-relative">
+                  <input type="time" class="form-control" formControlName="endTime"
+                    [ngClass]="dyForm.get('endTime').invalid && dyForm.get('endTime').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">End Time</label>
+                  <ng-container *ngIf="dyForm.get('endTime').invalid && dyForm.get('endTime').touched">
+                    <span class="error-message" *ngIf="dyForm.get('endTime').errors.required">
+                      End Time is required
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <ng-container formGroupName="patient">
+              <div class="d-flex justify-content-between">
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"
+                    [ngClass]="dyForm.get('patient').get('firstName').invalid && dyForm.get('patient').get('firstName').touched ? 'error' : ''"
+                    [readonly]="isExistingPatient || isEdit">
+                  <label class="position-absolute m-0 bg-white">First Name</label>
+                  <ng-container *ngIf="dyForm.get('patient').get('firstName').invalid && dyForm.get('patient').get('firstName').touched">
+                    <span class="error-message" *ngIf="dyForm.get('patient').get('firstName').errors.required">
+                      First Name is required
+                    </span>
+                  </ng-container>
+                </div>
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Family Name" formControlName="familyName"
+                    [readonly]="isExistingPatient || isEdit"
+                    [ngClass]="dyForm.get('patient').get('familyName').invalid && dyForm.get('patient').get('familyName').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">Family Name</label>
+                  <ng-container *ngIf="dyForm.get('patient').get('familyName').invalid && dyForm.get('patient').get('familyName').touched">
+                    <span class="error-message" *ngIf="dyForm.get('patient').get('familyName').errors.required">
+                      Family Name is required
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Email ID" formControlName="email" [readonly]="isExistingPatient || isEdit">
+                  <label class="position-absolute m-0 bg-white">Email ID</label>
+                </div>
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Mobile Number" formControlName="contactNo1"
+                    [readonly]="isExistingPatient || isEdit"
+                    [ngClass]="dyForm.get('patient').get('contactNo1').invalid && dyForm.get('patient').get('contactNo1').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">Mobile Number</label>
+                  <ng-container *ngIf="dyForm.get('patient').get('contactNo1').invalid && dyForm.get('patient').get('contactNo1').touched">
+                    <span class="error-message" *ngIf="dyForm.get('patient').get('contactNo1').errors.required">
+                      Mobile Number is required
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <ng-select placeholder="Select ID type" [searchable]="true" formControlName="idType" [readonly]="isExistingPatient || isEdit">
+                    <ng-option *ngFor="let item of PatientIdType" [value]="item.key">{{item.value}}</ng-option>
+                  </ng-select>
+                  <label class="position-absolute m-0 bg-white">Select ID type</label>
+                </div>
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Identification Number" formControlName="identificationNo"
+                    [readonly]="isExistingPatient || isEdit">
+                  <label class="position-absolute m-0 bg-white">Identification Number</label>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Specialty" formControlName="speciality"
+                    [readonly]="isExistingPatient || isEdit">
+                  <label class="position-absolute m-0 bg-white">Specialty</label>
+                </div>
+                <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                  <input type="text" class="form-control" placeholder="Doctor" formControlName="doctor"
+                    [readonly]="isExistingPatient || isEdit">
+                  <label class="position-absolute m-0 bg-white">Doctor</label>
+                </div>
+              </div>
+            </ng-container>
+            <div class="form-group-control m-0 mb-3 px-2 position-relative">
+              <textarea class="form-control" placeholder="Reason for Visit / Description" rows="5" formControlName="patientDisease"></textarea>
+              <label class="position-absolute m-0 bg-white">Reason for Visit / Description</label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class=" w-100 m-1">
+        <button class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+          (click)="submitForm()">{{isIdAvailable ? "Update" : "Save"}}
+          Appointment</button>
+      </div>
+      <div class="w-100 m-1">
+        <button class="pl-border-radius-10 border-0 text-white d-flex justify-content-center align-items-center bg-danger w-100 p-2"
+          (click)="onClose()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

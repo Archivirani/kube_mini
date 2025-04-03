@@ -1,0 +1,712 @@
+<div class="patient-panel p-3 bg-white pl-border-radius-10">
+  <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table">
+        <table class="w-100"
+          [ngClass]="!visibleData || !visibleData.length ? 'h-100' : ''"
+          *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+            <tr>
+              <th>MRN</th>
+              <th>Patient Name</th>
+              <th>Gender</th>
+              <th>Date of birth</th>
+              <th>Email ID</th>
+              <th>Contact No</th>
+              <!-- <th>Smoking Status</th> -->
+              <th>Identification Number</th>
+             <ng-container *ngIf="userTypeId !== 6 && userTypeId !== 16"> <th class="text-center">Action</th></ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!visibleData || !visibleData.length">
+              <!-- <td colspan="9" class="text-center">No Patients Registered !</td> -->
+              <td colspan="9" class="text-center available-patient py-4"
+                routerLink="/{{routerLink.Patient}}/{{routerLink.PatientRegister}}">
+                Patient does not exist,
+                <a href>Do you want to register a new patient?</a></td>
+            </tr>
+            <tr *ngFor="let data of visibleData">
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div border-0">{{data.medicalRecordNumber}}</div>
+              </td>
+              <td class="align-middle cursor-pointer"
+                (click)="openPatientPopup(data)">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img
+                    [src]="!!data.profileUrl ? imageUrl+data.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.profileUrl = 'assets/images/default-avatar.svg'"
+                    class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.firstName}} {{data.secondName}} {{data.thirdName}} {{data.familyName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div"
+                  *ngIf="data.gender">
+                  <img
+                    [src]="data.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg"
+                    class="mr-2">{{data.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.email}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.contactNo1}}</div>
+              </td>
+              <!-- <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.smokingStatus}}</div>
+              </td> -->
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.identificationNo}}</div>
+              </td>
+              <ng-container *ngIf="userTypeId !== 15 && userTypeId !== 16 && userTypeId !== 6 ">
+              <td>
+                  <ul
+                  class="d-flex align-items-center justify-content-center list-unstyled Patients-ul table-inner-div mb-0">
+                  <li style="display: none; pointer-events: none;" *ngIf="userTypeId == 13 ">
+                    <img src="assets/images/profile-card.svg"
+                      class="cursor-pointer" (click)="onSendMail(data)"
+                      width="20">
+                    <div class="tooltip">invisible </div>
+                  </li>
+                  <li>
+                    <img src="assets/images/print.svg"
+                      class="cursor-pointer" (click)="onLoadQrCode(data)"
+                      width="20">
+                    <div class="tooltip">Print Patient</div>
+                  </li>
+                  <li>
+                    <img src="assets/images/edit.svg"
+                      class="cursor-pointer" (click)="onEdit(data)"
+                      width="20">
+                    <div class="tooltip">Edit </div>
+                  </li>
+                  <li *ngIf="userTypeId !== 13 && !data.isDeleted">
+                    <img src='assets/images/trash.svg'
+                      class="cursor-pointer" (click)="onDelete(data,true,false,'Inactivate')"
+                      width="17">
+                    <div class="tooltip">Inactivate </div>
+                  </li>
+                  <li *ngIf="userTypeId !== 13 && data.isDeleted && (userTypeId === 2 || userTypeId === 20 || userTypeId === 1)">
+                    <div class="reactive-icon">
+                      <img src='assets/images/Reactive.svg'
+                      class="cursor-pointer" (click)="onDelete(data,false,true,'Reactive')"
+                      width="20">
+                    </div>
+                    <div class="tooltip">Reactive </div>
+                  </li>
+                  <li>
+                    <img src="assets/images/BookAppointment.svg"
+                      class="cursor-pointer"
+                      (click)="openBookAppointment(data)" width="20">
+                    <div class="tooltip">Book Appointment</div>
+                  </li>
+                  <li>
+                    <img src="assets/img/file/Inpatient_Admissio.svg"
+                      class="cursor-pointer book-img"
+                      (click)="openAdmitPatient(data)" width="20">
+                    <div class="tooltip">Admit Patient</div>
+                  </li>
+                  <!-- <li>
+                    <img src="assets/images/BookAppointmentNew.svg" class="mx-2 cursor-pointer bed-img" (click)="openAppointmentModel(data)" >
+                      <div class="tooltip-left">Patient List</div>
+                  </li> -->
+                </ul>
+              </td>
+            </ng-container>
+          <ng-container *ngIf="userTypeId==15 || userTypeId==16">
+            <ul
+                  class="d-flex align-items-center justify-content-center list-unstyled Patients-ul table-inner-div mb-0">
+            <li *ngIf="userTypeId !== 16">
+              <img src="assets/images/edit.svg"
+                class="cursor-pointer" (click)="onEdit(data)"
+                width="20">
+              <div class="tooltip">Edit </div>
+            </li>
+            </ul>
+          </ng-container>
+              <!-- <td>
+                <div
+                  class="d-flex align-items-center table-inner-div justify-content-center">
+                  <img src="assets/images/profile-card.svg"
+                    class="mx-2 cursor-pointer" (click)="onSendMail(data)">
+                  <img src="assets/images/print.svg" class="mx-2 cursor-pointer"
+                    (click)="onLoadQrCode(data)">
+                  <img src="assets/images/edit.svg" class="mx-2 cursor-pointer"
+                    (click)="onEdit(data)">
+                  <img src="assets/images/trash.svg" class="mx-2 cursor-pointer"
+                    (click)="onDelete(data)">
+                  <img src="assets/images/eye.svg" class="mx-2 cursor-pointer"
+                    (click)="openBookAppointment(data)">
+                </div>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <div class="w-100"
+          [ngClass]="!visibleData || !visibleData.length ? 'h-100' : ''"
+          *ngIf="isIPadAir">
+          <div class="d-flex flex-wrap pl-row-gap-15">
+            <div *ngIf="!visibleData || !visibleData.length">
+              <div colspan="9" class="text-center">No Patients Registered
+                !</div>
+            </div>
+            <div *ngFor="let data of visibleData"
+              class="w-100 pl-border-radius-10 overflow-hidden">
+              <div class="d-flex justify-content-between">
+                <div class="bg-dark-blue text-white col-6 p-2">MRN</div>
+                <div class="col-6 p-2 bg-dark-blue text-white">
+                  <div
+                    class="d-flex align-items-center table-inner-div border-0">{{data.medicalRecordNumber}}</div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Patient Name</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div border-0">
+                  <img
+                    [src]="!!data.profileUrl ? imageUrl+data.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.profileUrl = 'assets/images/default-avatar.svg'"
+                    class="mr-2 rounded-circle"
+                    width="26" height="26">
+                  {{data.firstName}} {{data.familyName}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Gender</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <img *ngIf="data.gender"
+                    [src]="data.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.gender}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Date of Birth</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg"
+                    class="mr-2">{{data.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Email ID</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">{{data.email}}</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Contact No</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">{{data.contactNo1}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Smoking Status</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">{{data.smokingStatus}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Identification
+                  Number</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.identificationNo}}</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2"  *ngIf="userTypeId !== 15 && userTypeId !== 6 && userTypeId !== 16 "> <th class="text-center">Action</div>
+                  <ng-container *ngIf="userTypeId !== 15 && userTypeId !== 16 && userTypeId !== 6">
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <!-- <img src="assets/images/eye.svg" class="mx-2 cursor-pointer"> -->
+                  <img src="assets/images/profile-card.svg"
+                    class="mx-2 cursor-pointer" (click)="onSendMail(data)">
+                  <img src="assets/images/print.svg" class="mx-2 cursor-pointer"
+                    (click)="onLoadQrCode(data)">
+                  <img src="assets/images/edit.svg" class="mx-2 cursor-pointer"
+                    (click)="onEdit(data)">
+                 <ng-container *ngIf="userTypeId !== 13 && !data.isDeleted">
+                  <img src="assets/images/trash.svg" class="mx-2 cursor-pointer"
+                  (click)="onDelete(data,true,false,'Inactivate')">
+                 </ng-container>
+                 <ng-container  *ngIf="userTypeId !== 13 && data.isDeleted && (userTypeId === 2 || userTypeId === 20 || userTypeId === 1)">
+                 <img src='assets/images/Reactive.svg'
+                      class="cursor-pointer" (click)="onDelete(data,false,true,'Reactive')"
+                      width="20">
+                  </ng-container>
+                </div>
+              </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #generateQRCode>
+ 
+</ng-template>
+<ng-template #printPatientDetails>
+  <div class="print-patient-popup">
+    <div class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0" >
+      <div class="d-flex align-items-center">
+        <h5 class="main-title m-0 ">Select what to print</h5>
+      </div>
+      <div class="d-flex align-items-center justify-content-end rounded-circle mr-0 cursor-pointer">
+        <img src="assets/images/popup-close.svg" (click)="closePopup()">
+      </div>
+    </div>
+    <div class="print-patient-popup-wrap p-3" style="border-bottom: 1px solid #ccc;">
+      <div class="d-flex align-items-center mb-3" style="gap: 10px;">
+        <input type="radio" class="form-control" placeholder="Allow DoubleBooking"
+            value="patientCard" [(ngModel)]="printType" 
+            style="width: 15px; height: 15px;">
+        <label class="m-0 text-dark">Patient Card</label>
+      </div>
+      <div class="d-flex align-items-center mb-0" style="gap: 10px;">
+          <input type="radio" class="form-control" placeholder="Allow DoubleBooking"
+              value="patient" [(ngModel)]="printType"
+              style="width: 15px; height: 15px;">
+          <label class="m-0 text-dark">Patient Information</label>
+      </div>
+    </div>
+  </div>
+<div class="w-100 d-flex justify-content-between align-items-center px-3 py-3" style=" background-color: white;">
+  <button class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2" (click)="printErPatientData()">Print</button>
+</div>
+</ng-template> 
+
+<ng-container *ngIf="PrintPatient">
+  <div class="request-popup-details" style="border-radius: 20px; z-index: -11; position: relative;opacity: 0;">
+    <div class="col-wrapper" style="border-radius: 20px;">
+        <div class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0" >
+            <div class="d-flex align-items-center">
+              <h3 class="main-title m-0 ml-4 pl-3">Patient Sticker</h3>
+            </div>
+            <div class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer">
+              <img src="assets/images/popup-close.svg" (click)="closePopup()">
+            </div>
+          </div>
+          <div id="printPatients" style="padding: 20px 30px; border-bottom: 1px solid #ccc; ">
+          <div class="text-center">
+            <img  src="assets/images/Safeer_Hospital_Logo.jpeg" class="h-42 w-100 logo" style="max-width: 200px;">
+          </div>
+             <div class="text-center">
+              <h3>
+                Patient Registration Form
+              </h3>          
+            </div>
+              <!--patient registration form -->
+             <div class="pt-3">
+              <div>
+                <table style=" width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                  <thead>
+                    <tr>
+                      <th colspan="4" style="background-color: #f3f6f9; padding: 10px; font-size: 20px; font-weight: 700; color: #000; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;">PERSONAL DATA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td  style="width: 15%;">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Medical Record Number:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">
+                              {{patientData.medicalRecordNumber ? patientData.medicalRecordNumber : ''}}
+                            </p>
+                        </div>
+                      </td>     
+                    </tr>
+                    <tr>
+                      <td style="width: 20%;">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Patient's Name:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                              {{patientData.firstName ? patientData.firstName : ''}}
+                            </p>
+                        </div>
+                      </td>  
+                      <td style="width: 20%;">
+                        <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: transparent; font-weight: 600;">1</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">
+                              {{patientData.secondName ? patientData.secondName : ''}}
+                            </p>
+                        </div>
+                      </td>  
+                      <td style="width: 20%;">
+                        <div class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: transparent; font-weight: 600;">1</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">
+                              {{patientData.thirdName ? patientData.thirdName : ''}}
+                            </p>
+                        </div>
+                      </td>  
+                      <td style="width: 20%;">
+                        <div class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: transparent; font-weight: 600;">1</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">
+                              {{patientData.familyName ? patientData.familyName : ''}}
+                            </p>
+                        </div>
+                      </td>                  
+                    </tr>
+                    <tr>
+                      <td style="width: 20%;">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Date of birth:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">{{patientData.dateOfBirth | date: "dd/MM/yyyy"}}</p>
+                        </div>
+                      </td> 
+                      <td>
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Nationality:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">{{patientData.nationality ? patientData.nationality : ''}}</p>
+                        </div>
+                      </td>
+                      <td style="width: 20%;">
+                        <div class="px-2 py-1 d-flex"> 
+                          <label style="display: block; color: transparent; ">1</label>
+                            <label style="font-size: 18px; color: #000; font-weight: 600; margin-right: 20px;">Gender:</label>
+                              <div style="display: flex; align-items: baseline; margin-right: 10px;">
+                                <input type="checkbox" *ngIf="patientData.gender == 'Male' else isMale" checked>
+                                <ng-template #isMale>
+                                  <input type="checkbox">
+                                </ng-template>
+                                <label for="Male" class="ml-2" style="font-size: 18px; color: #000; font-weight: 400;height:38px">Male</label>
+                              </div>
+                            <div style="display: flex; align-items: baseline;">
+                              <input type="checkbox" *ngIf="patientData.gender == 'Female' else isFemale" checked>
+                              <ng-template #isFemale>
+                                <input type="checkbox">
+                              </ng-template>
+                              <label for="Female" class="ml-2" style="font-size: 18px; color: #000; font-weight: 400;height:38px">Female</label>
+                            </div>
+                        </div>
+                      </td>                  
+                    </tr>
+                    <!-- <tr>
+                      <td>
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Nationality:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">{{patientData.nationality ? patientData.nationality : ''}}</p>
+                        </div>
+                      </td>   
+                      <td colspan="3">
+                        <div class="px-2 py-1 d-flex "> 
+                          <label style="display: block; color: transparent; ">1</label>
+                            <label style="font-size: 18px; color: #000; font-weight: 600; margin-right: 20px;">Marital Status:</label>
+                            <div style="display: flex; align-items: baseline; margin-right: 10px;">
+                              <input type="radio" name="gender" id="Male">
+                              <label for="Male" class="ml-2" style="font-size: 18px; color: #000; font-weight: 400;height:38px">Single</label>
+                            </div>
+                            <div style="display: flex; align-items: baseline; margin-right: 10px;">
+                              <input type="radio" name="gender" id="Female">
+                              <label for="Female" class="ml-2" style="font-size: 18px; color: #000; font-weight: 400;height:38px">Married</label>
+                            </div>
+                            <div style="display: flex; align-items: baseline;">
+                              <input type="radio" name="gender" id="Female">
+                              <label for="Female" class="ml-2" style="font-size: 18px; color: #000; font-weight: 400;height:38px">Other</label>
+                            </div>
+                        </div>
+                      </td>                  
+                    </tr> -->
+                    <tr>
+                      <td colspan="2">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Personal ID Type:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px"></p>
+                        </div>
+                      </td>   
+                      <td colspan="2">
+                        <div class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Personal ID No:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px"></p>
+                      </div>
+                      </td>                  
+                    </tr>
+                  </tbody>
+                </table>
+                <table style=" width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                  <thead>
+                    <tr>
+                      <th colspan="4" style="background-color: #f3f6f9; padding: 10px; font-size: 20px; font-weight: 700; color: #000; border: 1px solid #ccc;border-left: 0;">CONTACT INFO</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr>
+                      <td style="width: 33.33%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Contact Number 1:</label>
+                           <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">                            
+                              {{patientData.contactNo1 ? patientData.contactNo1 : ''}}
+                            </p>
+                        </div>
+                      </td>
+                      <td style="width: 33.33%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Contact Number 2:</label>
+                           <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">      
+                              {{patientData.contactNo2 ? patientData.contactNo2 : ''}}
+                            </p>
+                        </div>
+                      </td>  
+                      <td style="width: 33.33%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Email:</label>
+                           <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400;height:38px">                         
+                              {{patientData.email ? patientData.email : ''}}
+                            </p>
+                        </div>
+                      </td>            
+                    </tr>
+                    <!-- <tr> 
+                      <td>
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Mobile:</label>
+                            <input type="text" style="width: 100%; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 600;">
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Email:</label>
+                            <input type="text" style="width: 100%; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 600;">
+                        </div>
+                      </td>
+                    </tr> -->
+                  </tbody>
+                </table>
+                <table style=" width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                  <thead>
+                    <tr>
+                      <th colspan="4" style="background-color: #f3f6f9; padding: 10px; font-size: 20px; font-weight: 700; color: #000; border: 1px solid #ccc;border-left: 0;">ADDRESS</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr>
+                      <td colspan="2">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Street Address 1:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                               {{patientData.address1 ? patientData.address1 : ''}}
+                            </p>
+                        </div>
+                      </td>  
+                      <td colspan="2">
+                        <div  class="px-3 py-2"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Street Address 2:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                               {{patientData.address2 ? patientData.address2 : ''}}
+                            </p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 20%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">City:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                               {{patientData.city ? patientData.city : ''}}
+                            </p>
+                        </div>
+                      </td>
+                      <td style="width: 20%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Country:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                              {{patientData.country ? patientData.country : ''}}
+                            </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table style=" width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                  <thead>
+                    <tr>
+                      <th colspan="3" style="background-color: #f3f6f9; padding: 10px; font-size: 20px; font-weight: 700; color: #000; border: 1px solid #ccc;border-left: 0;">EMERGENCY CONTACT</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr> 
+                      <td  style="width: 33.33%;">
+                        <div class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Name:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                              {{patientData.relativeFirstName}} {{patientData.relativeLastName}}
+                            </p>
+                        </div>
+                      </td>
+                      <td style="width: 33.33%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Relationship:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                              {{patientData.patientRelationship?.name}}
+                            </p>
+                        </div>
+                      </td>
+                      <td style="width: 33.33%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Tel:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                              {{patientData.emergencyContactNo}}
+                            </p>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Address:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <table style=" width:100%; border-collapse: collapse; border: 1px solid #ccc;">
+                  <thead>
+                    <tr>
+                      <th colspan="4" style="background-color: #f3f6f9; padding: 10px; font-size: 20px; font-weight: 700; color: #000; border: 1px solid #ccc;border-left: 0;">REFERRAL</th>
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr>
+                      <td style="width: 50%;">
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Referring Physician:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>                    
+                      </td>
+                      <td style="width: 50%;">
+                        <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">File Number:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                      </div>
+                      </td>                     
+                    </tr>
+                    <tr>
+                      <td  style="width: 50%;">
+                        <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Treating Facility:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                      </div>
+                      </td>
+                      <td  style="width: 50%;">   
+                      <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Fax Number:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                      </div>
+                      </td>
+                      
+                    </tr>
+                    <tr>
+                      <td  style="width: 50%;">
+                        <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Address:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>
+                      </td>
+                      <td  style="width: 50%;">                     
+                        <div  class="px-2 py-1"> 
+                            <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">City:</label>
+                            <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>
+                      </td>
+                      
+                    </tr>
+                    <tr>                  
+                      <td  style="width: 50%;">
+                        <div  class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Tel:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>
+                      </td>
+                      <td  style="width: 50%;">        
+                        <div class="px-2 py-1"> 
+                          <label style="display: block; font-size: 18px; color: #000; font-weight: 600;">Email:</label>
+                          <p style="margin-bottom: 0; border: 1px solid #ccc; padding: 6px; border-radius: 10px; color: #000; font-size: 18px; font-weight: 400; height:38px">
+                            </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+               </div>
+             </div>
+            </div>
+        <div style="padding: 20px 30px; border-bottom: 1px solid #ccc;">
+          <div class="history-popup-details">
+            <div class="col-wrapper">
+              <div class="d-flex">
+                <div class=" p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0 w-100 d-flex align-items-center justify-content-between">
+                  <h1 class="main-title mb-0">Patient Card</h1>
+                    <div class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-end mr-0 cursor-pointer"
+                      (click)="closePopup()">
+                      <img src="assets/images/popup-close.svg">
+                    </div>
+                </div>
+              </div>
+            <div id="patientCard">
+              <div class="p-3">
+                <img  src="assets/images/Safeer_Hospital_Logo.jpeg" class="h-42 w-100 logo" style="max-width: 200px;">
+              </div>
+              <div class="d-flex p-3 align-items-center" style="padding-top: 5px !important;">
+                <div  class="mr-2"> <img [src]="qrImageUrl" width="150" ></div>
+                <div>
+                  <h5>Patient Name: {{patientData.firstName}} {{patientData.secondName}} {{patientData.thirdName}} {{patientData.familyName}}</h5>
+                  <h5>MRN: {{patientData.medicalRecordNumber}}</h5>
+                  <h5>Date Of Birth: {{patientData.dateOfBirth | date:"dd-MM-yyyy"}}</h5>
+                  <h5>Gender: {{patientData.gender}}</h5>
+                </div>
+              </div>
+            </div>
+              </div>
+              <div class="p-3 text-center">
+        
+                <div class="d-flex justify-content-between">
+                  <div class="col-6" class=" w-100 m-1">
+                    <button
+                      class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+                      (click)="printDocument()">
+                      Print
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>  
+    </div>
+  </div>
+</ng-container>
+
+<book-appointment-popup #bookAppointment></book-appointment-popup>
+<app-patient-list-popup #patientList></app-patient-list-popup>
+<patient-profile-popup #patientPopup></patient-profile-popup>
+<patient-data-filter-popup #filterPopup
+  (searchDataFormValue)="handleSearchDataFormValue($event)"></patient-data-filter-popup>

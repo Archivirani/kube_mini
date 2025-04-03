@@ -1,0 +1,215 @@
+<div class="laboratory-main-wrap row p-3 bg-white">
+    <div class="emr-border p-0 mt-3 bg-white pl-border-radius-10 col-2">
+        <div class=" w-100 mr-1 loboratory-card">
+            <div class="px-0">
+                <div class="emer-color">
+                    <div class="emer-data">
+                        Medication & Consumables
+                    </div>
+                    <div class="p-3 overflow-lab ">
+                        <div>
+                            <ul class="p-0"
+                                *ngFor="let item of pharmacyServices| filterName: clinicService.serviceModel;let i=index">
+                                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                                    <div class="mr-0 p-2 lab-color w-100">
+                                        <p class="m-0 d-flex align-items-center">
+                                            <input type="checkbox" class="mr-1"
+                                                (change)="getCheckedService(item,$event)"
+                                                [name]="'item.name'" #checboxes/>
+                                            <label class="m-0 se-fontsize">{{item.name}}</label>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="w-100 col-10">
+        <div class="p-0 lab-border m-2 h-25">
+            <div class="lab-overflow"
+                *ngIf="this.createServiceForm.get('pharmacy').value && this.createServiceForm.get('pharmacy').value.length">
+
+                <form [formGroup]="createServiceForm">
+                    <div class="p-0 lab-border m-2 h-25">
+                        <div>
+                            <p class="m-0 font-weight-bolder abc-p">Medication Orders</p>
+                        </div>
+                        <div class="lab-overflow">
+                            <!--  -->
+                            <table class="w-100">
+                                <thead>
+                                    <tr class="lab-key position-data">
+                                        <th class="border-0 text-left p-2">Medication Name</th>
+                                        <th class="border-0 text-left p-2">Dose</th>
+                                        <th class="border-0 text-left p-2">Unit</th>
+                                        <th class="border-0 text-left p-2" style="width: 180px;">Route</th>
+                                        <th class="border-0 text-left p-2" style="width: 200px;">Cycle</th>
+                                        <th class="border-0 text-left p-2">Duration</th>
+                                        <th class="border-0 text-left p-2">Duration Unit</th>
+                                        <th class="border-0 text-left p-2">Quantity</th>
+                                        <th class="border-0 text-left p-2"style="width: 150px;">Unit</th>
+                                        <th class="border-0 text-left p-2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody formArrayName="pharmacy">
+                                    <tr *ngFor="let data of this.createServiceForm.get('pharmacy')['controls']; let i = index"
+                                        [formGroupName]="i">
+                                        <td class="p-0 text-center border-0 "><input type="text"
+                                                class="lab-form-control border-0 font-key" formControlName="name" />
+                                        </td>
+                                        <td class="p-0 text-center border-0 "><input type="text"
+                                                class="lab-form-control border-0 font-key" formControlName="dose" />
+                                        </td>
+                                        <td class="pl-2 py-2"><input type="text"
+                                                class="lab-form-control border-0 font-key" formControlName="unit" />
+                                        </td>
+                                        <td class="pl-2 py-2">
+                                            <ng-select [appendTo]="'body'" formControlName="routeid"
+                                                class="border-0 font-numbar lab-select" placeholder="Routes"
+                                                [searchFn]="searchRoutes">
+                                                <ng-option *ngFor="let data of routesList"
+                                                    [value]="data">{{data.routes_Description}}</ng-option>
+                                            </ng-select>
+                                        </td>
+                                        <td class="pl-2 py-2">
+                                            <ng-select [appendTo]="'body'" formControlName="cycleId"
+                                                class="border-0 font-numbar lab-select" placeholder="Cycle"
+                                                [searchFn]="searchCycle">
+                                                <ng-option *ngFor="let data of cycleList"
+                                                    [value]="data">{{data.cycles_Description}}</ng-option>
+                                            </ng-select>
+                                        </td>
+                                        <td class="pl-2 py-2">
+                                            <input type="number" formControlName="duration" class="form-control">
+                                            <!-- <input type="text" class="lab-form-control border-0 font-key"
+                                                formControlName="duration" /> -->
+                                        </td>
+                                        <td class="pl-2 py-2">
+                                            <ng-select [appendTo]="'body'" formControlName="durationUnitId"
+                                                class="border-0 font-numbar lab-select" placeholder="Duration Unit">
+                                                <ng-option *ngFor="let data of DurationList"
+                                                    [value]="data.id">{{data.duration_Units}}</ng-option>
+                                            </ng-select>
+                                        </td>
+                                        <td class="pl-2 py-2 quantity-td">
+                                            <div class="popup-service-qua d-flex align-items-center">
+                                                <img src="assets/images/minimize-sign.svg" class="cursor-pointer pl-2"
+                                                    (click)="decrementQuantityform(i)" height="10px">
+                                                <input type="number" style="width: 80px; margin: 0 5px;"
+                                                    class="lab-form-control text-center border-0 font-key"
+                                                    formControlName="quantity"  />
+                                                <img src="assets/images/Vector.svg" height="10px" class="cursor-pointer pr-2"
+                                                    alt (click)="incrementQuantityform(i)">
+                                            </div>
+                                        </td>
+                                        <td class="text-center bg-white px-2 p-0">
+                                            <ng-select  class="border-0 font-numbar lab-select" [appendTo]="'body'"
+                                            formControlName="unit1"><ng-option *ngFor="let item of MedicationUnitList"
+                                                [value]="item.id">{{item.units}}</ng-option></ng-select>
+                                          </td>
+                                        <td class="p-0 text-center border-0 c-pointer">
+                                            <img src="assets/images/delete-icon.svg" height="18" (click)="onDelete(i)">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-template #medicatedPopup>
+    <div class="modal-wrapper pb-3">
+        <div class="modal-header justify-content-end">
+            <button type="submit" (click)="onclose()" class="close-btn overflow-hidden"><img
+                    src="assets/images/close.svg" alt="close"></button>
+        </div>
+        <div class="table-responsive modal-wrap p-4">
+            <div class="layout-table layout-patient-table">
+                <form class="service-medication-popup">
+                    <table class="w-100">
+                        <thead>
+                            <tr>
+                                <th class=>Medication Name</th>
+                                <th class=>Dose</th>
+                                <th class="w-8 text-center">Unit</th>
+                                <th class=>Route</th>
+                                <th class=>Cycle</th>
+                                <th class="w-8 text-center">Duration</th>
+                                <th class="w-10 text-center">Duration Unit</th>
+                                <th class="w-10 text-center">Quantity</th>
+                                <th class="w-10 text-center">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of medicationData;let i = index;">
+                                <td class="pl-2 py-2 " style="text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  max-width: 100px;">{{data.name}}</td>
+                                <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.dose" [value]="data.dose"
+                                        class="form-control" [ngModelOptions]="{standalone: true}"></td>
+                                <td class="pl-2 py-2">{{data.unit}}</td>
+                                <td class="pl-2 py-2">
+                                    <ng-select [appendTo]="'body'" [(ngModel)]="data.routeid" name="routeid"
+                                        class="border-0 font-numbar lab-select" placeholder="Routes"
+                                        [searchFn]="searchRoutes" [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let data of routesList"
+                                            [value]="data">{{data.routes_Description}}</ng-option>
+                                    </ng-select>
+                                </td>
+                                <td class="pl-2 py-2">
+                                    <ng-select [appendTo]="'body'" [(ngModel)]="data.cycleId" name="cycleId"
+                                        class="border-0 font-numbar lab-select" placeholder="Cycle"
+                                        [searchFn]="searchCycle" [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let data of cycleList"
+                                            [value]="data">{{data.cycles_Description}}</ng-option>
+                                    </ng-select>
+                                </td>
+                                <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.duration"
+                                        [value]="data.duration" class="form-control"
+                                        [ngModelOptions]="{standalone: true}"></td>
+                                <td class="pl-2 py-2">
+                                    <ng-select [appendTo]="'body'" [(ngModel)]="data.durationUnitId" name="durationUnitId"
+                                        class="border-0 font-numbar lab-select" placeholder="Duration Unit"
+                                        [ngModelOptions]="{standalone: true}">
+                                        <ng-option *ngFor="let data of DurationList"
+                                            [value]="data.id">{{data.duration_Units}}</ng-option>
+                                    </ng-select>
+                                </td>
+                                <td class="pl-2 py-2 quantity-td">
+                                    <div class="popup-service-qua">
+                                        <img src="assets/images/minimize-sign.svg" class="cursor-pointer"
+                                            (click)="decrementQuantity(data)" height="10px">{{data.quantity}}
+                                        <img src="assets/images/Vector.svg" height="10px" class="cursor-pointer" alt
+                                            (click)="incrementQuantity(data)">
+                                    </div>
+                                </td>
+                                <!-- <td class="pl-2 py-2"> <input type="text" [value]="data.unit1"
+                                        class="form-control" [ngModelOptions]="{standalone: true}"></td> -->
+                                <td class="text-center bg-white px-2 p-0">
+                                    <ng-select  class="border-0 font-numbar lab-select" [appendTo]="'body'"
+                                    [(ngModel)]="data.unit1" [ngModelOptions]="{standalone: true}" ><ng-option *ngFor="let item of MedicationUnitList"
+                                        [value]="item.id">{{item.units}}</ng-option></ng-select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="w-100 d-flex align-items-center justify-content-center">
+            <button type="submit"
+                class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center px-5 py-2"
+                (click)="onSave()">Save</button>
+        </div>
+    </div>
+</ng-template>
+
+<app-pharmacy-request-form #pharmacyPrint></app-pharmacy-request-form>

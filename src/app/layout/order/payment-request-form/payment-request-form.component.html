@@ -1,0 +1,617 @@
+<ng-template #paymentRequestForm>
+    <div class="request-popup-details">
+        <div class="col-wrapper">
+            <div
+                class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+                <div class="d-flex align-items-center">
+                    <h3 class="main-title m-0 ml-4 pl-3">Request Form</h3>
+                </div>
+                <div
+                    class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+                    (click)="closePopup()">
+                    <img src="assets/images/popup-close.svg">
+                </div>
+            </div>
+            <div class="py-3" style="
+                max-height: 650px;
+                overflow: auto;
+            ">
+                <div id="invoice-generate">
+                    <div class="invoice-content">
+                        <div class="invoice-body pl-5 position-relative pr-4"
+                            style="height: 100%;">
+                            <div
+                                style="border-bottom: 2px solid #ccc; margin: 0 0 0 0;"
+                                *ngIf=" laboratory && laboratory.length">
+                                <div class="pdf-page-breaker"
+                                    style="page-break-after: always;
+                                margin: 0 0 0 -48px;
+                                border-left: 35px solid #3f7473;
+                                padding: 0 0 0 35px;">
+                                    <div>
+                                        <div class="invoice-logo text-left">
+                                            <img
+                                                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAAMAAAABACwAAEABAAEAAAABAAAAAAAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCADeAdoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2WiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA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n126wN0drGf3suP0Hv8Ay/Sr2OKMXJ2QeHvD0+u3WBujtYz+9lx+g9/5fpXqFlZQWFqlvbIqRRjAAos7OCwtUt7aNY4oxgAVYrNu56FKkoLzCiiikakNzcR2ltJPKSI41LMQM8CuN1Dx1Ldv9l0O2kaR+FkZcsfov9T+VdrJGssbI4BRgVI9Qaq2Gk2OlpssraOEHqQOT9SeTTVjOak9EzH0DQ7zStKuJC6Nqdzly0hyA3YE9+SSfc1ThfxU+hXMTKq3UThUdsb3A5OOx7YPfmuw+tLRcPZq1kyhost7PpcMmpRLFcsPmVf6jsfar9FFItKwUUUUDCiiigAooooAKKKKACiiigDz97yfwb4lufMhaSxu23gD8+PcZPHpW4PHmjFN3mTA/wB0xHNbl3ZW+oQGG7hSaM9nGf8A9VY//CE6Jv3fZWxn7vmtj+dO6ZhyTjpF6GVe/EFD+70yykkkb7pk4yf90cn9KveFdKvY57nVdVJF3dYXYeNq+47dBx2ArastIsNOH+h2kUR9VXn8+tXaLlRg73kwooopGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHn/izwmbXzL/AE6PMJ+aWJR9z/aHt7dvpXH17hXn/izwmbbzL/To/wByfmliUfc/2h7e3b6VafQ461H7UTkMsAQCQG6gHANFJWx4e8PT67dfxR2sZ/eS4/Qe/wDL9KrY5oxcnZB4e8PT67dYG6O1jP72XH6D3/l+leoWdnDYWqW9uixxIMACizs4LC1S3to1jijGFUVYrNu56FKkoLzCiiikahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHG6n4EjutWSa0kEFtISZo8dP936+nb9K6qzs4bC1S3to1jijGFUVYop3IjCMW2uoUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"
+                                                width="100">
+                                        </div>
+                                        <div
+                                            class=" position-relative pb-2"
+                                            style="width: 100%;  border-top: 2px solid #c6c8ca;">
+                                        </div>
+                                        <div
+                                            class="invoice-header d-flex justify-content-between mb-4 pt-2">
+                                            <div
+                                                class="invoice-info text-right">
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Patient 
+                                                        Name:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.firstName}}
+                                                        {{configurationData?.patient?.secondName}}
+                                                        {{configurationData?.patient?.thirdName}}
+                                                        {{configurationData?.patient?.familyName}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">MRN:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.medicalRecordNumber}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Case
+                                                        Type:</p>
+                                                        <h4  class="m-0">{{configurationData?.caseTypesTbl !== null ? configurationData?.patientAdmission?.caseTypesTbl?.caseName : "Out Patient"}}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <div class="invoice-area">
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0">Attending
+                                                            Physician:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.doctors?.doctor_Name}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Visit
+                                                            Date:</p>
+                                                        <h4
+                                                            class="m-0">{{
+                                                            configurationData?.appointmentDateTime
+                                                            | date:
+                                                            "dd/MM/yy"}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Appointment
+                                                            ID:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.id}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="margin: 0 0; height: calc(100vh - 530px);">
+                                        <div>
+                                            <h5>Laboratory Request Form</h5>
+                                            <div
+                                                class="invoice-detail d-flex align-items-center justify-content-between mb-4"
+                                                style=" border-top: 2px solid #c6c8ca; border-bottom: unset ;">
+                                                <table class="w-100 mt-2 mb-4">
+                                                    <thead
+                                                        class="bg-white ">
+                                                        <tr>
+                                                            <th
+                                                                class="p-2">Item</th>
+                                                            <th
+                                                                class="p-2 w-75">Description</th>
+                                                            <th
+                                                                class="p-2 text-center w-20">Quantity</th>
+                                                            <th
+                                                                class="p-2 w-20">Unit</th>
+                                                            <th
+                                                                class="p-2">Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody
+                                                        class="invoice-detail border-top-0 border-bottom-0">
+                                                        <tr
+                                                            *ngFor="let data of laboratory;let i=index">
+                                                            <td class="p-2">{{i+
+                                                                1}}</td>
+                                                            <td
+                                                                class="p-2">{{data?.name}}</td>
+                                                            <td
+                                                                class="p-2 text-center">{{data?.quantity}}</td>
+                                                            <td
+                                                                class="p-2"><b>{{data?.unit}}</b></td>
+
+                                                            <td class="p-2">
+                                                                {{data?.comment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="d-flex align-items-center mt-2 pb-3">
+                                        <p class="m-0 mr-3">PostedBy</p>
+                                        <h5
+                                            class="m-0">{{postedBy}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                style="border-bottom: 2px solid #ccc; margin: 0 0 0 0;"
+                                *ngIf=" radiology && radiology.length">
+                                <div class="pdf-page-breaker"
+                                    style="page-break-after: always;
+                                margin: 0 0 0 -48px;
+                                border-left: 35px solid #3f7473;
+                                padding: 0 0 0 35px;">
+                                    <div>
+                                        <div class="invoice-logo text-left">
+                                            <img
+                                                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAAMAAAABACwAAEABAAEAAAABAAAAAAAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCADeAdoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2WiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA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n126wN0drGf3suP0Hv8Ay/Sr2OKMXJ2QeHvD0+u3WBujtYz+9lx+g9/5fpXqFlZQWFqlvbIqRRjAAos7OCwtUt7aNY4oxgAVYrNu56FKkoLzCiiikakNzcR2ltJPKSI41LMQM8CuN1Dx1Ldv9l0O2kaR+FkZcsfov9T+VdrJGssbI4BRgVI9Qaq2Gk2OlpssraOEHqQOT9SeTTVjOak9EzH0DQ7zStKuJC6Nqdzly0hyA3YE9+SSfc1ThfxU+hXMTKq3UThUdsb3A5OOx7YPfmuw+tLRcPZq1kyhost7PpcMmpRLFcsPmVf6jsfar9FFItKwUUUUDCiiigAooooAKKKKACiiigDz97yfwb4lufMhaSxu23gD8+PcZPHpW4PHmjFN3mTA/wB0xHNbl3ZW+oQGG7hSaM9nGf8A9VY//CE6Jv3fZWxn7vmtj+dO6ZhyTjpF6GVe/EFD+70yykkkb7pk4yf90cn9KveFdKvY57nVdVJF3dYXYeNq+47dBx2ArastIsNOH+h2kUR9VXn8+tXaLlRg73kwooopGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHn/izwmbXzL/AE6PMJ+aWJR9z/aHt7dvpXH17hXn/izwmbbzL/To/wByfmliUfc/2h7e3b6VafQ461H7UTkMsAQCQG6gHANFJWx4e8PT67dfxR2sZ/eS4/Qe/wDL9KrY5oxcnZB4e8PT67dYG6O1jP72XH6D3/l+leoWdnDYWqW9uixxIMACizs4LC1S3to1jijGFUVYrNu56FKkoLzCiiikahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHG6n4EjutWSa0kEFtISZo8dP936+nb9K6qzs4bC1S3to1jijGFUVYop3IjCMW2uoUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"
+                                                width="100">
+                                        </div>
+                                        <div
+                                            class=" position-relative pb-2"
+                                            style="width: 100%;  border-top: 2px solid #c6c8ca;">
+                                        </div>
+                                        <div
+                                            class="invoice-header d-flex justify-content-between mb-4 pt-2">
+                                            <div
+                                                class="invoice-info text-right">
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Patient
+                                                        Name:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.firstName}}
+                                                        {{configurationData?.patient?.secondName}}
+                                                        {{configurationData?.patient?.thirdName}}
+                                                        {{configurationData?.patient?.familyName}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">MRN:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.medicalRecordNumber}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Case
+                                                        Type:</p>
+                                                        <h4  class="m-0">{{configurationData?.caseTypesTbl !== null ? configurationData?.patientAdmission?.caseTypesTbl?.caseName : "Out Patient"}}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <div class="invoice-area">
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Attending
+                                                            Physician:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.doctors?.doctor_Name}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Visit
+                                                            Date:</p>
+                                                        <h4
+                                                            class="m-0">{{
+                                                            configurationData?.appointmentDateTime
+                                                            | date:
+                                                            "dd/MM/yy"}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Appointment
+                                                            ID:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.id}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="margin: 0 0; height: calc(100vh - 530px);">
+                                        <div>
+                                            <h5>Radiology Request Form</h5>
+                                            <div
+                                                class="invoice-detail d-flex align-items-center justify-content-between mb-4"
+                                                style=" border-top: 2px solid #c6c8ca; border-bottom: unset ;">
+                                                <table class="w-100 mt-2 mb-4">
+                                                    <thead
+                                                        class="bg-white ">
+                                                        <tr>
+                                                            <th
+                                                                class="p-2">Item</th>
+                                                            <th
+                                                                class="p-2 w-75">Description</th>
+                                                            <th
+                                                                class="p-2 text-center w-20">Quantity</th>
+                                                            <th
+                                                                class="p-2 w-20">Unit</th>
+                                                            <th
+                                                                class="p-2">Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody
+                                                        class="invoice-detail border-top-0 border-bottom-0">
+                                                        <tr
+                                                            *ngFor="let data of radiology;let i=index">
+                                                            <td class="p-2">{{i+
+                                                                1}}</td>
+                                                            <td
+                                                                class="p-2">{{data?.name}}</td>
+                                                            <td
+                                                                class="p-2 text-center">{{data?.quantity}}</td>
+                                                            <td
+                                                                class="p-2"><b>{{data?.unit}}</b></td>
+
+                                                            <td class="p-2">
+                                                                {{data?.comment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="d-flex align-items-center mt-2 pb-3">
+                                        <p class="m-0 mr-3">PostedBy</p>
+                                        <h5
+                                            class="m-0">{{postedBy}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                style="border-bottom: 2px solid #ccc; margin: 0 0 0 0;"
+                                *ngIf=" Medication && Medication.length">
+                                <div class="pdf-page-breaker"
+                                    style="page-break-after: always;
+                                    margin: 0 0 0 -48px;
+                                    border-left: 35px solid #3f7473;
+                                    padding: 0 0 0 35px;">
+                                    <div>
+                                        <div class="invoice-logo text-left">
+                                            <img
+                                                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAAMAAAABACwAAEABAAEAAAABAAAAAAAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCADeAdoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2WiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoorlPFvi5NGRrSxYPfOOT1EQ9T7+34mk3YaVzq6K8Mmvru4mM011O8hPLGQ5rrfCnjaS2lWy1eYyQscJO55j9mPce/b6UlNMbR6NRSAhgCCCD0IpaokKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoorlPFvi5NHRrOxYPfOOT1EQ9T7+g/E0m7DSuHi3xcmjo1nZMHvnHJ6iIep9/b8TXmLu0js7szux3MzHkn/Gh3aR2d2Z3Y7mZjyT/jSxRSXEyRQo0krnaqqOWNZttlpWGUV6Ppfw/tU0eSPUSWvJhnep/wBT6BfU+vr06Vw2saPdaJfta3a89UcD5ZF9R/h2pNNAmmdJ4P8AGBsGTT9Scm1JxFKTnyvY/wCz/L6dPSAQwBBBB7ivBa7Hwf4wOnlNP1JybQnEUpOfK9j/ALP8vp0qMujE11R6VRSBgwBByDyCKWtCAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoormPGXiZ9Dtkt7Vf8AS51JV2GVjHr7n2pPQEReLvFyaOjWdiwe+ccnqIR6n39vxNeZO7SOzuzO7HczMeSf8aHdpHZ3ZndjuZmPJP8AjSxRSXEyQwI0ksh2qqjJJrNts0SsEUUlxMkUKNJK52qqjJY9q9R8J+E49Dh+03QWS/ccsOREP7o/qf6UvhTwpHocP2i5CyX7jlhyIx/dH9T/AErpqqMbaslu4Vna1o1rrdiba6Hukg+8jeo/w71o0VZJ4nrGj3Wi37Wt2vPVHA+WRfUf4dqoV7VrOi2uuWDW10vujj7yN6j/ADzXkmsaPdaHfta3a89UcD5ZF9R/h2rOSsWnc6Lwf4wOnFNP1JybQnEcpOfK9j/s/wAvpXpIYMAQcg8givBa7TwT4qltp4dJvC0kMjBIG6mMnov0/l9KIy6MTXU9HooorQkK4y68b3VzfS22g6Y96sRw8nPPbgDt7nr6V2TAMpU9CMV5tZXF/wCAdQuI7mzaexmYYlXvjoQegOD0OP61LbQ0dL4f8XJq901jeW7Wd8uf3bHhsdcZ5BHoa6WsLRdT0bXbp7yzRPtoUB96YkVf8O2RWnqN9Hpunz3k3+rhQsR6+g+pOB+NNbAVF162fxI+jj/WpCJN2e/9364wfxrVrydLa+t7CHxYWYzteF2XsUPGfoTkfQivUrO6ivrOK5hbdHKodT7GhO4NWOU1rxfqVj4il0yx0+O5ZQpUDcWbK5PA9KdYeJPEVxqFvDc6E0MMkgWSTYw2Kep5rF1jU00f4ky3skTyrGgG1epzHj+tb2m+PbbUtSgs0sblGmbaGYjAqU9dx2JPFfie60G7tILW2inM6nhic5yAAMfWqH/CUeKf+hcb/vlqq/ESTydZ0mXaW8sFto6nDKcVb/4WOv8A0Brz8/8A61HV6hbQ3f7UvIvCz6lc2oiu0gaRoWzgEdvWubtfGniC+h8200NZo843IGIzXQ6xc/bPBd3c7GTzbMybT1XK5xXG+GfF40PSRaHT57j94z70PHND33EkdX4e1jWdRvJY9U0o2cSpuVyCMtnpz7ZNZ+r+L9StfEU2l2GnxXLJjaATub5Qx6emTWt4d8SjxA9wosprbyQpzIfvZz/hXLz3sFh8U5ri7lWKFRgu3QExAUPoCLqeO7yxuki13SXtEfo6549Tg9QPau1jkWVFeNgyMAysOhBrgPG/iDTtV0+GxsHF1OZQwKKTt6jA45JzjArs9EtZbPRLK3m/1sUKq3scdKaetgZerm/CfiW48QPeLcQRReQVC7Cec59fpXSV5P4Y8Sf8I9Je/wChyXPnMPuHG3Gfbvn9KG7NAlc9UnkMUEkgAJVSwH0rB8IeI5/EVrcS3EEURicKBGSQcjPesab4jCWF4/7IuBuUrkv0z+FP+GHGn349JV/9BovdhbQ2vEPiyz0DEbhprlhlYkI6epPYf5xWF/wnGtKn2iTQHFt13YccfXFV/B1uuueKNR1O8USPE25FbnBJIH5BcV6HQrsNjG0DxLZ+IIWa3LRzIPnhfqPceo96d4h8QW/h6yE8ytI7nbHGp5Y/XsPeuT1WBPD/AMQ7GazAjS6Kl0UcfM21vwPB+tbHjrQrrV7GCWyUyS2rE+WOrA+nvwOKLuzDS5R/4TnVbVUub/Q3js3Iw43Dr7kY/PFdQurQ3OiSalZMJYxC0iZ4yQDwfTkYrmLPxzZ3UJ0/xBaPA7LslLJ8h9cjqv6/WumvI7ePw5dLaLGsH2Z9gjAC42npiheoM5Oz8b6/fwmW00RZ4wcFow7c+n1rZ8PeMI9Zumsrm3a0vVz+7Y8NjrjPII9DWD4F8QabpOjTRX12sMjTFgpBJI2gdh7Gm2VwviL4ix3unowt4AC8mMZAUjJ+uQPoKSvpqNo6C+8TXFr4wttHWCJopguZCTuGc/4VW1fxJr1lqdxDa6K09vGfkl2Odwxk9Px/Ks7WP+Spaf8ASP8A9mru5/8Aj3l/3T/KnrqI4O18da5fKxtNGScKcMYw7Y/Kuy0e6ub3S4J7y3NvcODviII28+/tiuT+GH/HrqP/AF0T+RrofFWsDRtCnnVsTOPLi/3j3/AZP4UJ6XYPck0rXrbVr2+toPvWkmwnP3h6j2yCPwrVrzHT7efwff6RqFwx8m9TbcA/w55/QEH8DXpwweR3oTuDVjmvD/ia41fXNQsZoIo0tSQrKTk4bbzmulrgfBH/ACOGt/V//Rhrvqad0DCiiimIKKKKACiiigAooooAKKKKACvOfib/AMhSx/64t/6FXo1ec/E3/kKWP/XFv/QqmWw1ucbDDLcTJDBG0kjnaqqMkmvU/CnhOPRIRcXIEl/IPmYdIx/dX+p7/SvLra5mtLlLi3kMcsZ3Kw7V6r4X8Uw69bbJcR3sYzJHnr/tL7fyqY2uU7nQ0UUVoQFFBrgvFni0zM9hpshCA4lmQ/e/2VP9aaVyJ1FBXZ3tZ2s6La65YNbXS+6OPvI3qP8APNYPhPxYLzZYag+LkcRyn/lp7H/a/n9a6+k0OE1JXR4nrGj3Wh37Wt2vujgfLIvqP8O1P8Of8jJpv/Xyn869Y1nRbXXLBra6X3Rx96NvUf55rza20e60Pxlp1tdr/wAvKGOQD5ZBnqP8O1ZtWZondHrVFFFaEkN1LJDayyQRGaRFJWMHG4+ma5vQ/Gdlqls8WqNDaXKkq8chwrD2z+WD6V1VY+peFNJ1WYzXVovmnq6MULfXHX8aTuNW6nH6eLaT4kRtoWPsoyXMY+TG35se2cfj0rQ8e30l5c2eg2hzLO4aQA++FB9up/AV1OmaLYaPGUsbZYt33m5LN9Seahj8O2Eettq2x2vGJ+d3JA4xwOg44pWdgvqc03hPxI9h9hbWLc2uzZ5W042jt92pfh/qLql1ot1lZrVyyKewzhh+Dfzrtayh4d09daOqojpdk5LK5weMcjp0otZ6Bc5n/mrn/AP/AGlXdYHoPyrO/sCx/tz+19j/AGzGN284+7t6fStKmkFzgfiAypr+jMxAUHJJ6Ab1rrf+Eg0n/oJ2n/f5f8ai1fw3p+uSRSX0bs0QKrtcrwfp9Kz/APhX2hf88Jv+/wA1KzuGhe16eK58KX8sEiyRtbvtZTkHisPwLqthZeHRFdXkEMnnOdskgU4/Gulj0e0i0b+y1VvsnlmPbuOdp9/xrJ/4V9oX/PCb/v8ANQ073DSxtWup2V9IUtLuCZwMlY5AxA/CuGuLK31H4pTW13EssLDLK3QkRgius0nwxpuh3Lz2MbrI67GLSFuM57/SpR4fsRrh1cI/2wjG7ecfd29PpQ1cL2OKaFfA/i1JZIlfTrjIRyMmMex9V/UGvRkdZEDowZGGQQeoqnqmkWms2v2e9j3xhgwwcEEdwRUmnafFpllHa2xfyo/uh2LED0ye1NKwN3LVcH8NP9dqv+8n/s1d5WZpGgWOhtMbFHUzkF9zls4z6/U0NaiLt3/x5z/9c2/lXG/C/wD5Bt9/11X/ANBrtpEEkbI33WBBrP0fQrLQoZI7FGVZGDNuctkjjvQ1qM4mKd/A3iy4+0Ru1hdklSo/hzkEepXJGPQ11reMdDWAy/2jCRj7ozuP4da07yxttRgMF5Ak0R7OM/8A6qxR4D0ESb/sjEf3TK2PyzSs1sF09znNOabxj40TUREyWVoQQW/2eQPqTzjsK6LxD4ml0DULNZLQtZSkiSYHJB9APUcHnqOlb1tawWUCw20SRRr0VFwBSXVnBfQNBdQpLEw5RxkGhKyA5LxbqWg6j4fkkFxbzXJXNuUIMgbt7geuak8NLMnw7l87dgwzGMHsmDir0XgfQop/NFluI5CvIzKPwJ/nW3LbxzWz27LiJ0KEDjgjH8qEne7C5wngPQtN1TR5pr6zjmlWcqGbPA2g/wBTXdWdjbWEPlWkEcMec7UXAqvpGi2mh2zW9ijLGz7yGYtzjHf6Cr9NKyBs4DWf+Spaf9I//Zq7uf8A495f9w/yrPuPD1hc6zFqkqObuLG1g5wMZxx+JrTdQyFT0IxQkK5w/wAMP+PXUf8Aron8jVTxM1x4o8WR6TYOoS1ByzcqG6sT9OB9a7HR9BstCSVLBHRZSC25y3T603S/D1ho9zNPaRv5s/33dyxPOe/vzU2dkh31ucrrHhjxJdadJ9s1SG7jjBkEQXBJA7cdeo/GtzwPrH9qaBGkjZntsRPnqR/CfxHH1Bro6ytM8O2GkXs1zYo8bz/fXeSvXPTt3/Ony2YXOP8ACl9bWPizWHu7iKBWZwGkYKCfMPrXcW+saddzCG2vreWRhwiSAk/hWTN4E0W4uJJpYZS8jF2ImYck5qfTfCGlaTfJd2cUizICATIW6jB4NCTQOxuUUUVQgooooAKKKKACiiigAooooAK5Pxt4am1m3ju7Mlri3UjyuzqeePf+ddZRSauhp2PBSCCQQQQcEEYxUlvcS2lwk9vIY5UOVZT0r0Txh4PGoB9Q01ALscyRjgS//ZfzrzcggkEEEHBBGMVk00y07nrHhbxRDr1v5cmI72MfvI+zf7S+3t2roq8ItrmW0uUntpDHLGdysvavV/DHiaPW7cRzARXqAb4weG/2h7e3atIu5nKyZf1uxn1LSpra2uDBK4wGHf2PsfavJbm2ls7l7e4jMcsZwyn/AD0r2usPxH4ch1y23LiO6jB8uTH/AI6fY/pWidjnrUudXW55ZzwRkEHII4xXf+E/FgvNlhqD4uRxFKf+Wnsf9r+f1rhLm2ms7h7e5jaOWM4ZT/nofWo/TsRyCO1U1c5ITlTZ7fVa6sbe9MJuIwzQyCSM91YdCK5jwn4s+17LDUnxcDiKU/8ALT2P+1/P612FQ1Y9CE1NXQUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArjfGHg8aiHv9NQC7HMkY4Eo/+K/nXZUUmrgnY8MjiMZO8EODgqRjH/16ngnltZ0ngkMcqHKsO1d94s8JjUA17YIBdAZeMceaP/iv5158QQSCCCDggjGK0iklZHn1+fnvL5Hp/hnxNFrcHlyER3iD507N/tD29u1dBXicE8lrOk0EhjlQ5VlPSvTPDPiaPW4PLk2x3iD507MP7w9vbtSlG2x0Ua3No9yTxH4ch1y2yMR3SD93Lj9D7H9K8wurWazuXt7mNo5YzhlP+eh9a9rrD8R+HIdctsjEd1GP3cuP0Psf0oTsFajzarc8s9PUcgjjFd/4T8WC72afqL/6R0ilP/LT2P8Atfz+tcJdWs1ncvb3EZjljOGU/wCeh9at6D/yMGn/APXdP51TV0ctKbhI9gooorM9IKKKKACigMCMggj2pkkqRIXkdUUdSxwKAH1R1aC5udMnhsphDO64VyM//q+vargIZQykEHoQetYHifxA2jxx29onmX1x/q1252jpnHfngCmiZNJO5J4Yh1WDT2j1dgWRisWTuYKPU9/bvit2uF0/X9a0m/hj8QJJ9nuDgO6gbCfcdvY13VDJpyTVl+IUVFLPDBt86VI9xwu5gMn2qWkaBRTWZUUsxCqOSSeBSRypMgeN1dD0ZTkGgDlvtd1F8RfsrXEptpYdyxFjtHy9cfVT+dHii8ubLxDo7R3EqQSSBXRWIVvmGcjvwabrg8jx7o0/QSr5ZPr1H/swo+ICFLSwuR/yyuBz6ZGf/ZarqjnbfLLyZ11FIpBUEdCKWpOgKKKKACiiigDI8R2d/faU8WmTiKbIJ52lh6A9ql0IagNKi/tUg3WOcDBx2zjv9KyPEviK6t7tNM0hDJeuMsVG4oO3Hr356Cq+g6/qVrqqaZr6MrzD9zI4AOfTjgg9M+vFOzsY88efr+h2NFFQvLCHEMkqrJIDtUthj9P/AK1I2OeuhrP/AAkaXNpeQvpo+SVSw2xBeW3D168j6HArpEdZEV0YMrDIYcg1zNr4JgtjfRm7uDb3S7QgbBHqSf4j9ffOc1oaHpS+HtNeKa8Mi7yxZztVRnoAen+NN2Mo8yeqNWaeO2heaZ1SNBuZicAD1qGTUrOOCKZ7mJYpSFRywwxPTBpt/Y2+r2D29xloZQOVbB9QQawJPBmnDSo7CS6cTb2aOVm5yeuF6YxgYoVipOS2R1fWioLO1Sxs4reMsUiUKCxycCnPcRRyJG8qLI/3ULAFvoO9Ir1JaKKZJKkKF5HVEHVmOAKBj6KRWDqGUgqRkEd6bLIkMTSSMFRAWZieABQA+iuSb4h6cLgotvcNED/rAB+eM5rpLK9g1C1S4tZBJE/IYU2miIzjJ6Ms0UUUiwooooAKKKKACiiigAooooAKOlFc142OojSD9h/1HP2gr9/b7e3r/hmmtSZPlVzM17xw8N8kOklHSJsyyEZEn+yPb3/Kum0XWbfWrJbi3OCOJIyeUPof8e9eQ1c0vVLjSb1bm1bDDhlPRx6H2/lVNaHHDENS12Z7JXJeK/Cgvw17YIBdAZdBwJf/ALL+dbejazb61ZLPbnBHDxk8ofQ/4960qnVM62lUR4gQQSpBDKcEEYxT4J5LadJoJDHIhyrKeld/4r8KC/Vr6wQC6Ay6DgSf/Zfzrz0gglWBDKcEEYxVp3PPnBwZ6f4Z8TR61B5Uu2O8jHzp2Yf3h/h2rbuLiK1gead1jjQbmZjwBXjEM0ltOk0MhjkQ7lZT0rT1rxJea3HFFPiONACUTo7f3j/h2pOOp0RxFo67jvEuurruoCSOJUhjBVCR8zD1P+Hb8araD/yMGn/9fCfzqhW74S0i41HV4biNdsFtIHeQjgkc7R6n+VPZHPFuc0z1Kiiisz0wqrqFp9u0+e33FTKhUMDgg9j+dWqKBNXRyvgK6d9LnspsiS0lKkHsDz/PNaXiu2+1eGb5NuSI94GO6nP9K5W70y+uvF+ppotx5LrteRhIUzkDI498mpj4b8UzI0c2pZRhhla4Ygj8qrqc6k+Vxs2dJ4VuTdeGrF2OWWPYf+AnH9KxvtdtZ+P7qTUmEZMSLbO/3Rxzz2PUZ+tUo/CviWxjENnqCLEOixzMoH4YpkvgvXb91a9vYXKjAMkjOR+lGgm52StqjZ8XappkmgT273EM0sg/dKjBiG7Hjpj1rc0rzP7JtPOBEvkpvB652jNcVL8O72PBt7y3YjnlSuD+tS/8I94sXhdTbH/Xy3+FFlbcanNSbcS/4rIu/EOiWHUGXzWHsCP6Bq0vGBK+Fb0gkHavIOP4hXNf8Id4g88Xf26M3Q4DmViwH+9inHwp4i1DEWoagPJByd0xf9OOaNBc0tfdep1FlAt74Vt4WwRNZqhz7ris7wHcmTQDbMfntZWjI9B1/qayI/C3iW0H2e01ALAOm2dlAH0xx+FIng3XLAlrC/RWkHz7HZMn9c/WjQfNK6fK9DU8YfutT0O5/uXW0n6lf8DU/j2IyeGJWH/LORG/XH9azbDwtrE+pW82s3vmwQOJAhlLkkdOvTtXSa/YSanod1aQbfMkUbdxwMgg/wBKCknJS0tcs6dJ52m20n96JW/MCrNU9JgltdJtYLjb5scSo208ZAxVypNlsUrTVLa9vLm3hZmktWCy/KQAT796u1yvgdhKuqzMcySXbbv6fzNdVTegoPmVwpK4fVNM8VveTzwXL+UzkpHDcY2rngYOO1ZOnjxHqd5Naw39zHPCMuk0zKR2/wA/Wixk6rTtZm7oF9aWniHV11B1hvZLghWkOAU7AE/gffj0pfGOpWdzBa29rKk1+twjRCJslefUfyrPfwNrF9N5l7ewlyMF2ZnbH5UN4A1K2lElnewFlOVb5kYH8M1Wl9zO8+Vq2h6APeuTuiL74j2seAVs4Cx9iQf/AIoVQ/4R/wAWjpqZx/18t/hUSeD/ABDaytcW99GJ5B87LMwY/U45pJLuXKcnb3WbHj5ymiwEMR/pKdD7GtLxNai+8NXkeAxERdfqvzD+Vcu3g7XdTI/tO/UhQdu+QyYP07UDwt4mKfZjqAFvjbj7QxXH0x09qNBc0rv3XqdN4Vu/tvhuzkJyyp5bfVeP6VleO1NuNMv1HzW9wOfTv/7LWenhHxBp+U0/UFER5wkrR8/Sibwl4iv4/KvdQSSMHO2SVmGfyo0vuDlJw5bO53ikMAR0IzXKXmL74i2cXUWcJc+xIP8AitUP+Ed8VphV1M7QMDFww/pUS+D/ABBbTNcwXsYuH++6zMGP1OOaEl3CU5O3us2fHzlNDiIYg/aE5B9jWl4ktRfeG7yLAY+UXH1Xkfyrl28H67qRH9p36FVB275DJg/SkHhbxNs+zf2gBb424+0MVx9MdPajQOaTb916nS+E7z7Z4bs3zlkTyz/wHj+QFZnjvUUg06GwEhVrlx5m3kiMdf1x9cGs5fB+v6flNP1BREecJK0fP0q5pngl2mln12cXUjrtChyce5Y96NLhebjy21Nix0vRLrSkjtYLae2K43BQSfqeuf1rK0GF9A8UXGkhmNrcR+dDuOcEdf6j8BVS48D39jO02i6gV7hWYo35jg/jiregaFq660l/rM4cwxlI8vuJz9PxoDVte7Zo6+iiipOkKKKKACiiigAooooAKKKKACjrwaKKAPPvFnhM2pkv9OjzAfmliUfc9x7e3b6VyFe39a8/8WeEzatJf6dHmE/NLEo+57j29u30q0+jOOtR+1E5zTdSuNJvVuLZ8MPvKejj0Nep6LrVvrVms9ucMOHjJ5Q+h/x715BVzTdSuNJvVuLZ8MPvKejj0NNq5nSquDs9j2SuP8Y+G4biCXUrYpFPGMygnAkH+P8APpW1pviCy1DS2vhKIkjGZlc4MZ9/8e9cF4l8TS65P5ce6OyjPyIeC5/vH/Dt9alJ3OitOHJrrcwqWitfw94fn126wN0drGf3suP0Hv8Ay/Sr2OKMXJ2QeHvD0+u3WBujtYz+9lx+g9/5fpXqFlZQWFqlvbIqRRjAAos7OCwtUt7aNY4oxgAVYrNu56FKkoLzCiiikakNzcR2ltJPKSI41LMQM8CuN1Dx1Ldv9l0O2kaR+FkZcsfov9T+VdrJGssbI4BRgVI9Qaq2Gk2OlpssraOEHqQOT9SeTTVjOak9EzH0DQ7zStKuJC6Nqdzly0hyA3YE9+SSfc1ThfxU+hXMTKq3UThUdsb3A5OOx7YPfmuw+tLRcPZq1kyhost7PpcMmpRLFcsPmVf6jsfar9FFItKwUUUUDCiiigAooooAKKKKACiiigDz97yfwb4lufMhaSxu23gD8+PcZPHpW4PHmjFN3mTA/wB0xHNbl3ZW+oQGG7hSaM9nGf8A9VY//CE6Jv3fZWxn7vmtj+dO6ZhyTjpF6GVe/EFD+70yykkkb7pk4yf90cn9KveFdKvY57nVdVJF3dYXYeNq+47dBx2ArastIsNOH+h2kUR9VXn8+tXaLlRg73kwooopGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHn/izwmbXzL/AE6PMJ+aWJR9z/aHt7dvpXH17hXn/izwmbbzL/To/wByfmliUfc/2h7e3b6VafQ461H7UTkMsAQCQG6gHANFJWx4e8PT67dfxR2sZ/eS4/Qe/wDL9KrY5oxcnZB4e8PT67dYG6O1jP72XH6D3/l+leoWdnDYWqW9uixxIMACizs4LC1S3to1jijGFUVYrNu56FKkoLzCiiikahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHG6n4EjutWSa0kEFtISZo8dP936+nb9K6qzs4bC1S3to1jijGFUVYop3IjCMW2uoUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"
+                                                width="100">
+                                        </div>
+                                        <div
+                                            class=" position-relative pb-2"
+                                            style="width: 100%;  border-top: 2px solid #c6c8ca;">
+                                        </div>
+                                        <div
+                                            class="invoice-header d-flex justify-content-between mb-4 pt-2">
+                                            <div
+                                                class="invoice-info text-right">
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Patient
+                                                        Name:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.firstName}}
+                                                        {{configurationData?.patient?.secondName}}
+                                                        {{configurationData?.patient?.thirdName}}
+                                                        {{configurationData?.patient?.familyName}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">MRN:</p>
+                                                    <h4
+                                                        class="m-0">{{configurationData?.patient?.medicalRecordNumber}}</h4>
+                                                </div>
+                                                <div
+                                                    class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Case
+                                                        Type:</p>
+                                                        <h4  class="m-0">{{configurationData?.caseTypesTbl !== null ? configurationData?.patientAdmission?.caseTypesTbl?.caseName : "Out Patient"}}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <div class="invoice-area">
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Attending
+                                                            Physician:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.doctors?.doctor_Name}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Visit
+                                                            Date:</p>
+                                                        <h4
+                                                            class="m-0">{{
+                                                            configurationData?.appointmentDateTime
+                                                            | date:
+                                                            "dd/MM/yy"}}</h4>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center my-2">
+                                                        <p
+                                                            class="m-0 mr-3">Appointment
+                                                            ID:</p>
+                                                        <h4
+                                                            class="m-0">{{configurationData?.id}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="margin: 0 0; height: calc(100vh - 530px);">
+                                        <div>
+                                            <h5>Medication Request Form</h5>
+                                            <div
+                                                class="invoice-detail d-flex align-items-center justify-content-between mb-4"
+                                                style=" border-top: 2px solid #c6c8ca; border-bottom: unset ;">
+                                                <table class="w-100 mt-2 mb-4">
+                                                    <thead
+                                                        class="bg-white ">
+                                                        <tr>
+                                                            <th
+                                                                class="p-2">Item</th>
+                                                            <th
+                                                                class="p-2 w-75">Description</th>
+                                                            <th
+                                                                class="p-2 text-center w-20">Quantity</th>
+                                                            <th
+                                                                class="p-2 w-20">Unit</th>
+                                                            <th
+                                                                class="p-2">Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody
+                                                        class="invoice-detail border-top-0 border-bottom-0">
+                                                        <tr
+                                                            *ngFor="let data of Medication;let i=index">
+                                                            <td class="p-2">{{i+
+                                                                1}}</td>
+                                                            <td
+                                                                class="p-2">{{data?.name}}</td>
+                                                            <td
+                                                                class="p-2 text-center">{{data?.quantity}}</td>
+                                                            <td
+                                                                class="p-2"><b>{{data?.unit}}</b></td>
+
+                                                            <td class="p-2">
+                                                                {{data?.comment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="d-flex align-items-center mt-2 pb-3">
+                                        <p class="m-0 mr-3">PostedBy</p>
+                                        <h5
+                                            class="m-0">{{postedBy}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border-bottom: 2px solid #ccc; margin: 0 0 0 0;" *ngIf="proc && proc.length && isDisplayConsultation">
+                                <div class="pdf-page-breaker" style="page-break-after: always;
+                                                            margin: 0 0 0 -48px;
+                                                            border-left: 35px solid #3f7473;
+                                                            padding: 0 0 0 35px;">
+                                    <div>
+                                        <div class="invoice-logo text-left">
+                                            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAAMAAAABACwAAEABAAEAAAABAAAAAAAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCADeAdoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2WiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKA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n126wN0drGf3suP0Hv8Ay/Sr2OKMXJ2QeHvD0+u3WBujtYz+9lx+g9/5fpXqFlZQWFqlvbIqRRjAAos7OCwtUt7aNY4oxgAVYrNu56FKkoLzCiiikakNzcR2ltJPKSI41LMQM8CuN1Dx1Ldv9l0O2kaR+FkZcsfov9T+VdrJGssbI4BRgVI9Qaq2Gk2OlpssraOEHqQOT9SeTTVjOak9EzH0DQ7zStKuJC6Nqdzly0hyA3YE9+SSfc1ThfxU+hXMTKq3UThUdsb3A5OOx7YPfmuw+tLRcPZq1kyhost7PpcMmpRLFcsPmVf6jsfar9FFItKwUUUUDCiiigAooooAKKKKACiiigDz97yfwb4lufMhaSxu23gD8+PcZPHpW4PHmjFN3mTA/wB0xHNbl3ZW+oQGG7hSaM9nGf8A9VY//CE6Jv3fZWxn7vmtj+dO6ZhyTjpF6GVe/EFD+70yykkkb7pk4yf90cn9KveFdKvY57nVdVJF3dYXYeNq+47dBx2ArastIsNOH+h2kUR9VXn8+tXaLlRg73kwooopGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHn/izwmbXzL/AE6PMJ+aWJR9z/aHt7dvpXH17hXn/izwmbbzL/To/wByfmliUfc/2h7e3b6VafQ461H7UTkMsAQCQG6gHANFJWx4e8PT67dfxR2sZ/eS4/Qe/wDL9KrY5oxcnZB4e8PT67dYG6O1jP72XH6D3/l+leoWdnDYWqW9uixxIMACizs4LC1S3to1jijGFUVYrNu56FKkoLzCiiikahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHG6n4EjutWSa0kEFtISZo8dP936+nb9K6qzs4bC1S3to1jijGFUVYop3IjCMW2uoUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"
+                                                width="100">
+                                        </div>
+                                        <div class=" position-relative pb-2" style="width: 100%;  border-top: 2px solid #c6c8ca;">
+                                        </div>
+                                        <div class="invoice-header d-flex justify-content-between mb-4 pt-2">
+                                            <div class="invoice-info text-right">
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Patient
+                                                        Name:</p>
+                                                    <h4 class="m-0">{{configurationData?.patient?.firstName}}
+                                                        {{configurationData?.patient?.secondName}}
+                                                        {{configurationData?.patient?.thirdName}}
+                                                        {{configurationData?.patient?.familyName}}</h4>
+                                                </div>
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">MRN:</p>
+                                                    <h4 class="m-0">{{configurationData?.patient?.medicalRecordNumber}}</h4>
+                                                </div>
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Case
+                                                        Type:</p>
+                                                        <h4  class="m-0">{{configurationData?.caseTypesTbl !== null ? configurationData?.patientAdmission?.caseTypesTbl?.caseName : "Out Patient"}}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <div class="invoice-area">
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Attending
+                                                            Physician:</p>
+                                                        <h4 class="m-0">{{configurationData?.doctors?.doctor_Name}}</h4>
+                                                    </div>
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Visit
+                                                            Date:</p>
+                                                        <h4 class="m-0">{{
+                                                            configurationData?.appointmentDateTime
+                                                            | date:
+                                                            "dd/MM/yy"}}</h4>
+                                                    </div>
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Appointment
+                                                            ID:</p>
+                                                        <h4 class="m-0">{{configurationData?.id}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 0 0; height: calc(100vh - 530px);">
+                                        <div>
+                                            <h5>Procedures and packages Request Form</h5>
+                                            <div class="invoice-detail d-flex align-items-center justify-content-between mb-4"
+                                                style=" border-top: 2px solid #c6c8ca; border-bottom: unset ;">
+                                                <table class="w-100 mt-2 mb-4">
+                                                    <thead class="bg-white ">
+                                                        <tr>
+                                                            <th class="p-2">Item</th>
+                                                            <th class="p-2 w-75">Description</th>
+                                                            <th class="p-2 text-center w-20">Quantity</th>
+                                                            <th class="p-2 w-20">Unit</th>
+                                                            <th class="p-2">Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="invoice-detail border-top-0 border-bottom-0">
+                                                        <tr *ngFor="let data of proc;let i=index">
+                                                            <td class="p-2">{{i+
+                                                                1}}</td>
+                                                            <td class="p-2">{{data?.name}}</td>
+                                                            <td class="p-2 text-center">{{data?.quantity}}</td>
+                                                            <td class="p-2"><b>{{data?.unit}}</b></td>
+                            
+                                                            <td class="p-2">
+                                                                {{data?.comment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-2 pb-3">
+                                        <p class="m-0 mr-3">PostedBy</p>
+                                        <h5 class="m-0">{{postedBy}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border-bottom: 2px solid #ccc; margin: 0 0 0 0;" *ngIf="consultation && consultation.length &&isDisplayConsultation">
+                                <div class="pdf-page-breaker" style="page-break-after: always;
+                                                            margin: 0 0 0 -48px;
+                                                            border-left: 35px solid #3f7473;
+                                                            padding: 0 0 0 35px;">
+                                    <div>
+                                        <div class="invoice-logo text-left">
+                                            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAuRXhpZgAATU0AKgAAAAgAAkAAAAMAAAABACwAAEABAAEAAAABAAAAAAAAAAD/2wBDAAoHBwkHBgoJCAkLCwoMDxkQDw4ODx4WFxIZJCAmJSMgIyIoLTkwKCo2KyIjMkQyNjs9QEBAJjBGS0U+Sjk/QD3/2wBDAQsLCw8NDx0QEB09KSMpPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT3/wAARCADeAdoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2WiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoorlPFvi5NGRrSxYPfOOT1EQ9T7+34mk3YaVzq6K8Mmvru4mM011O8hPLGQ5rrfCnjaS2lWy1eYyQscJO55j9mPce/b6UlNMbR6NRSAhgCCCD0IpaokKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoorlPFvi5NHRrOxYPfOOT1EQ9T7+g/E0m7DSuHi3xcmjo1nZMHvnHJ6iIep9/b8TXmLu0js7szux3MzHkn/Gh3aR2d2Z3Y7mZjyT/jSxRSXEyRQo0krnaqqOWNZttlpWGUV6Ppfw/tU0eSPUSWvJhnep/wBT6BfU+vr06Vw2saPdaJfta3a89UcD5ZF9R/h2pNNAmmdJ4P8AGBsGTT9Scm1JxFKTnyvY/wCz/L6dPSAQwBBBB7ivBa7Hwf4wOnlNP1JybQnEUpOfK9j/ALP8vp0qMujE11R6VRSBgwBByDyCKWtCAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoormPGXiZ9Dtkt7Vf8AS51JV2GVjHr7n2pPQEReLvFyaOjWdiwe+ccnqIR6n39vxNeZO7SOzuzO7HczMeSf8aHdpHZ3ZndjuZmPJP8AjSxRSXEyQwI0ksh2qqjJJrNts0SsEUUlxMkUKNJK52qqjJY9q9R8J+E49Dh+03QWS/ccsOREP7o/qf6UvhTwpHocP2i5CyX7jlhyIx/dH9T/AErpqqMbaslu4Vna1o1rrdiba6Hukg+8jeo/w71o0VZJ4nrGj3Wi37Wt2vPVHA+WRfUf4dqoV7VrOi2uuWDW10vujj7yN6j/ADzXkmsaPdaHfta3a89UcD5ZF9R/h2rOSsWnc6Lwf4wOnFNP1JybQnEcpOfK9j/s/wAvpXpIYMAQcg8givBa7TwT4qltp4dJvC0kMjBIG6mMnov0/l9KIy6MTXU9HooorQkK4y68b3VzfS22g6Y96sRw8nPPbgDt7nr6V2TAMpU9CMV5tZXF/wCAdQuI7mzaexmYYlXvjoQegOD0OP61LbQ0dL4f8XJq901jeW7Wd8uf3bHhsdcZ5BHoa6WsLRdT0bXbp7yzRPtoUB96YkVf8O2RWnqN9Hpunz3k3+rhQsR6+g+pOB+NNbAVF162fxI+jj/WpCJN2e/9364wfxrVrydLa+t7CHxYWYzteF2XsUPGfoTkfQivUrO6ivrOK5hbdHKodT7GhO4NWOU1rxfqVj4il0yx0+O5ZQpUDcWbK5PA9KdYeJPEVxqFvDc6E0MMkgWSTYw2Kep5rF1jU00f4ky3skTyrGgG1epzHj+tb2m+PbbUtSgs0sblGmbaGYjAqU9dx2JPFfie60G7tILW2inM6nhic5yAAMfWqH/CUeKf+hcb/vlqq/ESTydZ0mXaW8sFto6nDKcVb/4WOv8A0Brz8/8A61HV6hbQ3f7UvIvCz6lc2oiu0gaRoWzgEdvWubtfGniC+h8200NZo843IGIzXQ6xc/bPBd3c7GTzbMybT1XK5xXG+GfF40PSRaHT57j94z70PHND33EkdX4e1jWdRvJY9U0o2cSpuVyCMtnpz7ZNZ+r+L9StfEU2l2GnxXLJjaATub5Qx6emTWt4d8SjxA9wosprbyQpzIfvZz/hXLz3sFh8U5ri7lWKFRgu3QExAUPoCLqeO7yxuki13SXtEfo6549Tg9QPau1jkWVFeNgyMAysOhBrgPG/iDTtV0+GxsHF1OZQwKKTt6jA45JzjArs9EtZbPRLK3m/1sUKq3scdKaetgZerm/CfiW48QPeLcQRReQVC7Cec59fpXSV5P4Y8Sf8I9Je/wChyXPnMPuHG3Gfbvn9KG7NAlc9UnkMUEkgAJVSwH0rB8IeI5/EVrcS3EEURicKBGSQcjPesab4jCWF4/7IuBuUrkv0z+FP+GHGn349JV/9BovdhbQ2vEPiyz0DEbhprlhlYkI6epPYf5xWF/wnGtKn2iTQHFt13YccfXFV/B1uuueKNR1O8USPE25FbnBJIH5BcV6HQrsNjG0DxLZ+IIWa3LRzIPnhfqPceo96d4h8QW/h6yE8ytI7nbHGp5Y/XsPeuT1WBPD/AMQ7GazAjS6Kl0UcfM21vwPB+tbHjrQrrV7GCWyUyS2rE+WOrA+nvwOKLuzDS5R/4TnVbVUub/Q3js3Iw43Dr7kY/PFdQurQ3OiSalZMJYxC0iZ4yQDwfTkYrmLPxzZ3UJ0/xBaPA7LslLJ8h9cjqv6/WumvI7ePw5dLaLGsH2Z9gjAC42npiheoM5Oz8b6/fwmW00RZ4wcFow7c+n1rZ8PeMI9Zumsrm3a0vVz+7Y8NjrjPII9DWD4F8QabpOjTRX12sMjTFgpBJI2gdh7Gm2VwviL4ix3unowt4AC8mMZAUjJ+uQPoKSvpqNo6C+8TXFr4wttHWCJopguZCTuGc/4VW1fxJr1lqdxDa6K09vGfkl2Odwxk9Px/Ks7WP+Spaf8ASP8A9mru5/8Aj3l/3T/KnrqI4O18da5fKxtNGScKcMYw7Y/Kuy0e6ub3S4J7y3NvcODviII28+/tiuT+GH/HrqP/AF0T+RrofFWsDRtCnnVsTOPLi/3j3/AZP4UJ6XYPck0rXrbVr2+toPvWkmwnP3h6j2yCPwrVrzHT7efwff6RqFwx8m9TbcA/w55/QEH8DXpwweR3oTuDVjmvD/ia41fXNQsZoIo0tSQrKTk4bbzmulrgfBH/ACOGt/V//Rhrvqad0DCiiimIKKKKACiiigAooooAKKKKACvOfib/AMhSx/64t/6FXo1ec/E3/kKWP/XFv/QqmWw1ucbDDLcTJDBG0kjnaqqMkmvU/CnhOPRIRcXIEl/IPmYdIx/dX+p7/SvLra5mtLlLi3kMcsZ3Kw7V6r4X8Uw69bbJcR3sYzJHnr/tL7fyqY2uU7nQ0UUVoQFFBrgvFni0zM9hpshCA4lmQ/e/2VP9aaVyJ1FBXZ3tZ2s6La65YNbXS+6OPvI3qP8APNYPhPxYLzZYag+LkcRyn/lp7H/a/n9a6+k0OE1JXR4nrGj3Wh37Wt2vujgfLIvqP8O1P8Of8jJpv/Xyn869Y1nRbXXLBra6X3Rx96NvUf55rza20e60Pxlp1tdr/wAvKGOQD5ZBnqP8O1ZtWZondHrVFFFaEkN1LJDayyQRGaRFJWMHG4+ma5vQ/Gdlqls8WqNDaXKkq8chwrD2z+WD6V1VY+peFNJ1WYzXVovmnq6MULfXHX8aTuNW6nH6eLaT4kRtoWPsoyXMY+TG35se2cfj0rQ8e30l5c2eg2hzLO4aQA++FB9up/AV1OmaLYaPGUsbZYt33m5LN9Seahj8O2Eettq2x2vGJ+d3JA4xwOg44pWdgvqc03hPxI9h9hbWLc2uzZ5W042jt92pfh/qLql1ot1lZrVyyKewzhh+Dfzrtayh4d09daOqojpdk5LK5weMcjp0otZ6Bc5n/mrn/AP/AGlXdYHoPyrO/sCx/tz+19j/AGzGN284+7t6fStKmkFzgfiAypr+jMxAUHJJ6Ab1rrf+Eg0n/oJ2n/f5f8ai1fw3p+uSRSX0bs0QKrtcrwfp9Kz/APhX2hf88Jv+/wA1KzuGhe16eK58KX8sEiyRtbvtZTkHisPwLqthZeHRFdXkEMnnOdskgU4/Gulj0e0i0b+y1VvsnlmPbuOdp9/xrJ/4V9oX/PCb/v8ANQ073DSxtWup2V9IUtLuCZwMlY5AxA/CuGuLK31H4pTW13EssLDLK3QkRgius0nwxpuh3Lz2MbrI67GLSFuM57/SpR4fsRrh1cI/2wjG7ecfd29PpQ1cL2OKaFfA/i1JZIlfTrjIRyMmMex9V/UGvRkdZEDowZGGQQeoqnqmkWms2v2e9j3xhgwwcEEdwRUmnafFpllHa2xfyo/uh2LED0ye1NKwN3LVcH8NP9dqv+8n/s1d5WZpGgWOhtMbFHUzkF9zls4z6/U0NaiLt3/x5z/9c2/lXG/C/wD5Bt9/11X/ANBrtpEEkbI33WBBrP0fQrLQoZI7FGVZGDNuctkjjvQ1qM4mKd/A3iy4+0Ru1hdklSo/hzkEepXJGPQ11reMdDWAy/2jCRj7ozuP4da07yxttRgMF5Ak0R7OM/8A6qxR4D0ESb/sjEf3TK2PyzSs1sF09znNOabxj40TUREyWVoQQW/2eQPqTzjsK6LxD4ml0DULNZLQtZSkiSYHJB9APUcHnqOlb1tawWUCw20SRRr0VFwBSXVnBfQNBdQpLEw5RxkGhKyA5LxbqWg6j4fkkFxbzXJXNuUIMgbt7geuak8NLMnw7l87dgwzGMHsmDir0XgfQop/NFluI5CvIzKPwJ/nW3LbxzWz27LiJ0KEDjgjH8qEne7C5wngPQtN1TR5pr6zjmlWcqGbPA2g/wBTXdWdjbWEPlWkEcMec7UXAqvpGi2mh2zW9ijLGz7yGYtzjHf6Cr9NKyBs4DWf+Spaf9I//Zq7uf8A495f9w/yrPuPD1hc6zFqkqObuLG1g5wMZxx+JrTdQyFT0IxQkK5w/wAMP+PXUf8Aron8jVTxM1x4o8WR6TYOoS1ByzcqG6sT9OB9a7HR9BstCSVLBHRZSC25y3T603S/D1ho9zNPaRv5s/33dyxPOe/vzU2dkh31ucrrHhjxJdadJ9s1SG7jjBkEQXBJA7cdeo/GtzwPrH9qaBGkjZntsRPnqR/CfxHH1Bro6ytM8O2GkXs1zYo8bz/fXeSvXPTt3/Ony2YXOP8ACl9bWPizWHu7iKBWZwGkYKCfMPrXcW+saddzCG2vreWRhwiSAk/hWTN4E0W4uJJpYZS8jF2ImYck5qfTfCGlaTfJd2cUizICATIW6jB4NCTQOxuUUUVQgooooAKKKKACiiigAooooAK5Pxt4am1m3ju7Mlri3UjyuzqeePf+ddZRSauhp2PBSCCQQQQcEEYxUlvcS2lwk9vIY5UOVZT0r0Txh4PGoB9Q01ALscyRjgS//ZfzrzcggkEEEHBBGMVk00y07nrHhbxRDr1v5cmI72MfvI+zf7S+3t2roq8ItrmW0uUntpDHLGdysvavV/DHiaPW7cRzARXqAb4weG/2h7e3atIu5nKyZf1uxn1LSpra2uDBK4wGHf2PsfavJbm2ls7l7e4jMcsZwyn/AD0r2usPxH4ch1y23LiO6jB8uTH/AI6fY/pWidjnrUudXW55ZzwRkEHII4xXf+E/FgvNlhqD4uRxFKf+Wnsf9r+f1rhLm2ms7h7e5jaOWM4ZT/nofWo/TsRyCO1U1c5ITlTZ7fVa6sbe9MJuIwzQyCSM91YdCK5jwn4s+17LDUnxcDiKU/8ALT2P+1/P612FQ1Y9CE1NXQUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArjfGHg8aiHv9NQC7HMkY4Eo/+K/nXZUUmrgnY8MjiMZO8EODgqRjH/16ngnltZ0ngkMcqHKsO1d94s8JjUA17YIBdAZeMceaP/iv5158QQSCCCDggjGK0iklZHn1+fnvL5Hp/hnxNFrcHlyER3iD507N/tD29u1dBXicE8lrOk0EhjlQ5VlPSvTPDPiaPW4PLk2x3iD507MP7w9vbtSlG2x0Ua3No9yTxH4ch1y2yMR3SD93Lj9D7H9K8wurWazuXt7mNo5YzhlP+eh9a9rrD8R+HIdctsjEd1GP3cuP0Psf0oTsFajzarc8s9PUcgjjFd/4T8WC72afqL/6R0ilP/LT2P8Atfz+tcJdWs1ncvb3EZjljOGU/wCeh9at6D/yMGn/APXdP51TV0ctKbhI9gooorM9IKKKKACigMCMggj2pkkqRIXkdUUdSxwKAH1R1aC5udMnhsphDO64VyM//q+vargIZQykEHoQetYHifxA2jxx29onmX1x/q1252jpnHfngCmiZNJO5J4Yh1WDT2j1dgWRisWTuYKPU9/bvit2uF0/X9a0m/hj8QJJ9nuDgO6gbCfcdvY13VDJpyTVl+IUVFLPDBt86VI9xwu5gMn2qWkaBRTWZUUsxCqOSSeBSRypMgeN1dD0ZTkGgDlvtd1F8RfsrXEptpYdyxFjtHy9cfVT+dHii8ubLxDo7R3EqQSSBXRWIVvmGcjvwabrg8jx7o0/QSr5ZPr1H/swo+ICFLSwuR/yyuBz6ZGf/ZarqjnbfLLyZ11FIpBUEdCKWpOgKKKKACiiigDI8R2d/faU8WmTiKbIJ52lh6A9ql0IagNKi/tUg3WOcDBx2zjv9KyPEviK6t7tNM0hDJeuMsVG4oO3Hr356Cq+g6/qVrqqaZr6MrzD9zI4AOfTjgg9M+vFOzsY88efr+h2NFFQvLCHEMkqrJIDtUthj9P/AK1I2OeuhrP/AAkaXNpeQvpo+SVSw2xBeW3D168j6HArpEdZEV0YMrDIYcg1zNr4JgtjfRm7uDb3S7QgbBHqSf4j9ffOc1oaHpS+HtNeKa8Mi7yxZztVRnoAen+NN2Mo8yeqNWaeO2heaZ1SNBuZicAD1qGTUrOOCKZ7mJYpSFRywwxPTBpt/Y2+r2D29xloZQOVbB9QQawJPBmnDSo7CS6cTb2aOVm5yeuF6YxgYoVipOS2R1fWioLO1Sxs4reMsUiUKCxycCnPcRRyJG8qLI/3ULAFvoO9Ir1JaKKZJKkKF5HVEHVmOAKBj6KRWDqGUgqRkEd6bLIkMTSSMFRAWZieABQA+iuSb4h6cLgotvcNED/rAB+eM5rpLK9g1C1S4tZBJE/IYU2miIzjJ6Ms0UUUiwooooAKKKKACiiigAooooAKOlFc142OojSD9h/1HP2gr9/b7e3r/hmmtSZPlVzM17xw8N8kOklHSJsyyEZEn+yPb3/Kum0XWbfWrJbi3OCOJIyeUPof8e9eQ1c0vVLjSb1bm1bDDhlPRx6H2/lVNaHHDENS12Z7JXJeK/Cgvw17YIBdAZdBwJf/ALL+dbejazb61ZLPbnBHDxk8ofQ/4960qnVM62lUR4gQQSpBDKcEEYxT4J5LadJoJDHIhyrKeld/4r8KC/Vr6wQC6Ay6DgSf/Zfzrz0gglWBDKcEEYxVp3PPnBwZ6f4Z8TR61B5Uu2O8jHzp2Yf3h/h2rbuLiK1gead1jjQbmZjwBXjEM0ltOk0MhjkQ7lZT0rT1rxJea3HFFPiONACUTo7f3j/h2pOOp0RxFo67jvEuurruoCSOJUhjBVCR8zD1P+Hb8araD/yMGn/9fCfzqhW74S0i41HV4biNdsFtIHeQjgkc7R6n+VPZHPFuc0z1Kiiisz0wqrqFp9u0+e33FTKhUMDgg9j+dWqKBNXRyvgK6d9LnspsiS0lKkHsDz/PNaXiu2+1eGb5NuSI94GO6nP9K5W70y+uvF+ppotx5LrteRhIUzkDI498mpj4b8UzI0c2pZRhhla4Ygj8qrqc6k+Vxs2dJ4VuTdeGrF2OWWPYf+AnH9KxvtdtZ+P7qTUmEZMSLbO/3Rxzz2PUZ+tUo/CviWxjENnqCLEOixzMoH4YpkvgvXb91a9vYXKjAMkjOR+lGgm52StqjZ8XappkmgT273EM0sg/dKjBiG7Hjpj1rc0rzP7JtPOBEvkpvB652jNcVL8O72PBt7y3YjnlSuD+tS/8I94sXhdTbH/Xy3+FFlbcanNSbcS/4rIu/EOiWHUGXzWHsCP6Bq0vGBK+Fb0gkHavIOP4hXNf8Id4g88Xf26M3Q4DmViwH+9inHwp4i1DEWoagPJByd0xf9OOaNBc0tfdep1FlAt74Vt4WwRNZqhz7ris7wHcmTQDbMfntZWjI9B1/qayI/C3iW0H2e01ALAOm2dlAH0xx+FIng3XLAlrC/RWkHz7HZMn9c/WjQfNK6fK9DU8YfutT0O5/uXW0n6lf8DU/j2IyeGJWH/LORG/XH9azbDwtrE+pW82s3vmwQOJAhlLkkdOvTtXSa/YSanod1aQbfMkUbdxwMgg/wBKCknJS0tcs6dJ52m20n96JW/MCrNU9JgltdJtYLjb5scSo208ZAxVypNlsUrTVLa9vLm3hZmktWCy/KQAT796u1yvgdhKuqzMcySXbbv6fzNdVTegoPmVwpK4fVNM8VveTzwXL+UzkpHDcY2rngYOO1ZOnjxHqd5Naw39zHPCMuk0zKR2/wA/Wixk6rTtZm7oF9aWniHV11B1hvZLghWkOAU7AE/gffj0pfGOpWdzBa29rKk1+twjRCJslefUfyrPfwNrF9N5l7ewlyMF2ZnbH5UN4A1K2lElnewFlOVb5kYH8M1Wl9zO8+Vq2h6APeuTuiL74j2seAVs4Cx9iQf/AIoVQ/4R/wAWjpqZx/18t/hUSeD/ABDaytcW99GJ5B87LMwY/U45pJLuXKcnb3WbHj5ymiwEMR/pKdD7GtLxNai+8NXkeAxERdfqvzD+Vcu3g7XdTI/tO/UhQdu+QyYP07UDwt4mKfZjqAFvjbj7QxXH0x09qNBc0rv3XqdN4Vu/tvhuzkJyyp5bfVeP6VleO1NuNMv1HzW9wOfTv/7LWenhHxBp+U0/UFER5wkrR8/Sibwl4iv4/KvdQSSMHO2SVmGfyo0vuDlJw5bO53ikMAR0IzXKXmL74i2cXUWcJc+xIP8AitUP+Ed8VphV1M7QMDFww/pUS+D/ABBbTNcwXsYuH++6zMGP1OOaEl3CU5O3us2fHzlNDiIYg/aE5B9jWl4ktRfeG7yLAY+UXH1Xkfyrl28H67qRH9p36FVB275DJg/SkHhbxNs+zf2gBb424+0MVx9MdPajQOaTb916nS+E7z7Z4bs3zlkTyz/wHj+QFZnjvUUg06GwEhVrlx5m3kiMdf1x9cGs5fB+v6flNP1BREecJK0fP0q5pngl2mln12cXUjrtChyce5Y96NLhebjy21Nix0vRLrSkjtYLae2K43BQSfqeuf1rK0GF9A8UXGkhmNrcR+dDuOcEdf6j8BVS48D39jO02i6gV7hWYo35jg/jiregaFq660l/rM4cwxlI8vuJz9PxoDVte7Zo6+iiipOkKKKKACiiigAooooAKKKKACjrwaKKAPPvFnhM2pkv9OjzAfmliUfc9x7e3b6VyFe39a8/8WeEzatJf6dHmE/NLEo+57j29u30q0+jOOtR+1E5zTdSuNJvVuLZ8MPvKejj0Nep6LrVvrVms9ucMOHjJ5Q+h/x715BVzTdSuNJvVuLZ8MPvKejj0NNq5nSquDs9j2SuP8Y+G4biCXUrYpFPGMygnAkH+P8APpW1pviCy1DS2vhKIkjGZlc4MZ9/8e9cF4l8TS65P5ce6OyjPyIeC5/vH/Dt9alJ3OitOHJrrcwqWitfw94fn126wN0drGf3suP0Hv8Ay/Sr2OKMXJ2QeHvD0+u3WBujtYz+9lx+g9/5fpXqFlZQWFqlvbIqRRjAAos7OCwtUt7aNY4oxgAVYrNu56FKkoLzCiiikakNzcR2ltJPKSI41LMQM8CuN1Dx1Ldv9l0O2kaR+FkZcsfov9T+VdrJGssbI4BRgVI9Qaq2Gk2OlpssraOEHqQOT9SeTTVjOak9EzH0DQ7zStKuJC6Nqdzly0hyA3YE9+SSfc1ThfxU+hXMTKq3UThUdsb3A5OOx7YPfmuw+tLRcPZq1kyhost7PpcMmpRLFcsPmVf6jsfar9FFItKwUUUUDCiiigAooooAKKKKACiiigDz97yfwb4lufMhaSxu23gD8+PcZPHpW4PHmjFN3mTA/wB0xHNbl3ZW+oQGG7hSaM9nGf8A9VY//CE6Jv3fZWxn7vmtj+dO6ZhyTjpF6GVe/EFD+70yykkkb7pk4yf90cn9KveFdKvY57nVdVJF3dYXYeNq+47dBx2ArastIsNOH+h2kUR9VXn8+tXaLlRg73kwooopGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHn/izwmbXzL/AE6PMJ+aWJR9z/aHt7dvpXH17hXn/izwmbbzL/To/wByfmliUfc/2h7e3b6VafQ461H7UTkMsAQCQG6gHANFJWx4e8PT67dfxR2sZ/eS4/Qe/wDL9KrY5oxcnZB4e8PT67dYG6O1jP72XH6D3/l+leoWdnDYWqW9uixxIMACizs4LC1S3to1jijGFUVYrNu56FKkoLzCiiikahRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHG6n4EjutWSa0kEFtISZo8dP936+nb9K6qzs4bC1S3to1jijGFUVYop3IjCMW2uoUUUUiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"
+                                                width="100">
+                                        </div>
+                                        <div class=" position-relative pb-2" style="width: 100%;  border-top: 2px solid #c6c8ca;">
+                                        </div>
+                                        <div class="invoice-header d-flex justify-content-between mb-4 pt-2">
+                                            <div class="invoice-info text-right">
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Patient
+                                                        Name:</p>
+                                                    <h4 class="m-0">{{configurationData?.patient?.firstName}}
+                                                        {{configurationData?.patient?.secondName}}
+                                                        {{configurationData?.patient?.thirdName}}
+                                                        {{configurationData?.patient?.familyName}}</h4>
+                                                </div>
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">MRN:</p>
+                                                    <h4 class="m-0">{{configurationData?.patient?.medicalRecordNumber}}</h4>
+                                                </div>
+                                                <div class="d-flex align-items-center my-2">
+                                                    <p class="m-0 mr-3">Case
+                                                        Type:</p>
+                                                        <h4  class="m-0">{{configurationData?.caseTypesTbl !== null ? configurationData?.patientAdmission?.caseTypesTbl?.caseName : "Out Patient"}}</h4>
+                                                </div>
+                                            </div>
+                                            <div class="invoice-info">
+                                                <div class="invoice-area">
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Attending
+                                                            Physician:</p>
+                                                        <h4 class="m-0">{{configurationData?.doctors?.doctor_Name}}</h4>
+                                                    </div>
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Visit
+                                                            Date:</p>
+                                                        <h4 class="m-0">{{
+                                                            configurationData?.appointmentDateTime
+                                                            | date:
+                                                            "dd/MM/yy"}}</h4>
+                                                    </div>
+                                                    <div class="d-flex align-items-center my-2">
+                                                        <p class="m-0 mr-3">Appointment
+                                                            ID:</p>
+                                                        <h4 class="m-0">{{configurationData?.id}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 0 0; height: calc(100vh - 530px);">
+                                        <div>
+                                            <h5>Consultation Request Form</h5>
+                                            <div class="invoice-detail d-flex align-items-center justify-content-between mb-4"
+                                                style=" border-top: 2px solid #c6c8ca; border-bottom: unset ;">
+                                                <table class="w-100 mt-2 mb-4">
+                                                    <thead class="bg-white ">
+                                                        <tr>
+                                                            <th class="p-2">Item</th>
+                                                            <th class="p-2 w-75">Description</th>
+                                                            <th class="p-2 text-center w-20">Quantity</th>
+                                                            <th class="p-2 w-20">Unit</th>
+                                                            <th class="p-2">Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="invoice-detail border-top-0 border-bottom-0">
+                                                        <tr *ngFor="let data of consultation;let i=index">
+                                                            <td class="p-2">{{i+
+                                                                1}}</td>
+                                                            <td class="p-2">{{data?.name}}</td>
+                                                            <td class="p-2 text-center">{{data?.quantity}}</td>
+                                                            <td class="p-2"><b>{{data?.unit}}</b></td>
+                            
+                                                            <td class="p-2">
+                                                                {{data?.comment}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-2 pb-3">
+                                        <p class="m-0 mr-3">PostedBy</p>
+                                        <h5 class="m-0">{{postedBy}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="position: fixed;
+                bottom: 0;
+                background-color: white;"
+                    class="w-100 d-flex justify-content-between align-items-center px-3 py-3">
+                    <button
+                        class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+                        (click)="printDocument()">
+                        Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ng-template>

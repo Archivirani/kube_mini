@@ -1,0 +1,94 @@
+<div class="pr-3 pt-3 pl-3 pb-0 overflow-auto">
+  <div class="site-panel-general w-100">
+    <div class="site-register-wrapper">
+      <form [formGroup]="dyForm">
+        <div class="form-group-wrapper">
+          <div class="form-title">
+            <h2 class="pl-border-radius-10 bg-sky-blue">General Document</h2>
+          </div>
+          <div class="form-group-main px-2">
+            <div class="form-group-main-wrapper py-3">
+              <div class="form-group d-flex p-0 mb-0 h-100">
+                <div
+                  class="form-group-control m-0 px-2 col position-relative h-100">
+                  <textarea class="form-control h-100"
+                    placeholder="Write a Comment"
+                    formControlName="note"></textarea>
+                  <label class="position-absolute m-0 bg-white">Write a
+                    Comment:</label>
+                </div>
+                <div
+                  class="form-group-control m-0 px-2 col position-relative h-100">
+                  <div
+                    class="dragdrop-file position-relative pl-border-radius-10 h-100 d-flex align-content-center justify-content-center flex-wrap">
+                    <span
+                      class="hover-icon camera-hover-icon d-flex align-items-center justify-content-center"
+                      *ngIf="!existingImageUrl && !uploadImageUrl">
+                      <img src="assets/images/camera.svg"
+                        class="camera-icon position-absolute cursor-pointer"
+                        (click)="takePicture()">
+                    </span>
+                    <span
+                      class="hover-icon position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+                      *ngIf="uploadImageUrl || existingImageUrl">
+                      <img src="assets/images/eye.svg"
+                        class="preview-icon cursor-pointer">
+                    </span>
+                    <img *ngIf="uploadImageUrl || existingImageUrl"
+                      src="assets/images/trash.svg"
+                      class="delete-icon position-absolute cursor-pointer"
+                      (click)="removeFile()">
+                    <!-- <img *ngIf="existingImageUrl && !uploadImageUrl"
+                      [src]="existingImageUrl"
+                      class="mb-1 h-100 position-absolute uploaded-image cursor-pointer w-100">
+                    <img *ngIf="uploadImageUrl" [src]="uploadImageUrl"
+                      class="mb-1 h-100 position-absolute uploaded-image cursor-pointer w-100"> -->
+                      <ng-container *ngIf="uploadImageUrl">
+                        <iframe [src]="uploadImageUrl" class="position-absolute uploaded-pdf" width="100%" height="100%"></iframe>
+                      </ng-container>
+                    <img *ngIf="!existingImageUrl && !uploadImageUrl"
+                      src="assets/images/gallery-add.svg" class="mb-1">
+                    <span *ngIf="!existingImageUrl && !uploadImageUrl"
+                      class="d-inline-block w-100 text-center">Select
+                      your
+                      picture</span>
+                    <input #uploadFile type="file"
+                      class="position-absolute w-100 h-100 cursor-pointer"
+                      id="addPatientPicture" (change)="setFile($event)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group-main py-2 mt-2 col-12">
+            <ul class="visite-note-ul-btn d-flex justify-content-center">
+              <li>
+                 <a>
+                  <div class="button-group">
+                    <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap" (click)="submitForm()">Save</button>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a>
+                 <div class="button-group">
+                  <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap " (click)="getGeneralNoteDocumentRelease()">Release</button>
+                 </div>
+               </a>
+             </li>
+             <li>
+              <a>
+               <div class="button-group">
+                <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap ">Close</button>
+               </div>
+             </a>
+           </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<clinic-web-cam #webCam></clinic-web-cam>

@@ -1,0 +1,327 @@
+<div class="voucher-section mt-3">
+  <div class="voucher-section-wrapper d-flex  align-items-center">
+    <form [formGroup]="dyForm" class="w-100">
+      <div class="form-group-wrapper p-3">
+        <div class="form-group-main d-flex px-2 py-3">
+          <div class="form-group m-0 w-100 d-flex flex-wrap p-0">
+            <div class="form-group-control col-lg-9 col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control" style="height: 44px;" placeholder="Search MRN Number"
+                formControlName="patientId" (keyup)="getVouchersById()" maxlength="6">
+              <div
+                *ngIf="dyForm.get('patientId').touched && dyForm.get('patientId')?.errors && (dyForm.get('patientId').errors['required'] || dyForm.get('patientId').errors['minlength'])">
+                <span class="error">Medical Record Number should be of minimum 6 numbers</span>
+              </div>
+              <label class="position-absolute m-0 bg-white">Search MRN Number</label>
+            </div>
+
+            <!-- <div class="form-group-control col-lg col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control" placeholder="Date" [bsConfig]="{showWeekNumbers: false, rangeInputFormat: 'DD-MM-YYYY'}"
+                formControlName="dateTime" bsDatepicker>
+              <label class="position-absolute m-0 bg-white">Date</label>
+            </div>
+            <div class="form-group-control col-lg col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control" placeholder="voucher number" formControlName="voucherNumber">
+              <label class="position-absolute m-0 bg-white">Voucher Number</label>
+            </div>
+            <div class="form-group-control col-lg col-4 m-0 mt-lg-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control" placeholder="voucher value" formControlName="voucherValue">
+              <label class="position-absolute m-0 bg-white">Voucher Value</label>
+            </div>
+            <div class="form-group-control col-lg col-4 m-0 mt-lg-0 mt-3 px-2 position-relative">
+              <ng-select placeholder="Status" [searchable]="true" formControlName="status">
+                <ng-option *ngFor="let item of status" [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Status</label>
+            </div> -->
+            <div class="form-group-control col-lg-3 col-4 m-0 mt-lg-0 mt-3 px-2 position-relative">
+              <div class="button-group px-2 w-100 d-flex">
+                <button type="button"
+                  class="text-white d-flex align-items-center bg-dark-blue cursor-pointer w-100 justify-content-center"
+                  (click)="openDialog(patientData)" [disabled]="!patientData || !patientData.id"> Create Voucher
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<create-voucher #voucherPopUp></create-voucher>
+<div class="mt-3 mx-0" *ngIf="patientData && patientData.id">
+  <div class="patient-panel p-3">
+    <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+      <div class="table-responsive">
+        <div class="layout-table layout-patient-table h-auto">
+          <table class="w-100">
+            <thead class="sticky-top">
+              <tr>
+                <th>MRN</th>
+                <th>Patient Name</th>
+                <th>Gender</th>
+                <th>Date of birth</th>
+                <th>Email ID</th>
+                <th>Contact No</th>
+                <!-- <th>Smoking Status</th> -->
+                <th>Identification Number</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center table-inner-div border-0">{{patientData.medicalRecordNumber}}
+                  </div>
+                </td>
+                <td class="align-middle">
+                  <div class="d-flex align-items-center table-inner-div border-0">
+                    <img
+                      [src]="!!patientData.profileUrl ? imageUrl+patientData.profileUrl : 'assets/images/default-avatar.svg'"
+                      (error)="patientData.profileUrl = 'assets/images/default-avatar.svg'" class="mr-2 rounded-circle"
+                      width="26" height="26">
+                    {{patientData.firstName}} {{patientData.familyName}}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center table-inner-div" *ngIf="patientData.gender">
+                    <img [src]="patientData.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                      class="mr-2">{{patientData.gender}}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center table-inner-div">
+                    <img src="assets/images/calendar.svg" class="mr-2">
+                    {{patientData.dateOfBirth | date: "dd MMM,yyyy"}}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center table-inner-div">{{patientData.email}}</div>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center table-inner-div">{{patientData.contactNo1}}</div>
+                </td>
+                <!-- <td>
+                  <div class="d-flex align-items-center table-inner-div">{{patientData.smokingStatus}}</div>
+                </td> -->
+                <td>
+                  <div class="d-flex align-items-center table-inner-div">{{patientData.identificationNo}}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 col-sm-12 pr-0" *ngFor="let item of patientData.vouchers">
+    <div class="card border-0">
+      <div class="card-front bg-light-orange p-3 mb-3">
+        <div class="card-front-wrapper p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="card-info m-0">
+              <h3 class="d-inline-block">A GIFT FOR <br> <b>YOU!</b></h3>
+              <div class="patient-name mb-3">
+                <p class="w-100 m-0 small-text">Patient Name: {{patientData.firstName}} {{patientData.familyName}}</p>
+              </div>
+              <div class="patient-details">
+                <p class="m-0 mb-2">Voucher No: {{item.number}} <span></span></p>
+                <p class="m-0 mb-2">Status: {{voucherStatus[item.status]}} <span></span></p>
+              </div>
+            </div>
+            <div class="card-profile d-flex flex-column justify-content-between align-items-center">
+              <div class="my-2 mb-5 qr-code-image">
+                <img src="data:image/jpeg;base64,{{item.qrCode}}" class="card-code" alt="">
+              </div>
+              <img src="../../../assets/images/card/voucher-card-logo.svg" class="card-logo" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div>{{vouchersData?(vouchersData | json):""}}</div> -->
+<!-- <div class="patient-panel p-3">
+  <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table">
+        <table class="w-100">
+          <thead class="sticky-top">
+            <tr>
+              <th>MRN</th>
+              <th>Patient Name</th>
+              <th>Gender</th>
+              <th>Date of birth</th>
+              <th>Email ID</th>
+              <th>Contact No</th>
+              <th>Blood Group</th>
+              <th>Identification Number</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let voucher of vouchersData">
+            <tr>
+              <td>
+                <div class="d-flex align-items-center table-inner-div border-0">{{voucher.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img src="../../../assets/images/default-avatar.svg" class="mr-2 rounded-circle" width="26"
+                    height="26">
+                  {{voucher.patient.firstName }}{{voucher.patient.secondName}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="../../../assets/images/man.svg"
+                    class="mr-2">{{voucher.patient.gender?voucher.patient.gender:'-'}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg" class="mr-2">
+                  {{voucher.patient.dateOfBirth?(voucher.patient.dateOfBirth | date:'dd MMM, yyyy'):'-'}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{voucher.patient.email?voucher.patient.email:'-'}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">{{
+                  voucher.patient.contactNo1?voucher.patient.contactNo1:'-'}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{voucher.patient.bloodGroup?voucher.patient.bloodGroup:'-'}}</div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  {{voucher.patient.identificationNo?voucher.patient.identificationNo:'-'}}
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="8">
+                <div class="row-color">
+
+                </div>
+                <div class="row m-0">
+
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card border-0">
+                      <div class="card-front bg-light-orange p-4 mb-3">
+                        <div class="card-front-wrapper p-4">
+                          <div class="row m-0" style="box-sizing: border-box;">
+                            <div class="col-8 card-info m-0 p-0" style="box-sizing: border-box;">
+                              <h3 class="d-inline-block">A GIFT FOR <br> <b>YOU!</b></h3>
+                              <div class="patient-name">
+                                #if( $Patient.FirstName )
+                                <p class="w-100 m-0 small-text">Patient Name: $Patient.FirstName</p>
+                                #end
+                              </div>
+                              <div class="patient-details mt-3">
+                                <p class="m-0 d-flex mb-2">FROM: <span></span></p>
+                                <p class="m-0 d-flex">TO: <span></span></p>
+                              </div>
+                            </div>
+                            <div class="col-4 card-profile p-0 ">
+                              <div class="my-2 mb-5 qr-code-image d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-code.jpg" class="card-code" alt="">
+                              </div>
+                              <div class="d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-logo.svg" class="card-logo" alt="">
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card border-0">
+                      <div class="card-front bg-light-orange p-4 mb-3">
+                        <div class="card-front-wrapper p-4">
+                          <div class="row m-0" style="box-sizing: border-box;">
+                            <div class="col-8 card-info m-0 p-0" style="box-sizing: border-box;">
+                              <h3 class="d-inline-block">A GIFT FOR <br> <b>YOU!</b></h3>
+                              <div class="patient-name">
+                                #if( $Patient.FirstName )
+                                <p class="w-100 m-0 small-text">Patient Name: $Patient.FirstName</p>
+                                #end
+                              </div>
+                              <div class="patient-details mt-3">
+                                <p class="m-0 d-flex mb-2">FROM: <span></span></p>
+                                <p class="m-0 d-flex">TO: <span></span></p>
+                              </div>
+                            </div>
+                            <div class="col-4 card-profile p-0 ">
+                              <div class="my-2 mb-5 qr-code-image d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-code.jpg" class="card-code" alt="">
+                              </div>
+                              <div class="d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-logo.svg" class="card-logo" alt="">
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card border-0">
+                      <div class="card-front bg-light-orange p-4 mb-3">
+                        <div class="card-front-wrapper p-4">
+                          <div class="row m-0" style="box-sizing: border-box;">
+                            <div class="col-8 card-info m-0 p-0" style="box-sizing: border-box;">
+                              <h3 class="d-inline-block">A GIFT FOR <br> <b>YOU!</b></h3>
+                              <div class="patient-name">
+                                #if( $Patient.FirstName )
+                                <p class="w-100 m-0 small-text">Patient Name: $Patient.FirstName</p>
+                                #end
+                              </div>
+                              <div class="patient-details mt-3">
+                                <p class="m-0 d-flex mb-2">FROM: <span></span></p>
+                                <p class="m-0 d-flex">TO: <span></span></p>
+                              </div>
+                            </div>
+                            <div class="col-4 card-profile p-0 ">
+                              <div class="my-2 mb-5 qr-code-image d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-code.jpg" class="card-code" alt="">
+                              </div>
+                              <div class="d-flex justify-content-center">
+                                <img src="../../../assets/images/card/voucher-card-logo.svg" class="card-logo" alt="">
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->

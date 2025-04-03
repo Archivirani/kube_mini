@@ -1,0 +1,183 @@
+<ng-template #invoiceGenerator>
+  <div class="history-popup-details">
+    <div class="col-wrapper" *ngFor="let data of invoiceDataList">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Invoice Details</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePopup()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+      <div class="py-3">
+        <div id="invoice-generate">
+          <div class="invoice-content">
+            <div class="invoice-logo text-left pl-5 pr-4">
+              <img src="assets/images/Safeer_Hospital_Logo.jpeg" width="100">
+            </div>
+            <div class="invoice-body pl-5 position-relative pr-4">
+              <div class="invoice-header d-flex justify-content-between mb-4">
+                <div class="invoice-info text-right">
+                  <div class="d-flex align-items-center my-2">
+                    <p class="m-0 mr-3">Patient Name:</p>
+                    <!-- <h4 class="m-0">{{configurationData?.patient?.firstName}} -
+                      {{configurationData?.patient?.familyName}}</h4> -->
+                      <h4>{{data.patient.firstName+" "+data.patient.secondName+" "+data.patient.thirdName+" "+data.patient.familyName}}</h4>
+                  </div>
+                  <div class="d-flex align-items-center my-2">
+                    <p class="m-0 mr-3">MRN:</p>
+                    <h4
+                      class="m-0">{{data.patient.medicalRecordNumber}}</h4>
+                  </div>
+                  <div class="d-flex align-items-center my-2">
+                    <p class="m-0 mr-3">Case Type:</p>
+                    <!-- <h4
+                      class="m-0">{{configurationData?.caseTypesTbl === null ?
+                      configurationData?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName
+                      : configurationData?.caseTypesTbl?.caseName
+                      }}</h4> -->
+                      <h4>{{data?.caseTypesTbl === null ?
+                        data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName
+                        : data?.caseTypesTbl?.caseName}}</h4>
+                  </div>
+                  <div class="d-flex align-items-center my-2"
+                    *ngIf="data?.caseTypesTbl?.caseName">
+                    <p class="m-0 mr-3">Appointment ID:</p>
+                    <h4
+                      class="m-0">{{data?.appointmentId}}</h4>
+                  </div>
+                  <div class="d-flex align-items-center my-2"
+                    *ngIf="data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName">
+                    <p class="m-0 mr-3">Visit ID:</p>
+                    <h4
+                      class="m-0">{{data?.visitId}}</h4>
+                  </div>
+                </div>
+                <div class="invoice-info">
+                  <div class="invoice-area">
+                    <div
+                      *ngIf="data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName">
+                      <div class="d-flex align-items-center my-2">
+                        <p class="m-0 mr-3">Admission Date:</p>
+                        <h4
+                          class="m-0">{{data.patientRoomsAssigned?.patientAdmission?.admDate
+                          | date:
+                          "dd/MM/yyyy"}}</h4>
+                      </div>
+                      <div class="d-flex align-items-center my-2">
+                        <p class="m-0 mr-3">Discharge Date:</p>
+                        <h4
+                          class="m-0">{{data?.patientDischarge?.dischargeDate 
+                          | date:
+                          "dd/MM/yyyy"
+                          }}</h4>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center my-2">
+                      <p class="m-0 mr-3">Attending Physician:</p>
+                      <h4
+                        class="m-0">{{data?.patientRoomsAssigned?.patientAdmission?.doctors?.doctor_Name
+                       ||data?.appointment?.doctors?.doctor_Name}}</h4>
+                    </div>
+                    <div class="d-flex align-items-center my-2"
+                      *ngIf="data?.caseTypesTbl?.caseName">
+                      <p class="m-0 mr-3">Visit Date:</p>
+                      <h4
+                        class="m-0">{{data?.patientRoomsAssigned?.patientAdmission?.patientVisit?.admitDate
+                        || data?.appointment?.appointmentDateTime
+                        | date: "dd/MM/yy"}}</h4>
+                    </div>
+                    <!-- <h3>Al Safeer Hospital</h3> -->
+                    <!-- <p class="m-0"
+                      *ngIf="configurationData?.address1">{{configurationData?.address1}}</p>
+                    <p class="m-0"
+                      *ngIf="configurationData?.address2">{{configurationData?.address2}}</p>
+                    <p class="m-0"
+                      *ngIf="configurationData?.city">{{configurationData?.city}}</p>
+                    <p class="m-0"
+                      *ngIf="configurationData?.country">{{configurationData?.country}}</p> -->
+                  </div>
+                </div>
+
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between mb-4">
+                <div
+                  class="invoice-detail invoice-detail-content p-4 d-flex align-items-center flex-nowrap col">
+                  <p class="m-0 mr-3">Invoice #:</p>
+                  <h4 class="m-0">{{invoiceConfigurations?.invoiceNumber}}</h4>
+                </div>
+                <div
+                  class="invoice-detail invoice-detail-content p-4 d-flex align-items-center flex-nowrap col">
+                  <p class="m-0 mr-3">Invoice Date:</p>
+                  <h4 class="m-0">{{invoiceConfigurations?.invoiceDate | date:
+                    "dd/MM/yyyy"}}</h4>
+                </div>
+                <div
+                  class="invoice-detail invoice-detail-content p-4 bg-sky-blue d-flex align-items-center flex-nowrap col text-right">
+                  <p class="text-nowrap m-0 mr-3">Net Amount:</p>
+                  <h4 class="text-nowrap m-0">{{calculation?.payable}}  {{currency}}</h4>
+                </div>
+              </div>
+
+              <div class="table-main">
+                <table class="w-100 mb-4">
+                  <thead class="bg-white sticky-top">
+                    <tr>
+                      <th class="p-2">Items</th>
+                      <th class="p-2 w-75">Description</th>
+                      <th class="p-2 text-center w-20">Quantity</th>
+                      <th class="p-2 w-20">Unit</th>
+                      <!-- <th class="p-2">Discount</th> -->
+                      <th class="p-2">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="invoice-detail border-top-0">
+                    <tr *ngFor="let item of orderService; let i = index">
+                      <td class="p-2"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''">{{i
+                        + 1}}</td>
+                      <td class="p-2"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''">{{item?.name}}</td>
+                      <td class="p-2 text-center"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''">{{item?.quantity}}</td>
+                      <td class="p-2"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''"><b>{{item?.unit}}</b></td>
+                      <!-- <td class="p-2 text-center"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''">{{item?.discount}}</td> -->
+                        <td class="p-2 d-flex align-items-center"
+                        [ngClass]="i === orderService?.length - 1 ? 'pb-4' : ''">
+                        
+                        {{item?.price}}
+                        <b class="ml-2">{{currency}}</b>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div
+                  class="d-flex align-items-start justify-content-between px-4">
+                  <p class="m-0"><b>Posted by : {{data?.orderPayments[0]?.payment?.user?.username}}</b></p>
+                  <div class="d-flex flex-column">
+                    <p class="m-0"><b>Sign and Stamp:</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-100 d-flex justify-content-between align-items-center px-3">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+            (click)="printDocument()">
+            Print
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

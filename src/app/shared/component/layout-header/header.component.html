@@ -1,0 +1,49 @@
+<div class="dashboard-header d-flex justify-content-between bg-white">
+  <div class="dashboard-logo w-20 d-flex align-items-center">
+    <img class="h-42 w-100 logo" src="assets/images/Safeer_Hospital_Logo.jpeg">  
+    <div class="site-title w-50 d-flex align-items-center ml-2">
+      <h2 class="m-2 text-nowrap">Welcome back, <span>{{userName}}!</span></h2>
+    </div>
+  </div>
+  <div class="profile w-30 d-flex align-items-center justify-content-end">
+    <input type="text" class="form-control"
+      placeholder="Search here..." (input)="onSearchChange($event)"/>
+    <ul class="list-unstyled d-flex m-0 position-relative">
+      <li
+        class="d-flex align-items-center justify-content-center rounded-circle cursor-pointer">
+        <button class="border-0 p-0 header-icon"
+          [routerLink]="routerLink.Dashboard"
+          [disabled]="!isAccess.includes('Dashboard')"><img
+            src="assets/images/qr-icon.svg"></button>
+      </li>
+      <li
+        class="d-flex align-items-center justify-content-center rounded-circle">
+        <button class="header-icon border-0 position-relative"
+          [disabled]="!isAccess.includes('Dashboard')">
+          <span
+            class="status top-right d-inline-block danger rounded-circle position-absolute"></span>
+          <img src="assets/images/notification-bing.svg">
+        </button>
+      </li>
+      <li
+        class="d-flex align-items-center justify-content-center rounded-circle cursor-pointer">
+        <button class="border-0 p-0 header-icon"
+          [disabled]="!isAccess.includes('Configuration')"><img
+            src="assets/images/header-setting-icon.svg"></button>
+      </li>
+    </ul>
+    <div class="profile-icon position-relative" dropdown>
+      <span
+        class="status bottom-left d-inline-block rounded-circle active position-absolute"></span>
+      <img src="assets/images/default-avatar.svg"
+        class="rounded-circle cursor-pointer" dropdownToggle>
+      <div class="dropdown-menu dropdown-menu-right mt-3" *dropdownMenu
+        role="menu">
+        <a class="cursor-pointer" (click)="ChangePassword()">Change Password</a>
+        <a class="cursor-pointer" (click)="logOut()">Sign Out</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-change-password-popup #changepasswordpopup></app-change-password-popup>

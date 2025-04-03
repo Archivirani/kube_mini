@@ -1,0 +1,174 @@
+
+<div class="my-clinic-tab my-3 mr-3  bg-white pl-border-radius-10 p-3">
+  <ul class="list-unstyled d-flex">
+    <li (click)="onTabNavigation('Patient-Profile')">
+      <a class="text-decoration-none">
+        <div class="button-group">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+            [ngClass]="currentActiveTab === 'Patient-Profile' ? 'active' : ''">Patient
+            Profile</button>
+        </div>
+      </a>
+    </li>
+    <li (click)="onTabNavigation('Documentation')">
+      <a class="text-decoration-none">
+        <div class="button-group">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+            [ngClass]="currentActiveTab === 'Documentation'? 'active' : ''">Documentation</button>
+        </div>
+      </a>
+    </li>
+    <li (click)="onTabNavigation('Services')">
+      <a class="text-decoration-none">
+        <div class="button-group">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+            [ngClass]="currentActiveTab === 'Services'? 'active' : ''">Services</button>
+        </div>
+      </a>
+    </li>
+    <!-- <li *ngIf="currentActiveTab === 'Patient-Profile'" class="d-flex align-items-center justify-content-end">
+      <div class="button-group d-flex justify-content-end"
+        *ngIf="appointmentDetails && appointmentDetails.appointmentStatus !== appointmentStatus.ClosedEncounter"
+        (click)="AppointmentPatientCloseEncounter(appointmentDetails.id)">
+        <button
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer">
+          Enclose Counter
+        </button>
+      </div>
+      <div class="button-group d-flex justify-content-end text-white font-weight-medium"
+        *ngIf="appointmentDetails && appointmentDetails.appointmentStatus === appointmentStatus.ClosedEncounter">
+        Patient is Closed Encounter!
+      </div>
+    </li> -->
+
+    <li *ngIf="currentActiveTab === 'Services'" class="d-flex justify-content-end">
+      <div class="button-group d-flex justify-content-end mr-2">
+        <button type="button"
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+          (click)="showhidePatients()">Order's Details</button>
+      </div>
+      <div class="d-flex justify-content-end mr-2">
+        <input type="text" placeholder="Search Services..." class="form-control pl-border-radius-10"
+          [(ngModel)]="clinicService.serviceModel">
+      </div>
+      <div class="button-group d-flex justify-content-end">
+        <button
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+          (click)="clinicService.orderSet.next(true)">Save and Print</button>
+        <button
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+          (click)="documentationService.cancelEvent.next(true)">Cancel</button>
+      </div>
+    </li>
+    <li *ngIf="currentActiveTab === 'Documentation'">
+      <div class="button-group d-flex justify-content-end">
+        <button
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+          (click)="documentationService.submitEvent.next(true)">Save
+          Document</button>
+        <button
+          class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+          (click)="documentationService.cancelEvent.next(true)">Cancel</button>
+      </div>
+    </li>
+  </ul>
+  <ng-container *ngIf="currentActiveTab === 'Patient-Profile'">
+    <patient-profile [Appointmentlist]="appointmentDetails" [Appointment]="appointmentDetails"></patient-profile>
+  </ng-container>
+  <ng-container *ngIf="currentActiveTab === 'Documentation'">
+    <div class="my-sub-tab pl-border-radius-10 bg-white">
+      <ul class="list-unstyled d-flex mb-0 p-0">
+        <li (click)="onSubTabNavigation('Visit-Note')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'Visit-Note'? 'active' : ''">Visit
+                Note</button>
+            </div>
+          </a>
+        </li>
+        <li (click)="onSubTabNavigation('SOAP-Document')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'SOAP-Document' ? 'active' : ''">
+                SOAP Document
+              </button>
+            </div>
+          </a>
+        </li>
+        <li (click)="onSubTabNavigation('Surgery-Procedure')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'Surgery-Procedure' ? 'active' : ''">
+                Surgery Procedure
+              </button>
+            </div>
+          </a>
+        </li>
+        <!-- <li (click)="onSubTabNavigation('Breast-Abdomen')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'Breast-Abdomen' ? 'active' : ''">
+                Breast Abdomen
+              </button>
+            </div>
+          </a>
+        </li> -->
+        <!-- <li (click)="onSubTabNavigation('Overview')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'Overview'? 'active' : ''">Face & Neck & Eyes</button>
+            </div>
+          </a>
+        </li> -->
+        <li (click)="onSubTabNavigation('General-Document')">
+          <a class="text-decoration-none">
+            <div class="button-group">
+              <button
+                class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent-blue pl-border-radius-10 cursor-pointer p-2 px-3 cursor-pointer text-nowrap"
+                [ngClass]="clinicService.currentSubActiveTab === 'General-Document'? 'active' : ''">General
+                Document</button>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <ng-container *ngIf="clinicService.currentSubActiveTab === 'Visit-Note'">
+        <visit-note-documentation [currentActiveTab]="currentActiveTab"
+          [Appointment]="appointmentDetails"></visit-note-documentation>
+      </ng-container>
+      <ng-container *ngIf="clinicService.currentSubActiveTab === 'SOAP-Document'">
+        <!-- <face-reading-document [Appointment]="appointmentDetails"></face-reading-document> -->
+        <soap-document [currentActiveTab]="currentActiveTab" [Appointment]="appointmentDetails"></soap-document>
+      </ng-container>
+      <ng-container *ngIf="clinicService.currentSubActiveTab === 'Face-Neck'">
+        <face-neck-document [currentActiveTab]="currentActiveTab"
+          [Appointment]="appointmentDetails"></face-neck-document>
+      </ng-container>
+      <ng-container *ngIf="clinicService.currentSubActiveTab === 'Surgery-Procedure'">
+        <surgery-procedure-document [currentActiveTab]="currentActiveTab"
+          [Appointment]="appointmentDetails"></surgery-procedure-document>
+      </ng-container>
+      <ng-container *ngIf="clinicService.currentSubActiveTab === 'General-Document'">
+        <general-document [currentActiveTab]="currentActiveTab" [Appointment]="appointmentDetails"></general-document>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="currentActiveTab === 'Services'">
+    <!-- <clinic-services [Appointment]="appointmentDetails"></clinic-services> -->
+    <app-emergency-services #patientService
+          [customData]="clinicService.clinicOrderDetails"
+          [Appointment]="appointment"></app-emergency-services>
+  </ng-container>
+</div>

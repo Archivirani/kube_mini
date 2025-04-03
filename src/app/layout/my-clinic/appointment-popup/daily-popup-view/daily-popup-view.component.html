@@ -1,0 +1,74 @@
+<div class="appointment-section is-today-view" *ngIf="days && days.length">
+  <div class="appointment-wrapper position-relative">
+    <div class="navigation-view d-flex flex-wrap">
+      <div class="col-12 p-0 today-navigation border-0">
+        <div class="navigation-days" *ngFor="let data of days" [ngClass]="currentDate === data.date? 'active': ''">
+          <div class="content-view p-0">
+            <div class="content-view-wrapper" *ngIf="data.item && data.item.length">
+              <div class="current-wrapper py-1 pr-1 pl-0" *ngFor="let item of data.item">
+                <div class="current-appointment p-0 ap-border-radius-10 isToday" [ngClass]="item.statusColor">
+                  <div class="current-appointment-wrapper d-flex align-items-center justify-content-between">
+                    <div class="appointment-details w-35">
+                      <div class="appointment-profile d-flex align-items-center">
+                        <div class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title"
+                          [ngClass]="item.statusColor"> #{{item.patient.medicalRecordNumber}}</div>
+                        <h3 class="mb-0 mr-1">{{item.patient.firstName}} {{item.patient.familyName}} {{onAgeTransformation(item.patient.dateOfBirth)}}</h3>
+                      </div>
+                      <p class="m-0">{{item.patientDisease}}</p>
+                    </div>
+                    <div class="w-30">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title"
+                          [ngClass]="item.statusColor"><span class="text-black">Status:&nbsp;</span>
+                          {{item.statusText}} </div>
+                        <div class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title"
+                          [ngClass]="item.statusColor"><span class="text-black">Type:&nbsp;</span>
+                          {{item?.appointmentType.name}}</div>
+                      </div>
+                      <div
+                        class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title border-0 justify-content-center"
+                        *ngIf="item.comment" [ngClass]="item.statusColor">
+                        <span class="text-black text-truncate">Cancellation Reason:&nbsp;</span>
+                        {{item.comment}}
+                      </div>
+                    </div>
+                    <div class="w-35">
+                      <div class="appointment-time text-right d-flex flex-wrap justify-content-end mr-2 ">
+                        <span class="p-1 badge" [ngClass]="item.statusColor"></span>
+                        <div class="d-flex align-items-center p-1 pl-border-radius-5" [ngClass]="item.statusColor"
+                          *ngIf="currentDate < data.date">
+                          <div class="in-clinic-icon d-flex align-items-center position-relative mr-1"
+                            *ngIf="item.appointmentStatus === AppointmentStatus.Planned">
+                            <input type="checkbox" [ngModel]="item.patientStatus === AppointmentStatus.CheckedIn"
+                              (ngModelChange)="onStatusChangeToInClinic(item)"
+                              class="position-absolute w-100 h-100 cursor-pointer">
+                            <img
+                              [src]="item.appointmentStatus !== AppointmentStatus.Planned ? '' : 'assets/images/check-in.svg'">
+                          </div>
+                          <img src=" assets/images/cancel-icon.svg" class="cursor-pointer" (click)="onCancel(item)">
+                        </div>
+                        <h4 class="m-0 w-100">{{item.appointmentDateTime | date:"hh:mm a"}} -
+                          {{convertToEndTime(item.appointmentDateTime, item) | date:"hh:mm a"}}</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-view-wrapper" *ngIf="data.item && !data.item.length">
+              <div class="current-wrapper h-100 py-0">
+                <div
+                  class="no-appointment-data ap-border-radius-10 h-100 d-flex align-items-center justify-content-center">
+                  <h3>No Appointments</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<book-appointment-popup #bookAppointment></book-appointment-popup>
+<reason-popup #reasonPopup></reason-popup>

@@ -1,0 +1,111 @@
+<ng-container *ngIf="createClinicForm && createClinicForm.controls">
+  <form action="" [formGroup]="createClinicForm">
+    <div class="card-detail-body table-responsive">
+      <div class="clinic-creation-panel">
+        <table>
+          <thead class="sticky-top">
+            <tr class="bg-dark-blue">
+              <th class="text-nowrap text-white w-25 pl-mw-210">Service description</th>
+              <!-- <th class="text-nowrap text-white w-15 pl-mw-120">Date</th>
+              <th class="text-nowrap text-white w-15 pl-mw-100">Time</th> -->
+              <th class="text-nowrap text-white w-15 pl-mw-100">Qty.</th>
+              <th class="text-nowrap text-white w-20 pl-mw-100">Price</th>
+              <th class="text-nowrap text-white w-15 pl-mw-100">Discount %</th>
+              <th class="text-nowrap text-white w-25 pl-mw-150">Comment</th>
+              <!-- <th class="text-nowrap text-white w-20 pl-mw-150">serviceId</th>
+              <th class="text-nowrap text-white w-20 pl-mw-150">consultationId</th> -->
+              <th class="text-nowrap text-white w-15">Action</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="orderServices">
+            <tr>
+              <td colspan="8" class="text-center"
+                *ngIf="!createClinicForm.get('orderServices')['controls'] || !createClinicForm.get('orderServices')['controls'].length">
+                Add Service or Consultation</td>
+            </tr>
+            <tr *ngFor="let data of createClinicForm.get('orderServices')['controls']; let i = index"
+              [formGroupName]="i">
+              <td class="bg-white"><input type="text" class="form-control border-0 p-0 h-auto bg-white"
+                  formControlName="name" readonly>
+              </td>
+              <!-- <td class="bg-white">
+                <div class="d-flex align-items-center justify-content-start h-100 position-relative picker">
+                  <input type="text" class="form-control border-0 p-0 h-auto bg-white"
+                    [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY', isDisabled: true}" bsDatepicker
+                    formControlName="dateTime" [isDisabled]="false">
+                  <img src="assets/images/date-picker.svg" class="position-absolute">
+                </div>
+              </td>
+              <td class="bg-white">
+                <div class="d-flex align-items-center justify-content-start h-100 position-relative picker">
+                  <input type="text" class="form-control border-0 p-0 h-auto bg-white"
+                    [bsConfig]="{withTimepicker: false, showWeekNumbers: false, dateInputFormat:'HH:mm:ss', isDisabled: true}"
+                    bsDatepicker formControlName="dateTime" [isDisabled]="true">
+                  <img src="assets/images/time-picker.svg" class="position-absolute">
+                </div>
+              </td> -->
+              <td class="bg-white">
+                <div class="d-flex align-items-center h-100 position-relative">
+                  {{data.value.isNotEdit ? data.value.quantity: ''}}
+                  <input type="number" class="ml-1 form-control p-0 h-auto bg-white" formControlName="quantity"
+                    *ngIf="!data.value.isNotEdit" min="1"
+                    [ngClass]="data.get('quantity').invalid && data.get('quantity').touched ? 'error-m' : ''">
+                </div>
+              </td>
+              <td class="bg-white">
+                <div class="d-flex align-items-center h-100 position-relative">
+                  <!-- <input type="text" class="form-control border-0 p-0 h-auto bg-white ml-1" formControlName="price"
+                    readonly> -->
+                  <div class="d-flex align-items-center h-100 position-relative">
+                    {{currency}} {{data.value.isNotEdit ? data.value.price: ''}}
+                    <input type="number" class="ml-1 form-control p-0 h-auto bg-white" formControlName="price"
+                      *ngIf="!data.value.isNotEdit" max="100"
+                      [ngClass]="data.get('discount').invalid && data.get('discount').touched ? 'error-m' : ''">
+                  </div>
+                </div>
+              </td>
+              <td class="bg-white">
+                <div class="d-flex align-items-center h-100 position-relative">
+                  %{{data.value.isNotEdit ? data.value.discount: ''}}
+                  <input type="number" class="ml-1 form-control p-0 h-auto bg-white" formControlName="discount"
+                    *ngIf="!data.value.isNotEdit" max="100"
+                    [ngClass]="data.get('discount').invalid && data.get('discount').touched ? 'error-m' : ''">
+                </div>
+              </td>
+              <td class="bg-white" (click)="editComment(data.value, i)">
+                <div class="d-flex align-items-center justify-content-end h-100 position-relative edit">
+                  <input type="text" class="form-control border-0 p-0 h-auto bg-white" placeholder="Comments"
+                    formControlName="comment">
+                  <img src="assets/images/edit-dark-icon.svg" class="position-absolute">
+                </div>
+              </td>
+
+              <!-- <td class="bg-white">
+                <div class="d-flex align-items-center h-100 position-relative">
+                  {{ data.value.serviceId}}
+                </div>
+              </td>
+              <td class="bg-white">
+                <div class="d-flex align-items-center h-100 position-relative">
+                  {{ data.value.consultationId}}
+                </div>
+              </td> -->
+
+              <td class="bg-white align-middle">
+                <div class="d-flex align-items-center h-100 pl-column-gap-10">
+                  <img src="assets/images/edit-icon.svg" (click)="editItem(i)">
+                  <img src="assets/images/delete-icon.svg" class="cursor-pointer" (click)="deleteItem(data.value)">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</ng-container>
+
+<edit-comment-popup #editCommentPopup></edit-comment-popup>
+<!-- <div class="card-detail-header p-3 bg-lighter-gray w-100 bg-dark-black">
+        <h3 class="main-title m-0 text-white">Services and packages</h3>
+      </div> -->

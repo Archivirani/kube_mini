@@ -1,0 +1,110 @@
+<div class="dashboard-navigation-header">
+  <div
+    class="dashbaord-card d-flex py-3 px-2 bg-white pl-border-radius-20 align-items-center flex-wrap pl-row-gap-10">
+    <div class="dashboard-card-wrapper col px-2 d-flex align-items-center">
+      <div
+        class="dashboard-card-content d-flex align-items-center p-3 border-light-blue bg-light-blue pl-border-radius-20 w-100 cursor-pointer"
+        routerLink="/{{navigation.Patient}}">
+        <div class="card-wrapper d-flex align-items-center w-100">
+          <div
+            class="dashboard-img rounded-circle d-flex align-items-center justify-content-center theme-icon-light-purple">
+            <!-- <img src="assets/images/dashboard-work.svg"> -->
+            <img src="assets/images/dashboard-patient.svg">
+          </div>
+          <div class="dashboard-content">
+            <h3>Patients</h3>
+            <h2 class="m-0"
+              *ngIf="systemCounts">{{systemCounts.patients}}</h2>
+          </div>
+        </div>
+        <div
+          class="graph-icon rounded-circle d-flex align-items-center justify-content-center bg-light-gray">
+          <img src="assets/images/graph-icon.svg" />
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card-wrapper col px-2 d-flex align-items-center">
+      <div
+        class="dashboard-card-content d-flex align-items-center p-3 border-light-blue bg-light-blue pl-border-radius-20 w-100 cursor-pointer"
+        routerLink="/{{navigation.Appointment}}">
+        <div class="card-wrapper d-flex align-items-center w-100">
+          <div
+            class="dashboard-img rounded-circle d-flex align-items-center justify-content-center theme-icon-dark-yellow">
+            <img src="assets/images/noun-doctor.svg">
+          </div>
+          <div class="dashboard-content">
+            <h3>OP Appointments</h3>
+            <h2 class="m-0"
+              *ngIf="systemCounts">{{systemCounts.appointments}}</h2>
+          </div>
+        </div>
+        <div
+          class="graph-icon rounded-circle d-flex align-items-center justify-content-center bg-light-gray">
+          <img src="assets/images/graph-icon.svg" />
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card-wrapper col px-2 d-flex align-items-center">
+      <div
+        class="dashboard-card-content d-flex align-items-center p-3 border-light-blue bg-light-blue pl-border-radius-20 w-100 cursor-pointer"
+        routerLink="/{{navigation.Admittedpatient}}">
+        <div class="card-wrapper d-flex align-items-center w-100">
+          <div
+            class="dashboard-img rounded-circle d-flex align-items-center justify-content-center theme-icon-light-green">
+            <img src="assets/images/patient-bed.svg">
+          </div>
+          <div class="dashboard-content">
+            <h3>Admitted Patients</h3>
+            <h2 class="m-0"
+              *ngIf="systemCounts">{{systemCounts.opAppointment}}</h2>
+          </div>
+        </div>
+        <div
+          class="graph-icon rounded-circle d-flex align-items-center justify-content-center bg-light-gray">
+          <img src="assets/images/graph-icon.svg" />
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card-wrapper col px-2 d-flex align-items-center">
+      <div
+        class="dashboard-card-content d-flex align-items-center p-3 border-light-blue bg-light-blue pl-border-radius-20 w-100 cursor-pointer"
+        routerLink="/{{navigation.ErPatient}}">
+        <div class="card-wrapper d-flex align-items-center w-100">
+          <div
+            class="dashboard-img rounded-circle d-flex align-items-center justify-content-center theme-icon-light-red">
+            <img src="assets/images/dashboard-patient.svg">
+          </div>
+          <div class="dashboard-content">
+            <h3>ER Patients</h3>
+            <h2 class="m-0"
+              *ngIf="systemCounts">{{systemCounts?.erAppointment}}</h2>
+          </div>
+        </div>
+        <div
+          class="graph-icon rounded-circle d-flex align-items-center justify-content-center bg-light-gray">
+          <img src="assets/images/graph-icon.svg" />
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card-wrapper col px-2 d-flex align-items-center">
+      <div
+        class="dashboard-card-content d-flex align-items-center p-3 border-light-blue bg-light-blue pl-border-radius-20 w-100 cursor-pointer"
+        routerLink="/{{navigation.Order}}">
+        <div class="card-wrapper d-flex align-items-center w-100">
+          <div
+            class="dashboard-img rounded-circle d-flex align-items-center justify-content-center theme-icon-light-blue">
+            <img src="assets/images/dashboard-moneys.svg">
+          </div>
+          <div class="dashboard-content">
+            <h3>My Invoices </h3>
+            <h2 class="m-0" *ngIf="systemCounts">{{currency}}
+              {{systemCounts.revenue}}</h2>
+          </div>
+        </div>
+        <div
+          class="graph-icon rounded-circle d-flex align-items-center justify-content-center bg-light-gray">
+          <img src="assets/images/graph-icon.svg" />
+        </div>
+      </div>
+    </div>
+  </div>

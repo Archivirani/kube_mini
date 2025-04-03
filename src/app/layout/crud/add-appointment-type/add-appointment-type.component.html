@@ -1,0 +1,23 @@
+<div class="site-register-wrapper">
+  <form [formGroup]="dyForm">
+    <div class="form-group-wrapper">
+      <div class="form-title">
+        <h2 class="pl-border-radius-10 bg-sky-blue mt-3 mr-3">Add Appointment Type</h2>
+      </div>
+      <div class="form-group-main px-2 py-3 mr-3">
+        <div class="form-group m-0 d-flex flex-wrap col p-0 pl-row-gap-8">
+          <div class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+            <input type="text" class="form-control" placeholder="Appointment Name" formControlName="name"
+              [ngClass]="dyForm.get('name').invalid && dyForm.get('name').touched ? 'error' : ''">
+            <label class="position-absolute m-0 bg-white">Enter Appointment Name</label>
+            <ng-container *ngIf="dyForm.get('name').invalid && dyForm.get('name').touched">
+              <span class="error-message" *ngIf="dyForm.get('name').errors.required">
+                Appointment Name Required
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

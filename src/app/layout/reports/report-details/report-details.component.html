@@ -1,0 +1,52 @@
+<div class="bg-white p-3 maintenance-details common-height">
+    <h5 class="mb-3">Report List</h5>
+    <div class="selection-wrap">
+        <ul class="p-0 m-0 list-style-type-none overflow-auto" >
+            <ng-container *ngFor="let data of appointmentService.reportsList">
+                <ng-container *ngIf="userType == 1">
+                    <li class="m-0" (click)="appointmentService.isEvent.next($event)" [ngClass]="data.isSelected ?'active':''" [value]="data.name">
+                        <ng-container *ngIf="data.id === 1">
+                            <img src="assets/images/patient.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 2">
+                            <img src="assets/img/file/Inpatient_Admissio.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 3">
+                            <img src="assets/images/ER.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 4">
+                            <img src="assets/images/admission-discharge.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 5">
+                            <img src="assets/images/dollar-icon.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 6">    
+                            <img src="assets/images/laboratory-La.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 7">
+                            <img src="assets/images/radiology-Ra.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 8">
+                            <img src="assets/images/calendar-edit.svg" alt >
+                        </ng-container>
+                        <ng-container *ngIf="data.id === 9">
+                            <img src="assets\images\user-logo.svg" alt >
+                        </ng-container>
+                        <a>{{data.name}}</a>
+                    </li>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngFor="let data of appointmentService.reportsList">
+                <ng-container *ngIf="userType === 18 && data.name === 'Invoices'">
+                    <li class="m-0" (click)="appointmentService.isEvent.next($event)" [ngClass]="data.isSelected ?'active':''" [value]="data.name">
+                        <ng-container *ngIf="data.id === 5">
+                            <img src="assets/images/dollar-icon.svg" alt >
+                        </ng-container>
+                        <a>{{data.name}}</a>
+                    </li>
+                </ng-container>
+            </ng-container>
+            
+        </ul>
+    </div>
+</div>

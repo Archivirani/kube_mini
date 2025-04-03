@@ -1,0 +1,239 @@
+<!--<div class="site-panel-register p-3">
+<div class="site-register-wrapper">
+    <form [formGroup]="dyForm">
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue">Visit Note</h2>
+        </div>
+        <div class="form-group-main px-2">
+          <div class="form-group-main-wrapper py-3">
+            <div class="form-group d-flex p-0 mb-2">
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Summary" formControlName="Summary"
+                  [ngClass]="dyForm.get('Summary').invalid && dyForm.get('Summary').touched ? 'error' : ''">
+                <label class="position-absolute m-0 bg-white">Summary:</label>
+                <ng-container *ngIf="dyForm.get('Summary').invalid && dyForm.get('Summary').touched">
+                  <span class="error-message" *ngIf="dyForm.get('Summary').errors.required">
+                    Summary is required
+                  </span>
+                </ng-container>
+              </div>
+              <div class="form-group-control m-0 col-6 d-flex p-0 position-relative">
+                <div class="form-group-control m-0 px-2 col-6">
+                  <input type="number" class="form-control" placeholder="Age" formControlName="Age"
+                    [ngClass]="dyForm.get('Age').invalid && dyForm.get('Age').touched ? 'error' : ''">
+                  <label class="position-absolute m-0 bg-white">Age:</label>
+                  <ng-container *ngIf="dyForm.get('Age').invalid && dyForm.get('Age').touched">
+                    <span class="error-message" *ngIf="dyForm.get('Age').errors.required">
+                      Age is required
+                    </span>
+                  </ng-container>
+                </div>
+                <div class="form-group-control col-6 mb-0 px-2 col position-relative">
+                  <ng-select placeholder="Select Gender" [searchable]="true" formControlName="Gender"
+                    [ngClass]="dyForm.get('Gender').invalid && dyForm.get('Gender').touched ? 'error' : ''">
+                    <ng-option *ngFor="let item of Gender" [value]="item.key">{{item.value}}</ng-option>
+                  </ng-select>
+                  <label class="position-absolute m-0 bg-white">Select gender</label>
+                  <ng-container *ngIf="dyForm.get('Gender').invalid && dyForm.get('Gender').touched">
+                    <span class="error-message" *ngIf="dyForm.get('Gender').errors.required">
+                      Gender is required
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0">
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a main complaint"
+                  formControlName="MainComplaint">
+                <label class="position-absolute m-0 bg-white">Main Complaint:</label>
+              </div>
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a breathing difficulty"
+                  formControlName="BreathingDifficulty">
+                <label class="position-absolute m-0 bg-white">Breathing Difficulty:</label>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0">
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a prior surgeries"
+                  formControlName="PriorSurgeries">
+                <label class="position-absolute m-0 bg-white">Prior Surgeries:</label>
+              </div>
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a prior complication"
+                  formControlName="PriorComplications">
+                <label class="position-absolute m-0 bg-white">Prior Complication:</label>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0">
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a blood discovered"
+                  formControlName="BloodDisorders">
+                <label class="position-absolute m-0 bg-white">Blood Disorders:</label>
+              </div>
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a allergies" formControlName="Allergies">
+                <label class="position-absolute m-0 bg-white">Allergies:</label>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0">
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a examination" formControlName="Examination">
+                <label class="position-absolute m-0 bg-white">Examination:</label>
+              </div>
+              <div class="form-group-control mb-2 px-2 col-6 position-relative">
+                <input type="text" class="form-control" placeholder="Write a endonasal examination"
+                  formControlName="EndonasalExamination">
+                <label class="position-absolute m-0 bg-white">Endonasal examination:</label>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0 rhino-details-wrapper">
+              <div class="form-group-control mb-2 px-2 col-12" *ngIf="psychIssuesList && psychIssuesList.length">
+                <div class="form-group-checkbox">
+                  <label class="top-label mb-2 d-inline-block">Psych Issues:</label>
+                  <div
+                    class="form-group-control-wrapper p-2 border-input-gray pl-border-radius-8 d-flex flex-wrap align-items-center">
+                    <div class="form-group-control px-2 col-lg col-4"
+                      *ngFor="let item of psychIssuesList; let i = index" [ngClass]="i > 2 && isIPadAir? 'mt-2' : ''">
+                      <div
+                        class="form-group-control-wrapper d-flex align-items-center p-2 border-input-gray pl-border-radius-8 position-relative">
+                        <input type="checkbox" class="position-absolute cursor-pointer" [(ngModel)]="item.isSelected"
+                          [ngModelOptions]="{standalone: true}">
+                        <span class="d-inline-block"></span>
+                        <label for="" class="m-0">{{item.value}}</label>
+                      </div>
+                    </div>
+                    <div class="form-group-control px-2 pl-border-radius-8 col position-relative"
+                      [ngClass]="isIPadAir? 'mt-2' : ''">
+                      <input type="text" class="form-control" placeholder="Write A Other Details"
+                        [(ngModel)]="OtherDetails" [ngModelOptions]="{standalone: true}">
+                      <label class="position-absolute m-0 bg-white">Write A Other Details.</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-0 d-flex p-0">
+              <div class="form-group-control px-2 col-6">
+                <label class="top-label mb-2 d-inline-block">Smoking:</label>
+                <input type="text" class="form-control" placeholder="Write a smoking" formControlName="Smoking">
+              </div>
+              <div class="form-group-control px-2 col-6 position-relative">
+                <div class="form-group-head d-flex align-items-center mb-2">
+                  <label class="top-label mb-0 d-inline-block mr-2">Prior anesthesia:</label>
+                  <div class="prioranesthesia-status mr-2 cursor-pointer">
+                    <input type="radio" name="PriorAnesthesia" id="isPriorAnesthesia" value="Yes"
+                      formControlName="PriorAnesthesia" class="mr-1 align-middle">
+                    <label class="mb-0 top-label" for="isPriorAnesthesia">Yes</label>
+                  </div>
+                  <div class="prioranesthesia-status cursor-pointer">
+                    <input type="radio" name="PriorAnesthesia" value="No" id="isNotPriorAnesthesia"
+                      formControlName="PriorAnesthesia" class="mr-1 align-middle">
+                    <label class="mb-0 top-label" for="isNotPriorAnesthesia">No</label>
+                  </div>
+                </div>
+                <input type="text" class="form-control" placeholder="Write a prior anesthesia"
+                  formControlName="PriorAnesthesiaSummery" [disabled]="dyForm.value.PriorAnesthesia === 'No'"
+                  [readonly]="dyForm.value.PriorAnesthesia === 'No'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div> -->
+
+<div class="site-panel-register pt-3">
+  <div class="site-register-wrapper">
+    <form [formGroup]="dyForm">
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue text-center">Visit Note Document</h2>
+        </div>
+        <div class="form-group-main px-2">
+          <div class="form-group-main-wrapper py-3">
+
+            <div class="form-group mb-2 d-flex p-0">
+              <label class="btn-label-bg mb-0">Visit Date</label>
+              <div class=" m-0 px-2 col-11 d-flex align-items-center">
+                <div class="col-6 px-0 form-group-control position-relative">
+                  <input type="text" name="Visit Date" id="" class="f-size-field form-control " [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker  placeholder="Date" formControlName="createdDate"/>
+                  <label class="position-absolute m-0 bg-white">Visit Date:</label>
+                </div>
+                <!-- <div class="col-6 px-0">
+                  <input type="date" name="Visit Date" id="" class="f-size-field cal-input" />
+                </div> -->
+              </div>
+            </div>
+            <div class="form-group mb-2 d-flex p-0 ">
+              <label class="btn-label-bg mb-0">Reason for Visit </label>
+              <div class="form-group-control mb-0 px-2 col-11 position-relative">
+                <textarea class="form-control" placeholder="reason for visit" rows="5"
+                  formControlName="reasonForVisit"></textarea>
+                <label class="position-absolute m-0 bg-white">Reason for Visit</label>
+              </div>
+            </div>
+
+            <div class="form-group mb-2 d-flex p-0">
+              <label class="btn-label-bg mb-0">Diagnosis</label>
+              <div class=" d-flex align-items-center col-11 m-0 px-2">
+                <div class="form-group-control position-relative col-6 px-0 diagnosis-inp">
+                  <input type="text" class="form-control" placeholder="diagnosis" formControlName="diagnosis" />
+                  <!-- <img src="assets/images/search.svg" alt=""> -->
+                  <label class="position-absolute m-0 bg-white">Diagnosis:</label>
+                  <!-- <ng-select class="d-grid soap-form-select" [addTag]="true"  [clearable]="true" >
+                    <ng-option><span></span>
+                    </ng-option>
+                  </ng-select> -->
+                </div>
+                  <div class="diagnosis-main col-6 px-0">
+                    <a class="diagnosis-a"><img src="assets/images/imgpsh_fullsize_anim.png" class="mw-15 diagnosis-img" /></a>
+                    <a class="diagnosis-a"><img src="assets/images/texteditor.png" class="mw-15 diagnosis-img-texteditor"/></a>
+                  </div>
+                </div>
+                    
+            </div>
+
+            <div class="form-group mb-2 d-flex p-0 " style="height: 245px;">
+              <label class="btn-label-bg mb-0">Assesment</label>
+              <div class="form-group-control mb-0 px-2 col-11 position-relative " style="height: 200px;">
+                <quill-editor cols="58" rows="6" [preserveWhitespace]="true" formControlName="assessment">
+             </quill-editor>
+              </div>
+            </div>
+           
+          </div>
+          
+        </div>
+        <div class="form-group-main py-2 mt-2">
+          <ul class="visite-note-ul-btn">
+            <li>
+               <a href="#0">
+                <div class="button-group">
+                  <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap" (click)="getVisitNoteDocumentSave()">Save</button>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#0">
+               <div class="button-group">
+                <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap " (click)="getVisitNoteDocumentRelease()">Release</button>
+               </div>
+             </a>
+           </li>
+           <li>
+            <a href="#0">
+             <div class="button-group">
+              <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap ">Close</button>
+             </div>
+           </a>
+         </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<ng-template #historyPopup>
+  <div class="history-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">{{documents && documents.length ? 'Document History': 'Services History'}}</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePopup()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+      <div class="history p-3">
+        <div class="history-list pl-border-radius-10" *ngIf="orderServices && orderServices.length">
+          <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+            *ngFor="let service of orderServices">
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{service.dateTime | date: 'dd-MM-YYYY'}}</b></p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-85 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0">{{service.name}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-list pl-border-radius-10" *ngIf="documents && documents.length">
+          <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+            *ngFor="let document of documents" (click)="openPreviewDocument(document)">
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0"><b>{{document.dateTime | date: 'dd-MM-YYYY'}}</b></p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-40 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0 text-truncate"><b>Physician : </b>{{document.physician.name}}</p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+              <p class="m-0">{{document.type}}</p>
+            </div>
+            <div
+              class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center justify-content-center bg-light-blue border-sky-blue-thin">
+              <button class="border-0 released-button pl-border-radius-30 bg-light-sky-blue">{{"Saved"}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

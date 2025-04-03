@@ -1,0 +1,22 @@
+.history-popup-details {
+    .col-wrapper {
+        #invoice-generate {
+            .invoice-content {
+                .invoice-logo {}
+
+                .invoice-body {
+                    &::before {
+                        content: "";
+                        height: 100%;
+                    }
+
+                    .invoice-main-title {
+                        &::before {
+                            width: calc(100% - 0px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

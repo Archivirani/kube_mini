@@ -1,0 +1,362 @@
+<div class="dashboard-panel-header d-flex align-content-center justify-content-between"
+  *ngIf="!resourceService.currentPageConfig.isPatientHeader && !resourceService.currentPageConfig.isAdmitPatientheader && !resourceService.currentPageConfig.isOPPatientheader && !resourceService.currentPageConfig.isPaymentHeader ">
+  <h2 class="m-0 text-white d-flex align-items-center">
+    {{ resourceService.currentPageConfig.mainHeader }} {{(resourceService.currentPageConfig.mainHeader !== 'Admit Patient' && resourceService.currentPageConfig.mainHeader !== 'Edit Patient - تعديل بيانات المريض' && resourceService.currentPageConfig.mainHeader !== 'Hospital Data Maintenance' && resourceService.currentPageConfig.mainHeader !== 'Register a Patient - تسجيل المريض' && resourceService.currentPageConfig.mainHeader !== 'Reports') ? '(' + (resourceService.totalRecordss || 0) + ')' : '' }} 
+  </h2>
+  <div class="position-relative" *ngIf="appointmentService.dayOnlyAppointment" [ngClass]="isIPadAir ? 'w-37' : 'w-30'">
+    <div
+      class="d-flex arrow prev-arrow justify-content-center align-items-center position-absolute cursor-pointer align-items-center"
+      *ngIf="appointmentService.isShowArrow" (click)="appointmentService.prevEvent.next(true)">
+      <img class src="assets/images/prev-arrow.svg" />
+    </div>
+    <div class="title text-center text-white m-0 h-100 d-flex align-items-center justify-content-center">
+      <h3 #datePicker="bsDatepicker" class="m-0" [triggers]="''" [bsConfig]="{showWeekNumbers: false}"
+        (bsValueChange)="appointmentService.selectedAppoinmentDate.next($event)" (mouseup)="onShown($event)"
+        (onHidden)="onHiddenEvent(true)" button-group d-flex h-inherit bsDatepicker>{{
+        appointmentService.dayOnlyAppointmentLabel }}</h3>
+      <!-- <div>
+        <input type="text" id="calDaily" [bsValue]="appointmentService.currentDate" style="display: none;"
+          class="form-control pl-border-radius-10 border-0 h-45" [isOpen]="appointmentService.isShowCalender"
+          [bsConfig]="{showWeekNumbers: false, dateInputFormat: 'DD-MM-YYYY'}"
+          (bsValueChange)="appointmentService.selectedAppoinmentDate.next($event)" (onHidden)="onHiddenEvent(true)"
+          bsDatepicker>
+      </div> -->
+    </div>
+    <div class="d-flex arrow next-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+      *ngIf="appointmentService.isShowArrow" (click)="appointmentService.nextEvent.next(true)">
+      <img class src="assets/images/next-arrow.svg" />
+    </div>
+  </div>
+  <div class="position-relative" *ngIf="resourceService.dayOnlyAppointment" [ngClass]="isIPadAir ? 'w-37' : 'w-30'">
+    <!-- <h2>Clinic</h2> -->
+    <div
+      class="d-flex arrow prev-arrow justify-content-center align-items-center position-absolute cursor-pointer align-items-center"
+      (click)="resourceService.prevEvent.next(true)">
+      <img class src="assets/images/prev-arrow.svg" />
+    </div>
+    <div class="title text-center text-white m-0 h-100 d-flex align-items-center justify-content-center">
+      <h3 class="m-0"
+        [bsValue]="resourceService.currentPageConfig.mainHeader =='Payments'? resourceService.paymentDate: resourceService.clinicDate"
+        [bsConfig]="{showWeekNumbers: false, dateInputFormat: 'DD-MM-YYYY'}"
+        (bsValueChange)="resourceService.selectedClinicDate.next($event)" (onHidden)="onHiddenEvent(false)"
+        bsDatepicker>{{resourceService.dayOnlyAppointmentLabel }}</h3>
+      <!-- <div>
+        <input type="text" id="calToday"
+          [bsValue]="resourceService.currentPageConfig.mainHeader =='Payments'? resourceService.paymentDate: resourceService.clinicDate"
+          style="display: none;" class="form-control pl-border-radius-10 border-0 h-45"
+          [isOpen]="resourceService.isShowCalender" [bsConfig]="{showWeekNumbers: false, dateInputFormat: 'DD-MM-YYYY'}"
+          (bsValueChange)="resourceService.selectedClinicDate.next($event)" (onHidden)="onHiddenEvent(false)"
+          bsDatepicker>
+      </div> -->
+    </div>
+    <div class="d-flex arrow next-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+      (click)="resourceService.nextEvent.next(true)">
+      <img class src="assets/images/next-arrow.svg" />
+    </div>
+  </div>
+  <div class="my-clinic-tab h-auto mr-auto mt-1 d-block" *ngIf="crudService.dayOnlyCrud"
+    [ngClass]="isIPadAir ? 'w-37' : 'w-30'">
+    <ul class="list-unstyled d-flex m-0 p-0 h-auto ml-auto">
+      <li routerLink="{{routerLink.Settings}}/{{routerLink.Service}}" routerLinkActive="active">
+        <a class="text-decoration-none">
+          <div class="button-group">
+            <button
+              class="text-dark-blue d-flex bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap">
+              Services
+            </button>
+          </div>
+        </a>
+      </li>
+      <li routerLink="{{routerLink.Settings}}/{{routerLink.ConsultationDetails}}" routerLinkActive="active">
+        <a class="text-decoration-none">
+          <div class="button-group">
+            <button
+              class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap">
+              Consultation
+            </button>
+          </div>
+        </a>
+      </li>
+      <li routerLink="{{routerLink.Settings}}/{{routerLink.AppointmentsDetails}}" routerLinkActive="active">
+        <a class="text-decoration-none">
+          <div class="button-group">
+            <button
+              class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap">
+              Appointment Type
+            </button>
+          </div>
+        </a>
+      </li>
+      <li routerLink="{{routerLink.Settings}}/{{routerLink.PatientIdTypes}}" routerLinkActive="active">
+        <a class="text-decoration-none">
+          <div class="button-group">
+            <button
+              class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap">
+              Patient Id
+            </button>
+          </div>
+        </a>
+      </li>
+      <li routerLink="{{routerLink.Settings}}/{{routerLink.PatientRelations}}" routerLinkActive="active">
+        <a class="text-decoration-none">
+          <div class="button-group">
+            <button
+              class="text-dark-blue d-flex align-items-center bg-white bg-hover-transparent pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer text-nowrap">
+              Relation Type
+            </button>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="button-group d-flex h-inherit">
+    <div class="position-relative h-inherit search-box" *ngIf="resourceService.currentPageConfig.isSearchField">
+      <!-- <input type="text" class="form-control h-100 border-0" [(ngModel)]="resourceService.searchText"
+        placeholder="Search here..." (input)="onChangeSerchEvent($event)" /> -->
+    </div>
+    <!-- <input type="text" [bsConfig]="{showWeekNumbers: false, rangeInputFormat:'DD-MM-YYYY', isDisabled: true}" bsDaterangepicker> -->
+    <ng-container *ngIf="appointmentService.dayOnlyAppointment || resourceService.currentPageConfig.isDownButton">
+      <div class="download-Appointments bg-white p-2 rounded-circle d-flex align-items-center justify-content-center">
+        <!-- <input type="text" class="pl-border-radius-10 border-0 h-100"
+          [bsConfig]="{showWeekNumbers: false, rangeInputFormat: 'DD-MM-YYYY'}" [bsValue]="currentDate"
+          (bsValueChange)="appointmentService.selectedDate.next($event)" bsDaterangepicker> -->
+        <img src="assets/images/download-icon.svg" class="cursor-pointer" width="28" height="28" title="Download-Excel"
+          (click)="appointmentService.downloadAppointment.next(true)" />
+      </div>
+    </ng-container>
+    <button type="button" class="text-dark-blue d-flex align-items-center bg-white cursor-pointer 1"
+      *ngIf="!!resourceService.currentPageConfig.isPatientAppointment" (click)="clinicService.submitEvent.next(true)">
+      {{ resourceService.currentPageConfig.isPatientAppointmentTitle }}
+    </button>
+    <ng-container *ngIf="appointmentService.dayOnlyAppointment">
+      <ng-select [(ngModel)]="appointmentService.defaultView" (change)="appointmentService.selectedView.next($event)"
+        [searchable]="false" class="default-view-select">
+        <ng-option *ngFor="let data of appointmentService.appointmentView" [value]="data.value">{{ data.value
+          }}</ng-option>
+      </ng-select>
+    </ng-container>
+    <button type="button" class="text-dark-blue d-flex align-items-center bg-white cursor-pointer"
+      (click)="resourceService.filterEvent.next(true)" *ngIf="!!resourceService.currentPageConfig.routerLink">
+      <img *ngIf="!!resourceService.currentPageConfig.saveButtonIcon"
+        [src]="resourceService.currentPageConfig.saveButtonIcon"/>
+      {{ resourceService.currentPageConfig.saveButtonTitle }}
+    </button>
+    <button type="button" class="text-dark-blue d-flex align-items-center bg-white cursor-pointer"
+      *ngIf="!!resourceService.currentPageConfig.isSaveButton" (click)="resourceService.submitEvent.next(true)">
+      <img *ngIf="!!resourceService.currentPageConfig.saveButtonIcon" class="m-0"
+        [src]="resourceService.currentPageConfig.saveButtonIcon" title="Filter"/>
+      {{ resourceService.currentPageConfig.saveButtonTitle }}
+    </button>
+    <!-- <div class="button-group d-flex h-inherit" *ngIf="!!resourceService.currentPageConfig.isAdmittedPatientButton">
+      <button class="text-dark-blue d-flex align-items-center bg-white cursor-pointer"
+        (click)="clinicService.admitPatientEvent.next(true)">
+        {{resourceService.currentPageConfig.AdmitButtonTitle}}
+      </button>
+    </div> -->
+    <button type="button" class="text-dark-blue d-flex align-items-center bg-white cursor-pointer 2"
+      *ngIf="!!resourceService.currentPageConfig.isAppointment" (click)="clinicService.submitEvent.next(true)">
+      <img *ngIf="!!resourceService.currentPageConfig.saveButtonIcon"
+        [src]="resourceService.currentPageConfig.saveButtonIcon"/>
+      {{ resourceService.currentPageConfig.saveButtonTitle }}
+    </button>
+    <button type="button" class="text-dark-blue d-flex align-items-center bg-white cursor-pointer 2"
+    *ngIf="!!resourceService.currentPageConfig.isAdmittedPatientButton" (click)="clinicService.admitPatientEvent.next(true)">
+      <img *ngIf="!!resourceService.currentPageConfig.admitButtonIcon" class="m-0" title="Appointment-filter"
+        [src]="resourceService.currentPageConfig.admitButtonIcon" />
+      {{ resourceService.currentPageConfig.AdmitButtonTitle }}
+    </button>
+    <button type="button" class="text-white d-flex align-items-center bg-danger cursor-pointer"
+      *ngIf="!!resourceService.currentPageConfig.isCancelButton" (click)="resourceService.cancelEvent.next(true)">
+      <img *ngIf="!!resourceService.currentPageConfig.cancelButtonIcon"
+        [src]="resourceService.currentPageConfig.cancelButtonIcon" />
+      {{ resourceService.currentPageConfig.cancelButtonTitle }}
+    </button>
+  </div>
+</div>
+
+<div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100" *ngIf="
+    resourceService.currentPageConfig.isPatientHeader &&
+    resourceService.currentPatient 
+  ">
+  <div class="clinic-image d-inline-block rounded-circle mr-3">
+    <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle" />
+  </div>
+  <div class="main-title-wrapper d-flex alignn-content-center w-70 justify-content-between">
+    <div class="title">
+      <h3 class="mb-2 text-white">
+        {{ resourceService.currentPatient.firstName }}
+        {{ resourceService.currentPatient.familyName }}
+      </h3>
+      <p class="m-0 text-white">
+        MRN #{{ resourceService.currentPatient.medicalRecordNumber }}
+      </p>
+    </div>
+    <div class="title">
+      <p class="mb-2 text-white">
+        {{ onAgeTransformation(resourceService.currentPatient.dateOfBirth) }}
+        {{ resourceService.currentPatient.gender }} -
+        {{ resourceService.currentPatient.dateOfBirth | date : "dd-MM-YYYY" }}
+      </p>
+      <p class="m-0 text-white">Self Payer (static)</p>
+    </div>
+
+    <div class="title">
+      <p class="mb-2 text-white">
+        Allergies : The patient has no allergy assessment (static)
+      </p>
+      <p class="m-0 text-white">
+        Smoking Status : {{ resourceService.currentPatient.smokingStatus }}
+      </p>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100" *ngIf="
+    resourceService.currentPageConfig.isAdmitPatientheader &&
+    resourceService.currentPatient ">
+  <div class="clinic-image d-inline-block rounded-circle mr-3">
+    <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle" />
+  </div>
+  <div class="main-title-wrapper d-flex align-items-center w-60 justify-content-between pr-3">
+    <div class="title d-flex align-items-start flex-column">
+      <div class="d-flex align-items-center mb-1">
+        <h6 class="text-white m-0">
+          {{ resourceService?.currentPatient?.firstName }}
+          {{ resourceService?.currentPatient?.secondName }}
+          {{ resourceService?.currentPatient?.thirdName }}
+          {{ resourceService?.currentPatient?.familyName }}
+        </h6>
+        <h6 class="m-0 text-white mx-2">
+          MRN #{{ resourceService?.currentPatient?.medicalRecordNumber }}
+        </h6>
+      </div>
+      <div class="title">
+        <p class="text-white mb-1">
+          {{ onAgeTransformation(resourceService?.currentPatient?.dateOfBirth) }}
+          {{ resourceService?.currentPatient?.gender }} -
+          {{ resourceService?.currentPatient?.dateOfBirth | date:"dd/MM/yyyy" }}
+        </p>
+      </div>
+    </div>
+    <div class="d-flex flex-column text-white admitted-patient">
+      <h6 class="mb-1">{{resourceService?.currentPatientData?.patientAdmission?.caseTypesTbl?.caseName+"-"+resourceService?.currentSpecialities?.speciality_desc}}
+        {{(resourceService.currentFloors?.floorName || resourceService?.currentPatientData?.patientAdmission?.patientRoomsAssigned?.floors?.floorName)}} {{resourceService?.currentRooms?.roomNumber || resourceService?.currentPatientData?.patientAdmission?.patientRoomsAssigned?.rooms?.roomNumber}}/
+        {{resourceService?.currentBeds?.badNumber || resourceService?.currentPatientData?.patientAdmission?.patientRoomsAssigned?.bads?.badNumber}}</h6>
+      <p class="mb-1">{{"Admitted"+" "+"-"+(resourceService?.currentPatientData?.patientAdmission?.admDate| date : "dd/MM/YYYY" || resourceService?.currentPatientData?.patientAdmission?.patientVisit?.admitDate ) +"-"+"LOS "+ ( resourceService?.currentPatientData?.losDays||getLOSDays(resourceService?.currentPatientData?.patientAdmission?.patientVisit?.admitDate))+" Days" }}</p>
+      <p class="m-0">{{"Attending physician"+"-"+(resourceService?.currentPatientData?.patientAdmission?.doctors?.doctor_Name || resourceService?.currentPatientData?.attendDoctor?.doctor_Name) }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100" *ngIf="
+  resourceService.currentPageConfig.isOPPatientheader &&
+  resourceService.currentPatient ">
+  <div class="clinic-image d-inline-block rounded-circle mr-3">
+    <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle" />
+  </div>
+  <div class="main-title-wrapper d-flex align-items-center w-50 justify-content-between pr-3">
+    <div class="title d-flex align-items-start flex-column">
+      <div class="d-flex align-items-center mb-1">
+        <h6 class="mb-2 text-white">
+          {{ resourceService?.currentPatient?.firstName }}
+          {{ resourceService?.currentPatient?.secondName }}
+          {{ resourceService?.currentPatient?.thirdName }}
+          {{ resourceService?.currentPatient?.familyName }}
+        </h6>
+        <h6 class="mx-2 mb-0 text-white">
+          MRN #{{ resourceService?.currentPatient?.medicalRecordNumber }}
+        </h6>
+      </div>
+      <div class="title admitted-patient">
+        <p class="mb-2 text-white">
+          {{ onAgeTransformation(resourceService?.currentPatient?.dateOfBirth) }}
+          {{ resourceService?.currentPatient?.gender }} -
+          {{ resourceService?.currentPatient?.dateOfBirth | date : "dd-MM-YYYY" }}
+        </p>
+      </div>
+    </div>
+    <div class="text-white admitted-patient">
+      <h6 class="mb-1">{{"Out Patient"+"-"+(resourceService?.currentPatientData?.specialities?.speciality_desc || resourceService?.currentSpecialities?.speciality_desc)}}</h6>
+      <p class="mb-1">{{"Visit Date"+"-"+(resourceService?.currentPatientData?.appointmentDateTime | date : "dd-MM-YYYY")}}</p>
+      <p class="m-0">{{"Attending physician"+"-"+resourceService?.currentPatientData?.doctors?.doctor_Name}}</p>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="resourceService.currentPageConfig.isPaymentHeader &&
+resourceService.currentPatient">
+<ng-container *ngIf="resourceService.currentPatientData?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName == 'InPatient' || resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName == 'ER Patient' || resourceService?.currentPatientData?.patientRoomsAssigned || resourceService?.currentPatientData?.patientRoomsAssigned?.caseType === 1 || resourceService?.currentPatientData?.patientRoomsAssigned?.caseType === 3">
+  <div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100"
+>
+  <div class="clinic-image d-inline-block rounded-circle mr-3">
+    <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle" />
+  </div>
+  <div class="main-title-wrapper d-flex align-items-center w-60 justify-content-between pr-3">
+    <div class="title d-flex align-items-start flex-column">
+      <div class="d-flex align-items-center mb-1">
+        <h6 class="text-white m-0">
+          {{ resourceService?.currentPatient?.firstName }}
+          {{ resourceService?.currentPatient?.secondName }}
+          {{ resourceService?.currentPatient?.thirdName }}
+          {{ resourceService?.currentPatient?.familyName }}
+        </h6>
+        <h6 class="m-0 text-white mx-2">
+          MRN #{{ resourceService?.currentPatient?.medicalRecordNumber }}
+        </h6>
+      </div>
+      <div class="title">
+        <p class="text-white mb-1">
+          {{ onAgeTransformation(resourceService?.currentPatient?.dateOfBirth) }}
+          {{ resourceService?.currentPatient?.gender }} -
+          {{ resourceService?.currentPatient?.dateOfBirth | date : "dd-MM-YYYY" }}
+        </p>
+      </div>
+    </div>
+    <div class="d-flex flex-column text-white admitted-patient">
+      <h6 class="mb-1">{{(resourceService.currentPatientData?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName || (resourceService?.currentPatientData?.patientRoomsAssigned?.caseType === 1 ? 'Inpatient':resourceService.currentPatientData?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName)) +"-"+(resourceService?.currentSpecialities?.speciality_desc || resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.attendDoctor?.specialities?.speciality_desc ||resourceService?.currentPatientData?.patientRoomsAssigned?.attendDoctor?.specialities?.speciality_desc)}}
+        {{resourceService.currentFloors?.floorName || resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.floors?.floorName}} {{resourceService?.currentRooms?.roomNumber || resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.rooms?.roomNumber}}/
+        {{resourceService?.currentBeds?.badNumber || resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.bads?.badNumber}}</h6>
+      <p class="mb-1">{{"Admitted"+" "+"-"+((resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.admDate || resourceService?.currentPatientData?.patientRoomsAssigned?.admDate|| resourceService?.currentPatientData?.patientAdmission?.patientVisit?.admitDate  )| date : "dd/MM/YYYY") +"-"+"LOS "+ ( resourceService?.currentPatientData?.losDays||getLOSDays(resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.patientVisit?.admitDate))+" Days" }}</p>
+      <p class="m-0">{{"Attending physician"+"-"+(resourceService?.currentPatientData?.patientRoomsAssigned?.patientAdmission?.attendDoctor?.doctor_Name || resourceService?.currentPatientData?.attendDoctor?.doctor_Name || resourceService?.currentPatientData?.patientRoomsAssigned?.attendDoctor?.doctor_Name) }}</p>
+    </div>
+  </div>
+</div>
+</ng-container>
+<ng-container  *ngIf="resourceService?.currentPatientData?.caseTypesTbl?.caseName == 'OutPatient' || resourceService?.currentPatientData?.appointment || resourceService?.currentPatientData?.appointmentId || resourceService?.currentPatientData?.appointmentTypeId">
+  <div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100" >
+  <div class="clinic-image d-inline-block rounded-circle mr-3">
+    <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle" />
+  </div>
+  <div class="main-title-wrapper d-flex align-items-center w-50 justify-content-between pr-3">
+    <div class="title d-flex align-items-start flex-column">
+      <div class="d-flex align-items-center mb-1">
+        <h6 class="mb-2 text-white">
+          {{ resourceService?.currentPatient?.firstName }}
+          {{ resourceService?.currentPatient?.secondName }}
+          {{ resourceService?.currentPatient?.thirdName }}
+          {{ resourceService?.currentPatient?.familyName }}
+        </h6>
+        <h6 class="mx-2 mb-0 text-white">
+          MRN #{{ resourceService?.currentPatient?.medicalRecordNumber }}
+        </h6>
+      </div>
+      <div class="title admitted-patient">
+        <p class="mb-2 text-white">
+          {{ onAgeTransformation(resourceService?.currentPatient?.dateOfBirth) }}
+          {{ resourceService?.currentPatient?.gender }} -
+          {{ resourceService?.currentPatient?.dateOfBirth | date : "dd-MM-YYYY" }}
+        </p>
+      </div>
+    </div>
+    <div class="text-white admitted-patient">
+      <h6 class="mb-1">{{"Out Patient"+"-"+(resourceService?.currentPatientData?.specialities?.speciality_desc || resourceService?.currentSpecialities?.speciality_desc || resourceService?.currentPatientData?.appointment?.specialities?.speciality_desc || resourceService?.currentPatientData?.doctors?.specialities?.speciality_desc)}} </h6>
+      <p class="mb-1">{{"Visit Date"+"-"+((resourceService?.currentPatientData?.appointment?.appointmentDateTime | date : "dd-MM-YYYY" )|| (resourceService.currentPatientData?.appointmentDateTime | date : "dd-MM-YYYY"))}}</p>
+      <p class="m-0">{{"Attending physician"+"-"+(resourceService?.currentPatientData?.doctors?.doctor_Name || resourceService?.currentPatientData?.appointment?.doctors?.doctor_Name)}}</p>
+    </div>
+  </div>
+</div></ng-container>
+
+</ng-container>

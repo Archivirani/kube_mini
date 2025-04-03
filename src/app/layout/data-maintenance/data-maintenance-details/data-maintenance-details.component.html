@@ -1,0 +1,19 @@
+<div class="bg-white p-3 maintenance-details common-height">
+    <h5 class="mb-3">Configuration List</h5>
+    <div class="selection-wrap">
+        <ul class="p-0 m-0 list-style-type-none overflow-auto" >
+            <ng-container *ngFor="let data of appointmentService.conigurationlist">
+                <ng-container *ngIf="userType == 1">
+            <li class="m-0" (click)="appointmentService.isEvent.next($event)" [ngClass]="data.isSelected ?'active':''" [value]="data.name"><img src="assets/images/default-avatar.svg" alt><a>{{data.name}}</a></li>
+                </ng-container>
+            <ng-container *ngIf="userType === 6 && data.name === 'Medications'">
+                <li class="m-0" (click)="appointmentService.isEvent.next($event)" [ngClass]="data.isSelected ? 'active' : ''" [value]="data.name">
+                    <img src="assets/images/default-avatar.svg" alt>
+                    <a>{{data.name}}</a>
+                </li>
+            </ng-container>
+            </ng-container>
+        </ul>
+    </div>
+    
+</div>

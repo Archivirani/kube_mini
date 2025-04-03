@@ -1,0 +1,398 @@
+<div class="patient-panel p-3 bg-white pl-border-radius-10">
+  <div class="patient-panel-wrapper pl-border-radius-10 overflow-hidden">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table">
+        <table class="w-100"
+          [ngClass]="(!visibleBilledData || !visibleBilledData.length) && (!visibleNotBilledData || !visibleNotBilledData.length) ? 'h-100' : ''"
+          *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+            <tr>
+              <th>MRN</th>
+              <th>Patient Name</th>
+              <th>Visit ID</th>
+              <th>Case Type</th>
+              <th>Attending Physician</th>
+              <th>Speciality</th>
+              <th>Contact No</th>
+              <th>Comment</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngIf="(!visibleBilledData || !visibleBilledData.length) && (!visibleNotBilledData || !visibleNotBilledData.length)">
+              <td colspan="10" class="text-center">No data !</td>
+            </tr>
+            <tr *ngFor="let data of visibleNotBilledData"
+              class="cursor-pointer mt-1" (click)="patientDetail(data)">
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img
+                    [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'"
+                    class="mr-2 rounded-circle"
+                    width="26" height="26">
+                    {{data.patient.firstName}}
+                    {{data.patient.secondName}}
+                    {{data.patient.thirdName}}
+                    {{data.patient.familyName}}
+                </div>
+              </td>
+              <!-- <td>
+                <div class="d-flex align-items-center table-inner-div"
+                  *ngIf="data.patient.gender">
+                  <img
+                    [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg"
+                    class="mr-2">{{data.patient.dateOfBirth | date:
+                  "dd MMM, yyyy"}}
+                </div>
+              </td> -->
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.visitId || data.appointmentId}}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{
+                    data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName ||data?.caseTypesTbl?.caseName}}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data?.patientRoomsAssigned?.patientAdmission?.attendDoctor?.doctor_Name || data.appointment?.doctors?.doctor_Name}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data?.patientRoomsAssigned?.specialities?.speciality_desc || data.appointment?.specialities?.speciality_desc}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.comment}}</div>
+              </td>
+              <td class="text-center">
+                <div
+                  class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">Not
+                  Billed</div>
+              </td>
+            </tr>
+            <tr *ngFor="let data of visibleBilledData; let i = index"
+              class="cursor-pointer"
+              [ngClass]="i === 0 ? 'separator' : ''"
+              (click)="patientDetails(data)">
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex align-items-center table-inner-div border-0">
+                  <img
+                    [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'"
+                    class="mr-2 rounded-circle"
+                    width="26" height="26">
+                    {{data.patient.firstName}}
+                    {{data.patient.secondName}}
+                    {{data.patient.thirdName}}
+                   {{data.patient.familyName}}
+                </div>
+              </td>
+              <!-- <td>
+                <div class="d-flex align-items-center table-inner-div"
+                  *ngIf="data.patient.gender">
+                  <img
+                    [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center table-inner-div">
+                  <img src="assets/images/calendar.svg"
+                    class="mr-2">{{data.patient.dateOfBirth | date:
+                  "dd MMM, yyyy"}}
+                </div>
+              </td> -->
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.visitId || data.appointmentId}}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{
+                    data?.patientRoomsAssigned?.patientAdmission?.caseTypesTbl?.caseName ||data?.caseTypesTbl?.caseName}}
+                </div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data?.patientRoomsAssigned?.patientAdmission?.attendDoctor?.doctor_Name || data.appointment?.doctors?.doctor_Name}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data?.patientRoomsAssigned?.specialities?.speciality_desc || data.appointment?.specialities?.speciality_desc}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.patient.contactNo1}}</div>
+              </td>
+              <td>
+                <div
+                  class="d-flex align-items-center table-inner-div">{{data.comment}}</div>
+              </td>
+              <td class="text-center">
+                <div
+                  class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2 mr-2"
+                  (click)="openListOldInvoice(data.patient.id)">Old
+                  Invoices</div>
+                <div
+                  class="d-inline-block order-status-green pl-border-radius-5 text-white p-1 px-2 mr-2">Billed</div>
+                <img src="assets/images/print.svg" (click)="openInvoice(data)" title="Invoice">
+                <ng-container *ngIf="userTypeId===14">
+                  <img src="assets/images/cancel-icon.svg" class="mx-2 cursor-pointer" title="Cancel and Refund" (click)="onCancelInvoice($event,data)">
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="w-100" *ngIf="isIPadAir">
+          <div class="d-flex flex-wrap pl-row-gap-15">
+            <div
+              *ngIf="(!visibleBilledData || !visibleBilledData.length) && (!visibleNotBilledData || !visibleNotBilledData.length)">
+              <div colspan="9" class="text-center">No data !</div>
+            </div>
+            <div *ngFor="let data of visibleNotBilledData"
+              class="w-100 pl-border-radius-10 overflow-hidden"
+              (click)="patientDetail(data)">
+              <div class="d-flex justify-content-between">
+                <div class="bg-dark-blue text-white col-6 p-2">MRN</div>
+                <div class="col-6 p-2 bg-dark-blue text-white">
+                  <div
+                    class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Patient Name</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div border-0">
+                  <img
+                    [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                    (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'"
+                    class="mr-2 rounded-circle"
+                    width="26" height="26">
+                    {{data.patient.firstName}}
+                    {{data.patient.secondName}}
+                    {{data.patient.thirdName}}
+                   {{data.patient.familyName}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Gender</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <img *ngIf="data.patient.gender"
+                    [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                    class="mr-2">{{data.patient.gender}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Date of birth</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Email ID</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.email}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Contact No</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.contactNo1}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Smoking Status</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.smokingStatus}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Identification
+                  Number</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  {{data.patient.identificationNo}}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="bg-light-white col-6 p-2">Status</div>
+                <div
+                  class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                  <div
+                    class="d-inline-block order-status-gray pl-border-radius-5 text-white p-1 px-2">
+                    Not Billed
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let data of visibleBilledData"
+            class="w-100 pl-border-radius-10 overflow-hidden"
+            (click)="patientDetails(data)">
+            <div class="d-flex justify-content-between">
+              <div class="bg-dark-blue text-white col-6 p-2">MRN</div>
+              <div class="col-6 p-2 bg-dark-blue text-white">
+                <div
+                  class="d-flex align-items-center table-inner-div border-0">{{data.patient.medicalRecordNumber}}
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Patient Name</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div border-0">
+                <img
+                  [src]="!!data.patient.profileUrl ? data.patient.profileUrl : 'assets/images/default-avatar.svg'"
+                  (error)="data.patient.profileUrl = 'assets/images/default-avatar.svg'"
+                  class="mr-2 rounded-circle"
+                  width="26" height="26">
+                  {{data.patient.firstName}}
+                  {{data.patient.secondName}}
+                  {{data.patient.thirdName}}
+                 {{data.patient.familyName}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Gender</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                <img *ngIf="data.patient.gender"
+                  [src]="data.patient.gender === 'Male' ? 'assets/images/man.svg' : 'assets/images/woman.svg'"
+                  class="mr-2">{{data.patient.gender}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Date of birth</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                {{data.patient.dateOfBirth | date: "dd MMM, yyyy"}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Email ID</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                {{data.patient.email}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Contact No</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                {{data.patient.contactNo1}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Smoking Status</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                {{data.patient.smokingStatus}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Identification Number</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                {{data.patient.identificationNo}}
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="bg-light-white col-6 p-2">Status</div>
+              <div
+                class="col-6 p-2 bg-exlight-blue d-flex align-items-center table-inner-div">
+                <div
+                  class="d-inline-block order-status-green pl-border-radius-5 text-white p-1 px-2 mr-2">
+                  Billed
+                </div>
+                <img src="assets/images/print.svg" (click)="openInvoice(data)">
+                <ng-container *ngIf="userTypeId===14">
+                  <img src="assets/images/cancel-icon.svg" class="mx-2 cursor-pointer" title="Cancel and Refund" (click)="onCancelInvoice($event,data)">
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #filterPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment ">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="m-0 px-2">Filter Payments</h3>
+  
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-group-main d-flex pt-3 border-0">
+          <div class="form-group m-0 p-0 w-100">
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Date From" [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                  bsDatepicker [(ngModel)]="startDate">
+                <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date From</label>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Date To" [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                  bsDatepicker [(ngModel)]="endDate">
+                <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date To</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class=" w-20 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2" (click)="filterData()">
+            Filter</button>
+        </div>
+        <div class=" w-20 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-danger align-items-center w-100 p-2" (click)="onFilterCancel()">
+            Cancel</button>
+        </div>
+      </div>
+    </div>
+</ng-template>
+
+<invoice-generator #generateInvoice></invoice-generator>
+<invoice-history-popup #invoiceHistoryPopup></invoice-history-popup>
+<reason-popup #reasonPopup></reason-popup>
+<app-recipt-popup #reciptpopup></app-recipt-popup>
+<app-search-patient-popup #searchPopup></app-search-patient-popup>

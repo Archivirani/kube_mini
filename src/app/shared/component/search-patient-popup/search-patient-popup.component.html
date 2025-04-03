@@ -1,0 +1,116 @@
+<ng-template #searchPatient>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment ">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="m-0 px-2">Search for a Patient </h3>
+
+    </div>
+    <div class="form-group-wrapper">
+      <div class="form-group-main d-flex pt-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <form [formGroup]="PatientForm">
+            <div class="container-fluid col-gap">
+              <div class="row">
+                <div class="col-12 col-sm-6">
+                  <div class="form-group-control w-100 mb-3position-relative">
+                    <input type="text" class="form-control" placeholder="Medical record number" formControlName="mrn"
+                      [value]="PatientForm.get('mrn').value" (input)="getSerachedPatient($event)">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Medical record number</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-group-control w-100 mb-3 position-relative">
+                    <input type="text" class="form-control" placeholder="Patient Full Name"
+                      formControlName="patientName" (input)="getPatient($event)"
+                      [value]="PatientForm.get('patientName').value">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Patient Full Name</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-container formArrayName="servicesList">
+              <ng-container *ngFor="let data of this.PatientForm.get('servicesList')['controls']; let i = index"
+                [formGroupName]="i">
+                <div class="d-flex justify-content-between mb-3">
+                  <div class="d-flex">
+                    <div class="search-patient-checkbox">
+                      <input type="radio" name="i">
+                    </div>
+                    <div class="form-group-control w-100 m-0 mb-0 px-2 position-relative">
+                      <input type="text" class="form-control" placeholder="Appointment ID"
+                        formControlName="appointmentId">
+                      <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Appointment ID</label>
+                    </div>
+                    <div class="form-group-control w-100 m-0 mb-0 px-2 position-relative">
+                      <input type="text" class="form-control" placeholder="Visit Date" formControlName="visitDate">
+                      <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Visit Date</label>
+                    </div>
+                    <div class="form-group-control w-100 m-0 mb-0 px-2 position-relative">
+                      <input type="text" class="form-control" placeholder="Specialty" formControlName="speciality" readOnly>
+                      <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Specialty</label>
+                    </div>
+                    <div class="form-group-control w-100 m-0 mb-0 px-2 position-relative">
+                      <input type="text" class="form-control" placeholder="Attending Physician"
+                        formControlName="attendingPhysician" readOnly>
+                      <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Attending Physician</label>
+                    </div>
+                    <button
+                      class="search-patient-btn pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100"
+                      (click)="addLaboratoryService(i)">Add Services</button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class=" w-100 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+          (click)="createWalk(MRNnumber,PatientForm.get('mrn').value)">
+          Create Walk-in Visit</button>
+      </div>
+      <div class="w-100 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center align-items-center bg-danger w-100 p-2"
+          (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<book-appointment-popup #bookAppointment></book-appointment-popup>
+
+<ng-template #PatientList>
+  <div class="form-group-wrapper">
+    <div class="form-group-main border-0">
+      <div class="form-group p-3 m-0">
+        <div class="form-group-control">
+          <div class="container-fluid p-0 ">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-3">Please Specify which patient to be selected </h5>
+              <div class="patient-zoom-icon rounded-circle mr-2 mb-3 cursor-pointer">
+                <img src="assets/images/popup-close.svg" (click)="onHidePopup()">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="appointment-content mb-3">
+                  <div class="patient-list">
+                    <ul class="overflow-auto m-0 p-0">
+                      <li *ngFor="let item of searchPatientData" class="list-group-item cursor-pointer"
+                        (click)="onPatientSelect(item)">
+                        {{item.patient.firstName}} {{item.patient.secondName}} {{item.patient.thirdName}}
+                        {{item.patient.familyName}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,29 @@
+<div class="my-clinic-tab my-3 mr-3  bg-white pl-border-radius-10 p-3">
+    <ul class="list-unstyled d-flex">  
+      <li class="d-flex justify-content-end">
+        <div class="button-group d-flex justify-content-end mr-2">
+          <button type="button"
+            class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+            (click)="showhidePatients()">Order's Details</button>
+        </div>
+  
+        <div class="d-flex justify-content-end mr-2">
+          <input type="text" placeholder="Search Services..." class="form-control pl-border-radius-10"
+            [(ngModel)]="clinicService.serviceModel">
+        </div>
+        <div class="button-group d-flex justify-content-end">
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+            (click)="clinicService.orderSet.next(true)">Save and Print</button>
+          <button
+            class="text-dark-blue d-flex align-items-center bg-white pl-border-radius-30 cursor-pointer p-2 px-3 cursor-pointer"
+            (click)="documentationService.cancelEvent.next(true)">Cancel</button>
+        </div>
+      </li>
+    </ul>
+    <ng-container>
+      <!-- <clinic-services [Appointment]="appointmentDetails"></clinic-services> -->
+      <app-payment-details #servicesClinicOrder [customData]="clinicService.clinicOrderDetails"
+        [Appointment]="appointmentDetails"></app-payment-details>
+    </ng-container>
+  </div>

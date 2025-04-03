@@ -1,0 +1,213 @@
+.btn-color {
+    background-color: #0056B0;
+    border-color: #0056B0;
+    color: #fff;
+  }
+  
+  .btn-color-data {
+    background-color: #F2F4F6;
+    border-color: #F2F4F6;
+    color: black;
+  }
+  
+  .emr-border {
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+  }
+  
+  .emer-color {
+    border-radius: 10px;
+    background-color: #F2F4F6;
+    // height: 450px;
+  
+    .emer-data {
+      background-color: #E4EDF5;
+      font-size: 18px;
+      color: #72767A;
+      font-weight: bold;
+      border-radius: 10px 10px 0px 0px;
+      padding: 14px !important;
+    }
+  }
+  
+  .overflow-lab {
+    // height: calc(100vh - 48px) !important;
+    overflow: auto;
+    height: 400px;
+  }
+  
+  .lab-border {
+    border: 1px solid #1976D2;
+    border-radius: 8px;
+    padding: 11px;
+  }
+  
+  .img-color {
+    background-color: #DAF4FF;
+    border-radius: 7px;
+  }
+  
+  .fliter-data {
+    background-color: #F3F7FF;
+    border-radius: 50px;
+  }
+  
+  .padding-data {
+    padding-right: 3px !important;
+  }
+  
+  .cursor-Patients {
+    width: 200px;
+  }
+  
+  .font-size {
+    font-size: 11px;
+    font-weight: bolder;
+    color: #272A2E;
+  }
+  
+  .fliter-Lab {
+    background-color: #F3F7FF;
+    border-radius: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .Result-color {
+    background-color: #EDF6FD;
+    border-radius: 10px 10px 0px 0px !important;
+    font-size: 16px;
+  }
+  
+  
+  .loboratory-card .col-3 {
+    max-width: 20%;
+  }
+  
+  
+  .searc-data {
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .lab-color {
+    background-color: #FBFCFF;
+    border: 1px solid #F1F2F5 !important;
+    margin-right: 10px;
+    border-radius: 6px;
+    width: 100% !important;
+  }
+  
+  .star-color {
+    background-color: #E4EDF5;
+    border: 1px solid #293A4A;
+    border-radius: 9px;
+  }
+  
+  .se-fontsize {
+    font-size: 12px;
+    font-weight: bolder;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    max-width: 100%;
+  }
+  
+  .modal-wrapper {
+    .modal-header {
+      gap: 30px;
+      align-items: center;
+      background-color: #3f7473;
+      justify-content: space-between;
+      background-color: #3f7473;
+  
+      .custom-input {
+        color: #000000;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 20px;
+      }
+  
+      .close-btn {
+        border: none;
+        color: #ffffff;
+        min-width: 45px;
+        min-height: 45px;
+        border-radius: 50%;
+        background-color: #ff0000;
+  
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  
+    .modal-wrap {
+      .layout-patient-table {
+        height: auto;
+        max-height: 330px;
+        overflow: auto;
+  
+        table {
+          thead {
+            tr {
+              th {
+                color: #000000;
+                font-size: 16px;
+                line-height: 1.5;
+                font-weight: 700;
+              }
+            }
+          }
+  
+          tbody {
+            tr {
+  
+              td {
+                color: #333333;
+                font-size: 16px;
+                line-height: 1.5;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .quantity-td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  ::ng-deep .modal-open .modal .medication-popup {
+    max-width: 1300px;
+  }
+  
+  .service-medication-popup{
+    input{
+      max-width: 100px;
+      border: 1px solid #ccc;
+      background: #fbfcff;
+    }
+    .popup-service-qua {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 38px;
+  }
+  }
+  ::ng-deep .service-medication-popup .ng-select .ng-select-container{
+    background: #fbfcff;
+  }
+  
+  ::ng-deep .book-appointment-popup {
+    max-width: 1300px !important;
+  }

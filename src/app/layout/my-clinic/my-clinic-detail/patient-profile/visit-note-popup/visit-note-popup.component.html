@@ -1,0 +1,97 @@
+<ng-template #visitnotePopup>
+    <div class="site-panel-register pt-3">
+        <div class="site-register-wrapper">
+          <form [formGroup]="dyForm">
+            <div class="form-group-wrapper">
+              <div class="form-title">
+                <h2 class="pl-border-radius-10 bg-sky-blue text-center">Visit Note Document</h2>
+              </div>
+              <div class="form-group-main px-3 py-1 m-4">
+                <div class="form-group-main-wrapper">
+              <div class="container-fluid">
+                <div class="row mb-3">
+                  <div class="col-12 col-sm-3 col-lg-2 p-0">
+                    <label class="btn-label-bg mb-0">Visit Date</label>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 pr-0">
+                    <div class="col-12 col-sm-6 px-0 form-group-control">
+                      <input type="text" name="Visit Date" id="" class="f-size-field form-control"
+                        [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker
+                        placeholder="Date" formControlName="createdDate" />
+                      <label class="position-absolute m-0 bg-white">Visit Date:</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-sm-3 col-lg-2 p-0">
+                    <label class="btn-label-bg mb-0">Reason for Visit </label>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 pr-0">
+                    <div class="form-group-control position-relative">
+                      <textarea class="form-control" placeholder="reason for visit" rows="5"
+                        formControlName="reasonForVisit"></textarea>
+                      <label class="position-absolute m-0 bg-white">Reason for Visit</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-sm-3 col-lg-2 p-0">
+                    <label class="btn-label-bg mb-0">Diagnosis</label>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 pr-0">
+                    <div class="row align-items-center">
+                      <div class="form-group-control col-6">
+                        <input type="text" class="form-control" placeholder="diagnosis" formControlName="diagnosis" />
+                        <label class="position-absolute m-0 bg-white">Diagnosis:</label>
+                      </div>
+                      <div class="diagnosis-main">
+                        <a class="diagnosis-a"><img src="assets/images/imgpsh_fullsize_anim.png" class="mw-15 diagnosis-img" /></a>
+                        <a class="diagnosis-a"><img src="assets/images/texteditor.png" class="mw-15 diagnosis-img-texteditor" /></a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-3 col-lg-2 p-0">
+                    <label class="btn-label-bg mb-0">Assessment</label>
+                  </div>
+                  <div class="col-12 col-sm-9 col-lg-10 pr-0">
+                    <div class="form-group-control" style="height: 200px;">
+                      <quill-editor cols="58" rows="6" [preserveWhitespace]="true" formControlName="assessment">
+                      </quill-editor>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group-main border-0 py-2 mb-3">
+                <ul class="visite-note-ul-btn">
+                  <li>
+                     <a>
+                      <div class="button-group">
+                        <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap" (click)="getVisitNoteDocumentSave()">Save</button>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                     <div class="button-group">
+                      <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap " (click)="getVisitNoteDocumentRelease()">Release</button>
+                     </div>
+                   </a>
+                 </li>
+                 <li>
+                  <a>
+                   <div class="button-group">
+                    <button class="text-dark-blue d-flex align-items-center bg-white visit-note bg-hover-transparent pl-border-radius-10 cursor-pointer p-2 px-3 text-nowrap " (click)="onClose()">Close</button>
+                   </div>
+                 </a>
+               </li>
+                </ul>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+</ng-template>

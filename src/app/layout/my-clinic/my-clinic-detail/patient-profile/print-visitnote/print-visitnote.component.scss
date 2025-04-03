@@ -1,0 +1,32 @@
+.patient-content {
+    h4 {
+        color: #000;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}
+
+::ng-deep.print-popup {
+    .modal-content {
+        padding: 20px !important;
+        // .print-doc-popup{
+        //     // height: 500px;
+        //     overflow: auto;
+        // }
+    }
+}
+
+.table-inner-div {
+    img {
+        object-fit: cover;
+        width: 100%;
+    }
+}
+
+::ng-deep .first-popup {
+    transform: translate(55%, 0) !important;
+}
+
+::ng-deep .second-popup {
+    transform: translate(-55%, 0) !important;
+}

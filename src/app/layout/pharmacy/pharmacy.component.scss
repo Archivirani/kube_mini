@@ -1,0 +1,107 @@
+.quantity-td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  ::ng-deep .modal-open .modal .medication-popup {
+    max-width: 1300px;
+  }
+  
+  .service-medication-popup{
+    input{
+      max-width: 100px;
+      border: 1px solid #ccc;
+      background: #fbfcff;
+    }
+    .popup-service-qua {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 38px;
+  }
+  }
+  ::ng-deep .service-medication-popup .ng-select .ng-select-container{
+    background: #fbfcff;
+  }
+
+  .modal-wrapper {
+    .modal-header {
+      gap: 30px;
+      align-items: center;
+      background-color: #3f7473;
+      justify-content: space-between;
+      background-color: #3f7473;
+  
+      .custom-input {
+        color: #000000;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 20px;
+      }
+  
+      .close-btn {
+        border: none;
+        color: #ffffff;
+        min-width: 45px;
+        min-height: 45px;
+        border-radius: 50%;
+        background-color: #ff0000;
+  
+        img {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  
+    .modal-wrap {
+      .layout-patient-table {
+        height: auto;
+        max-height: 330px;
+        overflow: auto;
+  
+        table {
+          thead {
+            tr {
+              th {
+                color: #000000;
+                font-size: 16px;
+                line-height: 1.5;
+                font-weight: 700;
+              }
+            }
+          }
+  
+          tbody {
+            tr {
+  
+              td {
+                color: #333333;
+                font-size: 16px;
+                line-height: 1.5;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .quantity-td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .border_bottom{
+    border-bottom: 2px solid #f1f1f1;
+  }
+  .pharmac-border{
+    border: 1px solid white;
+    border-radius: 10px;
+  }
+  .gap-10{
+    gap: 10px;
+  }

@@ -1,0 +1,422 @@
+<div class="site-panel-register p-3 bg-white pl-border-radius-10">
+  <div class="site-register-wrapper">
+    <form [formGroup]="dyForm">
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue">Patient Details - معلومات
+            المريض </h2>
+        </div>
+        <div class="form-group-main d-flex px-2 py-3">
+          <div class="form-group m-0 w-20 p-0">
+            <div class="form-group-control m-0 px-2 h-100">
+              <div
+                class="dragdrop-file position-relative pl-border-radius-10 h-100 d-flex align-content-center justify-content-center flex-wrap">
+                <span
+                  class="hover-icon camera-hover-icon d-flex align-items-center justify-content-center"
+                  *ngIf="!existingImageUrl && !uploadImageUrl">
+                  <img src="assets/images/camera.svg"
+                    class="camera-icon position-absolute cursor-pointer"
+                    (click)="takePicture()">
+                </span>
+                <span
+                  class="hover-icon position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+                  *ngIf="uploadImageUrl || existingImageUrl">
+                  <img src="assets/images/eye.svg"
+                    class="preview-icon cursor-pointer">
+                </span>
+                <img *ngIf="uploadImageUrl || existingImageUrl"
+                  src="assets/images/trash.svg"
+                  class="delete-icon position-absolute cursor-pointer"
+                  (click)="removeFile()">
+                <img *ngIf="existingImageUrl && !uploadImageUrl"
+                  [src]="existingImageUrl"
+                  class="mb-1 h-100 position-absolute uploaded-image cursor-pointer w-100">
+                <img *ngIf="uploadImageUrl" [src]="uploadImageUrl"
+                  class="mb-1 h-100 position-absolute uploaded-image cursor-pointer w-100">
+                <img *ngIf="!existingImageUrl && !uploadImageUrl"
+                  src="assets/images/gallery-add.svg" class="mb-1">
+                <span *ngIf="!existingImageUrl && !uploadImageUrl"
+                  class="d-inline-block w-100 text-center">Select your
+                  picture - اختر صورتك </span>
+                <input #uploadFile type="file"
+                  class="position-absolute w-100 h-100 cursor-pointer"
+                  id="addPatientPicture" (change)="setFile($event)">
+              </div>
+            </div>
+          </div>
+          <div class="form-group m-0 w-80 d-flex flex-wrap p-0">
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="First Name  - الأسم الأول "
+                formControlName="firstName"
+                [ngClass]="dyForm.get('firstName').invalid && dyForm.get('firstName').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">First Name - الأسم
+                الأول </label>
+              <ng-container
+                *ngIf="dyForm.get('firstName').invalid && dyForm.get('firstName').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('firstName').errors.required">
+                  First Name is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Second Name - الأسم الثاني "
+                formControlName="secondName" [ngClass]="dyForm.get('secondName').invalid && dyForm.get('secondName').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Second Name - الأسم
+                الثاني </label>
+                <ng-container
+                *ngIf="dyForm.get('secondName').invalid && dyForm.get('secondName').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('secondName').errors.required">
+                  Second Name is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Third Name - الأسم الثالث "
+                formControlName="thirdName" [ngClass]="dyForm.get('thirdName').invalid && dyForm.get('thirdName').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Third Name - الأسم
+                الثالث </label>
+                <ng-container
+                *ngIf="dyForm.get('thirdName').invalid && dyForm.get('thirdName').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('thirdName').errors.required">
+                  Third Name is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-lg-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Family Name  - اسم العائلة"
+                formControlName="familyName"
+                [ngClass]="dyForm.get('familyName').invalid && dyForm.get('familyName').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Family Name - اسم
+                العائلة </label>
+              <ng-container
+                *ngIf="dyForm.get('familyName').invalid && dyForm.get('familyName').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('familyName').errors.required">
+                  Family Name is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Mother's Name - اسم الام"
+                formControlName="mothersName"
+                [ngClass]="dyForm.get('mothersName').invalid && dyForm.get('mothersName').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Mother's Name - اسم
+                الام</label>
+              <ng-container
+                *ngIf="dyForm.get('mothersName').invalid && dyForm.get('mothersName').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('mothersName').errors.required">
+                  Mother's Name is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="number" class="form-control"
+                placeholder="Contact number 1 - رقم الاتصال 1"
+                formControlName="contactNo1"
+                [ngClass]="dyForm.get('contactNo1').invalid && dyForm.get('contactNo1').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Contact number 1 -
+                رقم الاتصال 1 </label>
+              <ng-container
+                *ngIf="dyForm.get('contactNo1').invalid && dyForm.get('contactNo1').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('contactNo1').errors.required">
+                  Contact Number is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="number" class="form-control"
+                placeholder="Contact number 2 - رقم الاتصال 2"
+                formControlName="contactNo2">
+              <label class="position-absolute m-0 bg-white">Contact number 2 -
+                رقم الاتصال 2 </label>
+            </div>
+            <!-- <ng-select placeholder="Smoking Status" [searchable]="true" formControlName="bloodGroup">
+                <ng-option *ngFor="let item of BloodGroup" [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Select blood group</label> -->
+            <!-- <div class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <ng-select placeholder="Smoking Status - حالة التدخين" [searchable]="true"
+                formControlName="smokingStatus">
+                <ng-option *ngFor="let item of SmokingStatus" [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 col-lg-2 col-4  bg-white ">Smoking status - حالة التدخين </label>
+            </div> -->
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Date of birth - تاريخ الميلاد  "
+                formControlName="dateOfBirth"
+                [bsConfig]="{showWeekNumbers: false,dateInputFormat:'DD-MM-YYYY'}"
+                bsDatepicker
+                [ngClass]="dyForm.get('dateOfBirth').invalid && dyForm.get('dateOfBirth').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Date of birth -تاريخ
+                الميلاد </label>
+              <ng-container
+                *ngIf="dyForm.get('dateOfBirth').invalid && dyForm.get('dateOfBirth').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('dateOfBirth').errors.required">
+                  Date of birth is required
+                </span>
+              </ng-container>
+
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <ng-select placeholder="Select gender -اختر الجنس  " [ngClass]="dyForm.get('gender').invalid && dyForm.get('gender').touched ? 'error' : ''"
+                [searchable]="true" formControlName="gender">
+                <ng-option *ngFor="let item of Gender"
+                  [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Select gender - اختر
+                الجنس </label>
+                <ng-container
+                *ngIf="dyForm.get('gender').invalid && dyForm.get('gender').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('gender').errors.required">
+                  Gender is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <ng-select placeholder="Select ID type - اختر نوع الهوية"
+                [searchable]="true" formControlName="idType"   [ngClass]="dyForm.get('idType').invalid && dyForm.get('idType').touched ? 'error' : ''">
+                <ng-option *ngFor="let item of PatientIdType"
+                  [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Select ID type -
+                اختر نوع الهوية </label>
+                <ng-container
+                *ngIf="dyForm.get('idType').invalid && dyForm.get('idType').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('idType').errors.required">
+                  Id Type is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Identification no - رقم التعريف"
+                formControlName="identificationNo"  [ngClass]="dyForm.get('identificationNo').invalid && dyForm.get('identificationNo').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Identification no -
+                رقم التعريف </label>
+                <ng-container
+                *ngIf="dyForm.get('identificationNo').invalid && dyForm.get('identificationNo').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('identificationNo').errors.required">
+                  Identification No is required
+                </span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative"
+              *ngIf="dyForm.get('id').value !== 0">
+              <input type="text" class="form-control"
+                placeholder="Medical record number - رقم السجل الطبي"
+                formControlName="medicalRecordNumber" readonly   [ngClass]="dyForm.get('medicalRecordNumber').invalid && dyForm.get('medicalRecordNumber').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Medical record
+                number - رقم السجل الطبي</label>
+                <ng-container
+                *ngIf="dyForm.get('medicalRecordNumber').invalid && dyForm.get('medicalRecordNumber').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('medicalRecordNumber').errors.required">
+                  Medical Record Number is required
+                </span>
+              </ng-container>
+            </div>
+
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <ng-select placeholder="Nationality - الجنسية" [searchable]="true"
+                formControlName="nationality" [ngClass]="dyForm.get('nationality').invalid && dyForm.get('nationality').touched ? 'error' : ''">
+                <ng-option *ngFor="let item of getNationalityData"
+                  [value]="item.nationality">{{item.nationality}} </ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Nationality -
+                الجنسية </label>
+                <ng-container
+                *ngIf="dyForm.get('nationality').invalid && dyForm.get('nationality').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('nationality').errors.required">
+                  Nationality is required
+                </span>
+              </ng-container>
+            </div>
+
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+                <ng-select placeholder="How did you hear about us ? - كيف سمعت عنا " [searchable]="true"
+                formControlName="aboutus">
+                <ng-option *ngFor="let item of getHearAboutUsDataList"
+                  [value]="item.id">{{item.description}} </ng-option>
+              </ng-select>
+                
+              <label class="position-absolute m-0 bg-white"> How did you hear
+                about us ? - كيف سمعت عنا </label>
+            </div>
+
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Email address - البريد الإلكتروني"
+                formControlName="email"
+                [ngClass]="dyForm.get('email').invalid && dyForm.get('email').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Email address -
+                البريد الإلكتروني</label>
+              <ng-container
+                *ngIf="dyForm.get('email').invalid && dyForm.get('email').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('email').errors.email"> Enter valid email
+                  address</span>
+              </ng-container>
+            </div>
+            <div
+              class="form-group-control col-lg-3 col-4 m-0 mt-3 px-2 position-relative">
+              <input type="text" class="form-control"
+                placeholder="The Job - الوظيفة" formControlName="job">
+              <label class="position-absolute m-0 bg-white">The Job -
+                الوظيفة</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue">Address - العنوان</h2>
+        </div>
+        <div class="form-group-main px-2 py-3">
+          <div class="form-group m-0 d-flex col p-0">
+            <div class="form-group-control m-0 px-2 w-30 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Street Address 1 - عنوان الشارع 1"
+                formControlName="address1" [ngClass]="dyForm.get('address1').invalid && dyForm.get('address1').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Street Address 1 -
+                عنوان الشارع 1</label>
+                <ng-container
+                *ngIf="dyForm.get('address1').invalid && dyForm.get('address1').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('address1').errors.required">
+                  Street Address 1 is required
+                </span>
+              </ng-container>
+            </div>
+            <div class="form-group-control m-0 px-2 w-30 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Street Address 2 - عنوان الشارع 2"
+                formControlName="address2">
+              <label class="position-absolute m-0 bg-white">Street Address 2 -
+                عنوان الشارع 2 </label>
+            </div>
+            <div class="form-group-control m-0 px-2 col position-relative">
+              <input type="text" class="form-control"
+                placeholder="City - المدينة" formControlName="city"   [ngClass]="dyForm.get('city').invalid && dyForm.get('city').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">City -
+                المدينة</label>
+                <ng-container
+                *ngIf="dyForm.get('city').invalid && dyForm.get('city').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('city').errors.required">
+                  City is required
+                </span>
+              </ng-container>
+            </div>
+            <div class="form-group-control m-0 px-2 col position-relative">
+              <input type="text" class="form-control"
+                placeholder="Country - الدولة" formControlName="country" [ngClass]="dyForm.get('country').invalid && dyForm.get('country').touched ? 'error' : ''">
+              <label class="position-absolute m-0 bg-white">Country -
+                الدولة</label>
+                <ng-container
+                *ngIf="dyForm.get('country').invalid && dyForm.get('country').touched">
+                <span class="error-message"
+                  *ngIf="dyForm.get('country').errors.required">
+                  Country is required
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue">Emergency Contact - رقم
+            اتصال في حالة الطوارئ</h2>
+        </div>
+        <div class="form-group-main px-2 py-3">
+          <div class="form-group m-0 d-flex flex-wrap col p-0 pl-row-gap-8">
+            <div class="form-group-control m-0 px-2 col position-relative">
+              <input type="text" class="form-control"
+                placeholder="First Name - الأسم الأول  "
+                formControlName="relativeFirstName">
+              <label class="position-absolute m-0 bg-white">First Name - الأسم
+                الأول </label>
+            </div>
+            <div
+              class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Second Name - الأسم الثاني "
+                formControlName="relativeLastName">
+              <label class="position-absolute m-0 bg-white">Second Name - الأسم
+                الثاني </label>
+            </div>
+            <div
+              class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+              <ng-select placeholder="Select gender - اختر الجنس "
+                [searchable]="true" formControlName="relativeGender">
+                <ng-option *ngFor="let item of Gender"
+                  [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Select gender - اختر
+                الجنس </label>
+            </div>
+            <div
+              class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+              <ng-select
+                placeholder="Relationship to patient - العلاقة مع المريض"
+                [searchable]="true"
+                formControlName="relation">
+                <ng-option *ngFor="let item of PatientRelationship"
+                  [value]="item.key">{{item.value}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white">Relationship to
+                patient - العلاقة مع المريض</label>
+            </div>
+            <div
+              class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+              <input type="number" class="form-control"
+                placeholder="Contact Number - رقم الاتصال"
+                formControlName="emergencyContactNo">
+              <label class="position-absolute m-0 bg-white">Contact Number - رقم
+                الاتصال</label>
+            </div>
+            <div
+              class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+              <input type="text" class="form-control"
+                placeholder="Comment - ملاحظات" formControlName="comment">
+              <label class="position-absolute m-0 bg-white">Comment -
+                ملاحظات</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<web-cam #webCam></web-cam>

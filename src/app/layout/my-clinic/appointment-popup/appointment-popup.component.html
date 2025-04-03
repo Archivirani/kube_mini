@@ -1,0 +1,10 @@
+<div class="default-views">
+  <ng-container *ngIf="defaultTimePeriod && defaultTimePeriod.value === timeRange.Weekly">
+    <weekly-popup-view [days]="days" (previousEvent)="previousDays()" (nextEvent)="nextDays()"
+      (loadAppointment)="getDays(this.selectedDate);"></weekly-popup-view>
+  </ng-container>
+  <ng-container *ngIf="defaultTimePeriod && defaultTimePeriod.value === timeRange.Daily">
+    <daily-popup-view [days]="days" [appointmentsSlot]="appointmentsSlot" [currentDateAppointment]="selectedDate"
+      (loadAppointment)="getDays(selectedDate);"></daily-popup-view>
+  </ng-container>
+</div>

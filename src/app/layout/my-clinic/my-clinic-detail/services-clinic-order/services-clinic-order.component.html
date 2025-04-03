@@ -1,0 +1,207 @@
+<div>
+  <div class="emr-border p-3 mt-3 d-flex justify-content-between bg-white" *ngIf="!showPatients && !showServices">
+    <div class="row w-100 mr-1 loboratory-card">
+      <div class="col">
+        <div class="emer-color">
+          <div class="emer-data">
+            Laboratory
+          </div>
+          <div class="p-3 overflow-lab ">
+            <div>
+              <ul class="p-0" *ngFor="let item of loboratory | filterName: clinicService.serviceModel">
+                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                  <div class="mr-0 p-2 lab-color w-100">
+                    <p class="m-0 d-flex align-items-center">
+                      <input type="checkbox" class="mr-1" [(ngModel)]="item.isSelected" #checkboxes
+                        (change)="clinicService.onInsertOrder(item)" />
+                      <label class="m-0 se-fontsize">{{item.name}}</label>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="emer-color">
+          <div class="emer-data">
+            Radiology
+          </div>
+          <div class="p-3 overflow-lab">
+            <div>
+              <ul class="p-0" *ngFor="let item of radiology | filterName: clinicService.serviceModel">
+                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                  <div class="mr-0 p-2 lab-color d-flex align-items-centerw-100">
+                    <input type="checkbox" class="mr-1" [(ngModel)]="item.isSelected" #checkboxes
+                      (change)="clinicService.onInsertOrder(item)" />
+                    <div>
+                      <label class="m-0 mx-2 se-fontsize" [title]="item.name">{{item.name}}</label>
+                      <p class="m-0" [title]="item.arabicName">{{item.arabicName}}</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-3">
+        <div class="emer-color">
+          <div class="emer-data">
+            Procedures and packages
+          </div>
+          <div class="p-3 overflow-lab">
+            <div>
+              <ul class="p-0" *ngFor="let item of Procedures_packages | filterName: clinicService.serviceModel">
+                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                  <div class="mr-0 p-2 lab-color w-100">
+                    <p class="m-0 d-flex align-items-center">
+                      <input type="checkbox" class="mr-1" [(ngModel)]="item.isSelected"
+                        (change)="clinicService.onInsertOrder(item)" />
+                      <label class="m-0 se-fontsize">{{item.name}}</label>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="col">
+        <div class="emer-color">
+          <div class="emer-data">
+            Consultation
+          </div>
+          <div class="p-3 overflow-lab ">
+            <div>
+              <ul class="p-0" *ngFor="let item of Consultation | filterName: clinicService.serviceModel">
+                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                  <div class="mr-0 p-2 lab-color w-100">
+                    <p class="m-0 d-flex align-items-center">
+                      <input type="checkbox" class="mr-1" [(ngModel)]="item.isSelected" #checkboxes
+                        (change)="clinicService.onInsertOrder(item)" />
+                      <label class="m-0 se-fontsize">{{item.name}}</label>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="emer-color">
+          <div class="emer-data">
+            Medication
+          </div>
+          <div class="p-3 overflow-lab ">
+            <div>
+              <ul class="p-0" *ngFor="let item of Medication | filterName: clinicService.serviceModel">
+                <li class="p-2 mb-2 searc-data d-flex justify-content-between align-items-center">
+                  <div class="mr-0 p-2 lab-color w-100">
+                    <p class="m-0 d-flex align-items-center">
+                      <input type="checkbox" class="mr-1" [(ngModel)]="item.isSelected" #checkboxes
+                        (change)="clinicService.onInsertOrder(item)" />
+                      <label class="m-0 se-fontsize">{{item.name}}</label>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="emr-border p-3 mt-3 row m-0" *ngIf="showPatients ">
+    <div class="col-12">
+      <div class="e-order-list">
+        <create-services [customData]="clinicService.clinicOrderDetails" [Appointment]="appointmentDetails"
+          [clinicservice]="clinicServices"></create-services>
+      </div>
+    </div>
+  </div>
+  <div class="emr-border p-3 mt-3 row m-0" *ngIf="showServices">
+    <h1>PDF</h1>
+  </div>
+</div>
+
+<ng-template #medicatedPopup>
+  <div class="modal-wrapper pb-3">
+    <div class="modal-header  justify-content-end">
+      <button type="submit" (click)="onclose()" class="close-btn overflow-hidden"><img src="assets/images/close.svg"
+          alt="close"></button>
+    </div>
+    <div class="table-responsive modal-wrap p-4">
+      <div class="layout-table layout-patient-table">
+        <form class="service-medication-popup">
+          <table class="w-100">
+            <thead>
+              <tr>
+                <th class="w-15 text-center">Medication Name</th>
+                <th class="w-8 text-center" >Dose</th>
+                <th class="w-8 text-center" >Unit</th>
+                <th class="w-15 text-center">Route</th>
+                <th class="w-15 text-center">Cycle</th>
+                <th class="w-8 text-center" >Duration</th>
+                <th class="w-10 text-center">Duration Unit</th>
+                <th class="w-10 text-center">Quantity</th>
+                <th class="w-10 text-center">Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of medicationData;let i = index;">
+                <td class="pl-2 py-2 " style="text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 100px;">{{data.name}}</td>
+                <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.dose" name="dose" class="form-control"></td>
+                <td class="pl-2 py-2">{{data.unit}}</td>
+                <td class="pl-2 py-2"> 
+                  <ng-select  [appendTo]="'body'"  [(ngModel)]="data.routeid" name="routeid" class="border-0 font-numbar lab-select" placeholder="Routes" [searchFn]="searchRoutes">
+                  <ng-option *ngFor="let data of routesList" [value]="data">{{data.routes_Description}}</ng-option>
+                </ng-select></td>
+                <td class="pl-2 py-2">
+                  <ng-select  [appendTo]="'body'" [(ngModel)]="data.cycleId" name="cycleId" class="border-0 font-numbar lab-select" placeholder="Cycle" [searchFn]="searchCycle">
+                    <ng-option *ngFor="let data of cycleList" [value]="data">{{data.cycles_Description}}</ng-option>
+                  </ng-select>
+                </td>
+                <td class="pl-2 py-2"><input type="number" [(ngModel)]="data.duration" name="duration" class="form-control"></td>
+                <td class="pl-2 py-2">
+                <ng-select   [appendTo]="'body'" [(ngModel)]="data.duration_Unit" name="duration_Unit" class="border-0 font-numbar lab-select" placeholder="Duration Unit">
+                  <ng-option *ngFor="let data of DurationList"  [value]="data.duration_Units">{{data.duration_Units}}</ng-option>
+                </ng-select>
+              </td>
+                <td class="pl-2 py-2 quantity-td">
+                  <div class="popup-service-qua">
+                    <img src="assets/images/minimize-sign.svg" class="cursor-pointer"
+                    (click)="decrementQuantity(data)" height="10px">{{data.quantity}}
+                    <img
+                    src="assets/images/Vector.svg" height="10px" class="cursor-pointer" alt
+                    (click)="incrementQuantity(data)">
+                  </div>
+                </td>
+                <td class="pl-2 py-2"> 
+                  <ng-select class="border-0 font-numbar lab-select" name="unit1" [appendTo]="'body'"
+                  [(ngModel)]="data.unit1">
+                  <ng-option *ngFor="let item of MedicationUnitList"
+                  [value]="item.id">{{item.units}}</ng-option>
+                </ng-select>
+                    
+                    <!-- <input type="text" [(ngModel)]="data.unit1"  name="unit1" [value]="data.unit1" class="form-control"></td> -->
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+    <div class="w-100 d-flex align-items-center justify-content-center">
+      <button type="submit"
+        class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center px-5 py-2"
+        (click)="onSave()">Save</button>
+    </div>
+  </div>
+</ng-template>
+<!-- <organization-unit #organizationUnit></organization-unit> -->
+<app-request-form #requestForm></app-request-form>

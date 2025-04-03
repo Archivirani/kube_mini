@@ -1,0 +1,49 @@
+<ng-template #generateVoucher>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment">
+    <h3 class="m-0 px-2"> Generate Voucher </h3>
+    <div class="form-group-wrapper ">
+      <div class="form-group-main d-flex pt-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <form [formGroup]="dyForm">
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Voucher number" formControlName="number"
+                  [ngClass]="dyForm.get('number').invalid && dyForm.get('number').touched ? 'error' : ''">
+                <label class="position-absolute m-0 bg-white">Voucher number</label>
+                <ng-container *ngIf="dyForm.get('number').invalid && dyForm.get('number').touched">
+                  <span class="error-message" *ngIf="dyForm.get('number').errors.required">
+                    Voucher number is required
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                <input type="text" class="form-control" placeholder="Voucher amount" formControlName="value"
+                  [ngClass]="dyForm.get('value').invalid && dyForm.get('value').touched ? 'error' : ''">
+                <label class="position-absolute m-0 bg-white">Voucher amount</label>
+                <ng-container *ngIf="dyForm.get('value').invalid && dyForm.get('value').touched">
+                  <span class="error-message" *ngIf="dyForm.get('value').errors.required">
+                    Voucher amount is required
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="w-100 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+          (click)="submitForm()">Create</button>
+      </div>
+      <div class="w-100 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center align-items-center bg-danger w-100 p-2"
+          (click)="onClose()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,34 @@
+<div class="site-register-wrapper" >
+  <form [formGroup]="dyForm">
+    <div class="form-group-wrapper">
+      <div class="form-title">
+        <h2 class="pl-border-radius-10 bg-sky-blue mt-3 mr-3">Add Relation Type</h2>
+      </div>
+      <div class="form-group-main px-2 py-3 mr-3">
+        <div class="form-group m-0 d-flex flex-wrap col p-0 pl-row-gap-8">
+          <!-- <div class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+            <input type="number" class="form-control" placeholder="Enter Patient Relationship id" formControlName="id"
+              [ngClass]="dyForm.get('id').invalid && dyForm.get('id').touched ? 'error' : ''">
+            <label class="position-absolute m-0 bg-white">Enter Patient Relationship Id</label>
+            <ng-container *ngIf="dyForm.get('id').invalid && dyForm.get('id').touched">
+              <span class="error-message" *ngIf="dyForm.get('id').errors.required">
+                Patient Relative Id Required
+              </span>
+            </ng-container>
+          </div> -->
+          <div class="form-group-control m-0 px-2 col-lg col-4 position-relative">
+            <input type="text" class="form-control" placeholder="Patient Relation Name" formControlName="name"
+              [ngClass]="dyForm.get('name').invalid && dyForm.get('name').touched ? 'error' : ''">
+            <label class="position-absolute m-0 bg-white">Enter Patient Relative Name</label>
+            <ng-container *ngIf="dyForm.get('name').invalid && dyForm.get('name').touched">
+              <span class="error-message" *ngIf="dyForm.get('name').errors.required">
+                Patient Relative Name Required
+              </span>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

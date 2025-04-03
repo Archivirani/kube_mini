@@ -1,0 +1,660 @@
+<ng-template #patientProfilePopup>
+  <div class="clinic-header bg-dark-blue p-2 position-relative d-flex align-items-center w-100 justify-content-between"
+    *ngIf="resourceService.currentPatient && resourceService.currentPatient">
+    <div class="d-flex align-items-center w-70">
+      <div class="clinic-image d-inline-block rounded-circle mr-3">
+        <img src="assets/images/default-avatar.svg" class="m-0 rounded-circle">
+      </div>
+      <div class="main-title-wrapper d-flex alignn-content-center justify-content-between w-100">
+        <div class="title">
+          <h3 class="mb-2 text-white">{{resourceService.currentPatient.firstName}}
+            {{resourceService.currentPatient.familyName}}</h3>
+          <p class="m-0 text-white">MRN
+            #{{resourceService.currentPatient.medicalRecordNumber}}
+          </p>
+        </div>
+        <div class="title">
+          <p class="mb-2 text-white">{{onAgeTransformation(resourceService.currentPatient.dateOfBirth)}}
+            {{resourceService.currentPatient.gender}} -
+            {{resourceService.currentPatient.dateOfBirth | date: "dd-MM-YYYY"}}
+          </p>
+          <p class="m-0 text-white">Self Payer (static)</p>
+        </div>
+        <div class="title">
+          <p class="mb-2 text-white">Allergies : The patient has no allergy
+            assessment (static)</p>
+          <!-- <p class="m-0 text-white">Smoking Status :
+            {{resourceService.currentPatient.smokingStatus}}</p> -->
+        </div>
+      </div>
+    </div>
+    <div class="close-panel mr-1 cursor-pointer" (click)="closePatientProfile()">
+      <img src="assets/images/popup-close.svg">
+    </div>
+  </div>
+  <div class="patient-profile-details overflow-auto pt-2">
+    <div class="patient-profile">
+      <div class="row px-2 py-0 p-0 m-0">
+        <div class="col-lg-6 col-12 pl-0 pr-2">
+          <div class="col-wrapper pl-border-radius-10 border-medium-gray">
+            <div
+              class="d-flex align-items-center justify-content-between p-2 border-sky-blue border-top-0 border-left-0 border-right-0">
+              <div class="d-flex align-items-center">
+                <div class="patient-profile-icon rounded-circle d-flex align-items-center justify-content-center mr-3">
+                  <img src="assets/images/warning.svg">
+                </div>
+                <h3 class="main-title m-0">Document History</h3>
+              </div>
+              <!-- <div
+                class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 bg-dark-blue cursor-pointer"
+                (click)="openHistoryPopup(true)">
+                <img src="assets/images/Frame.svg">
+              </div> -->
+            </div>
+            <div class="history overflow-auto">
+              <div class="p-2 history-list pl-border-radius-10" *ngIf="documents && documents.length">
+                <div
+                  class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-2 cursor-pointer"
+                  *ngFor="let document of documents" (click)="openPreviewDocument(document)">
+                  <div
+                    class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+                    <p class="m-0"><b>{{document?.dateTime ||
+                      document?.createdDate | date: 'dd-MM-YYYY'}}</b></p>
+                  </div>
+                  <div
+                    class="py-1 px-2 pl-border-radius-10 w-40 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+                    <p class="m-0 text-truncate">Created by :
+                    {{document?.patientDocuments?.createdUser?.username || document?.visitNoteGeneralDocuments.patientDocuments?.createdUser?.username}}</p>
+                  </div>
+                  <div
+                    class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+                    <p class="m-0">{{document?.type ||
+                      document?.patientDocuments?.documentName ||
+                      document?.visitNoteGeneralDocuments?.patientDocuments?.documentName}}</p>
+                  </div>
+                  <ng-container *ngIf="!document?.visitNoteGeneralDocuments?.patientDocuments?.documentName">
+                      <button
+                      class="border-0 released-button pl-border-radius-30 bg-light-sky-blue">{{"Saved"}}</button>
+                    </ng-container>
+                    <ng-container *ngIf="document?.visitNoteGeneralDocuments?.patientDocuments?.documentName">
+                      <button
+                        class="border-0 released-button pl-border-radius-30 bg-light-sky-blue">{{document?.visitNoteStatus}}</button>
+                    </ng-container>
+
+
+                    <!-- <img src="assets/images/trash.svg" class="ml-2"
+                      *ngIf="document.type === 'General Document'"
+                      (click)="onRemoveGeneralDocument(document)">
+                    <img src="assets/images/trash.svg" class="ml-2"
+                      *ngIf="document.type === 'Consultation'"
+                      (click)="onRemoveConsultationDocument(document)"> -->
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-12 mt-lg-0 mt-3 pr-0 pl-lg-2 pl-0">
+          <div class="col-wrapper pl-border-radius-10 border-medium-gray">
+            <div
+              class="d-flex align-items-center justify-content-between p-2 border-sky-blue border-top-0 border-left-0 border-right-0">
+              <div class="d-flex align-items-center">
+                <div class="patient-profile-icon rounded-circle d-flex align-items-center justify-content-center mr-3">
+                  <img src="assets/images/warning.svg">
+                </div>
+                <h3 class="main-title m-0">Services History</h3>
+              </div>
+              <!-- <div
+                class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 bg-dark-blue cursor-pointer"
+                (click)="openHistoryPopup(false)">
+                <img src="assets/images/Frame.svg">
+              </div> -->
+            </div>
+            <div class="history overflow-auto">
+              <div class="p-2 history-list pl-border-radius-10" *ngIf="orderServices && orderServices.length">
+                <div class="d-flex history-list-wrapper pl-column-gap-10 border-medium-gray pl-border-radius-10 p-3"
+                  *ngFor="let service of orderServices">
+                  <div
+                    class="py-1 px-2 pl-border-radius-10 w-20 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+                    <p class="m-0"><b>{{service.dateTime | date: 'dd-MM-YYYY'}}</b></p>
+                  </div>
+                  <div
+                    class="py-1 px-2 pl-border-radius-10 w-80 d-flex align-items-center bg-light-blue border-sky-blue-thin">
+                    <p class="m-0"><b>{{service.name}}</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="px-2 py-3">
+      <div class="appointment-main px-2 border-sky-blue pl-border-radius-10"
+        *ngIf="appointmentList && appointmentList.length">
+        <carousel [itemsPerSlide]="this.isIPadAir ? 3 : 6" class="w-100" [isAnimated]="false" [showIndicators]="false"
+          [noWrap]="true">
+          <slide *ngFor="let appointment of appointmentList; let index=index" class="m-0">
+            <div class="col appointment-main-wrapper my-3">
+              <div class="appointment-wrapper position-relative">
+                <div class="appointment-img rounded-circle m-auto">
+                  <img src="assets/images/listed-appointment.svg" alt>
+                </div>
+                <div class="appointment-info p-2 bg-white position-relative">
+                  <span></span>
+                  <h3 class="text-center text-truncate" [title]="appointment.patientDisease">
+                    {{appointment.patientDisease}}</h3>
+                  <p class="text-center">{{appointment.physician?.name}}
+                    {{appointment.physician?.createdDate | date:
+                    "dd/MM/YYYY"}}</p>
+                </div>
+              </div>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+    </div> -->
+  </div>
+</ng-template>
+
+<history-popup #historyPopup></history-popup>
+
+<ng-template #soapDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Document Preview</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <face-reading-document [documentData]="documentPreview"></face-reading-document>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #consultationDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Document Preview</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <div *ngIf="consultationDocumentData" class="w-100 pl-border-radius-15 overflow-hidden">
+        <div class="d-flex justify-content-between">
+          <div class="bg-dark-blue text-white col-12 p-2">{{consultationDocumentData.type}}</div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Summary</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.summary}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Age</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.age}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Gender</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">
+              {{consultationDocumentData.gender}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Main complaint</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.mainComplaint}}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Breathing difficulty</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">
+              {{consultationDocumentData.breathingDifficulty}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior surgeries</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.priorSurgeries}}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior complications</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">
+              {{consultationDocumentData.priorComplications}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Blood discovered</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.bloodDisorders}}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Allergies</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.allergies}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Examination</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.examination}}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Psych issue</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.psychIssues}}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Smoking</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{consultationDocumentData.smoking}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior anesthesia</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">
+              {{consultationDocumentData.priorAnesthesiaSummery}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #generalDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">General Document</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <div *ngIf="generalDocumentData" class="w-100 pl-border-radius-15 overflow-hidden d-flex">
+        <div class="d-flex justify-content-between col-6 pl-0 pr-2">
+          <textarea rows="5" class="form-control" [value]="generalDocumentData.note"
+            *ngIf="generalDocumentData.note"></textarea>
+        </div>
+        <div class="d-flex flex-wrap justify-content-between col-6 pr-0 pl-2">
+          <div class="col-12 p-0 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">
+              <img [src]="generalDocumentData.documentUrl" class="w-100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #faceNeckDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Document Preview</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <div *ngIf="faceNeckDocumentData" class="w-100 pl-border-radius-15 face-neck-popup">
+        <div class="d-flex justify-content-between">
+          <div class="bg-dark-blue text-white col-12 p-2">{{faceNeckDocumentData.type}}</div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Summary</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.summary ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Age</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.age ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Gender</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.gender ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Main Complaint</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.mainComplaint ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Surgeries</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorSurgeries ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Complications</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorComplications ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Treatments</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorTreatments ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Filter Location</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.filterLocation ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Thread Location</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.threadLocation ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Permanent Fillers</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.permanentFillers ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Permanent Fillers Location</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.permanentFillersLocation ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Neck Liposuction</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorNeckLiposuction ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Energy Device</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.energyDevice ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Blood Thinners</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.bloodThinners ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Blood Thinner Type</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.bloodThinnerType ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Allergies</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.allergies ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Anesthesia</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorAnesthesia ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Prior Anesthesia Summary</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.priorAnesthesiaSummary ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Hypertension</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.hypertension ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Hypertension Meds</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.hypertensionMeds ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Hypertension Managing Doctor</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.hypertensionManagingDoctor ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">CAD Document</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentCad ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">CAD Document Last Echo</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentCadLastEcho ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">DM Document</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentDm ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">DM Meds</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentDmMeds ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">DM LastHeg</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentDmLastHeg ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">DM Manging Doctor</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.documentDmMangingDoctor ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Psych Issues</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.psychIssues ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Psych Issues Meds</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.psychIssuesMeds ?? '-' }}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">History Of</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.historyOf ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Examination</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.examination ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Photo Evaluation With Patient</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.photoEvaluationWithPatient ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Patients' Specific Concern And Request</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.patientSpecificConcernAndRequest ?? '-'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Surgical Plan</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{faceNeckDocumentData.surgicalPlan ?? '-'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #surgeryProcedureDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Document Preview</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <div *ngIf="surgeryProcedureData" class="w-100 pl-border-radius-15 overflow-hidden">
+        <div class="d-flex justify-content-between">
+          <div class="bg-dark-blue text-white col-12 p-2">{{surgeryProcedureData.type}}</div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Date</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.dateTime | date:'dd/mm/yyyy'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Time</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.dateTime | date:'HH:mm aa'}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Pre-Operative Diagnosis</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.preOperativeDiagnosis}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Post-Operative Diagnosis</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.postOperativeDiagnosis}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Operation</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.operation}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Indications for Operation</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.operationIndications}}</div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="bg-light-white col-6 p-2">Operation Note</div>
+          <div class="col-6 p-2 bg-exlight-blue">
+            <div class="d-flex align-items-center table-inner-div border-0">{{surgeryProcedureData.operationNote}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #attachmentDocument>
+  <div class="preview-popup-details">
+    <div class="col-wrapper">
+      <div
+        class="d-flex align-items-center justify-content-between p-3 bg-lighter-gray border-top-0 border-left-0 border-right-0">
+        <div class="d-flex align-items-center">
+          <h3 class="main-title m-0">Attachment Document</h3>
+        </div>
+        <div
+          class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+          (click)="closePreviewDocument()">
+          <img src="assets/images/popup-close.svg">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center p-3">
+      <div *ngIf="attachmentDocumentData" class="w-100 pl-border-radius-15 overflow-hidden d-flex">
+        <ng-container *ngIf="isPdfDocument;else showImage">
+          <div class="d-flex flex-column align-content-center w-100">
+            <img src="assets/images/pdf-document.svg" class="ml-3 mt-3" height="150">
+            <h3 class="my-3 text-center pdf-title">Pdf Document</h3>
+          </div>
+        </ng-container>
+        <ng-template #showImage>
+          <div class="d-flex flex-wrap justify-content-between col-12 pr-0 pl-2">
+            <div class="col-12 p-0 bg-exlight-blue">
+              <div class="d-flex align-items-center table-inner-div border-0">
+                <img [src]="attachmentDocumentData.documentUrl" class="w-100">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>

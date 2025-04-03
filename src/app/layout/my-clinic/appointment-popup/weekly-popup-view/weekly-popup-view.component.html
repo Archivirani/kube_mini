@@ -1,0 +1,57 @@
+<div class="appointment-section p-3 weekly-view" *ngIf="days && days.length">
+  <div class="appointment-wrapper position-relative">
+    <div class="d-flex arrow prev-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+      (click)="previousDays()">
+      <img class src="assets/images/prev-arrow.svg" />
+    </div>
+    <div class="navigation-view d-flex flex-wrap">
+      <div class="navigation-days col-14 p-0 cursor-pointer" *ngFor="let data of days"
+        [ngClass]="(currentDate | date: 'YYYY-MM-dd') === (data.date | date: 'YYYY-MM-dd') ? 'active': ''">
+        <div class="navigation-title">
+          <div class="navigation-title-wrapper">
+            <h3>
+              <span class="title">{{data.date | date: "dd"}}</span>
+            </h3>
+            <h3 class="m-0">
+              <span class="title m-0">{{data.date | date: "EEE"}}</span>
+            </h3>
+          </div>
+        </div>
+        <div class="content-view py-2">
+          <div class="content-view-wrapper" *ngIf="data.item && data.item.length">
+            <div class="current-wrapper" *ngFor="let item of data.item">
+              <div class="current-appointment p-0 ap-border-radius-10" [ngClass]="item.statusColor">
+                <div class="current-appointment-wrapper">
+                  <div class="appointment-profile d-flex align-items-center">
+                    <img [src]="!!data.profileUrl ? data.profileUrl : 'assets/images/default-avatar.svg'"
+                      class="rounded-circle">
+                    <h3 class="m-0 cursor-pointer" title="{{item.patient.firstName}} {{item.patient.familyName}}">
+                      {{item.patient.firstName}}
+                      {{item.patient.familyName}}</h3>
+                  </div>
+                  <h4>{{item.appointmentDateTime | date:"HH:mm a"}} - {{convertToEndTime(item.appointmentDateTime, item)
+                    | date:"HH:mm a"}}</h4>
+                  <p class="m-0 cursor-pointer" [title]="item.patientDisease">{{item.patientDisease}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content-view-wrapper" *ngIf="data.item && !data.item.length">
+            <div class="current-wrapper h-100 py-0">
+              <div
+                class="no-appointment-data ap-border-radius-10 h-100 d-flex align-items-center justify-content-center">
+                <h3>No Appointments</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex arrow next-arrow justify-content-center align-items-center position-absolute cursor-pointer"
+      (click)="nextDays()">
+      <img src="assets/images/next-arrow.svg" />
+    </div>
+  </div>
+</div>
+
+<book-appointment-popup #bookAppointment></book-appointment-popup>

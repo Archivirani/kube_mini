@@ -1,0 +1,106 @@
+
+<div class="patient-panel p-3 bg-white pl-border-radius-10">
+  <div class="patient-panel-wrapper pl-border-radius-10">
+    <div class="table-responsive">
+      <div class="layout-table layout-patient-table overflow-auto">
+        <table class="w-100" *ngIf="!isIPadAir">
+          <thead class="sticky-top">
+            <tr>
+              <th class="text-center">MRN</th>
+              <th class="text-center">Patient Name</th>
+              <th class="text-center">Gender</th>
+              <th class="text-center">Date of birth</th>
+              <!-- <th class="text-center">Created At</th>
+              <th class="text-center">Created On</th> -->
+              <th class="text-center">Attending physician</th>
+              <th class="text-center">Specialty</th>
+              <th class="text-center">Created At</th>
+              <th class="text-center">Created On</th>
+              <th class="text-center">Services Description</th>
+              <th class="text-center">Billing Status</th>
+              <!-- <th class="text-center">Quantity</th>
+              <th class="text-center">Unit</th> -->
+              <th class="text-center">Comments</th>
+              <!-- <th class="text-center">Action</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of laboratoryNotBilledData; let i = index"  class="border_bottom">
+              <td class="text-center">{{data.patient.medicalRecordNumber}}</td>
+              <td class="align-middle cursor-pointer text-center">
+                {{data.patient.firstName}}
+                {{data.patient.secondName}}
+                {{data.patient.thirdName}}
+                {{data.patient.familyName}}
+              </td>
+              <td class="text-center">{{data.patient.gender}}</td>
+              <td class="text-center">{{data.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+              
+              <td class="text-center">{{data?.doctors?.doctor_Name}}
+              </td>
+              <td class="text-center"> {{data?.doctors?.specialities?.speciality_desc}}
+              </td>
+              <td class="text-center" >
+                <p class="text-center mb-2">{{data?.dateTime |date:'dd-MM-yyyy'}}</p>
+              </td>
+              <td class="text-center">
+                <p class="text-center mb-2">{{data?.orderServices[0]?.desiredTime | date:'hh:mm:ss'}}</p>
+              </td>
+              
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service">{{item.name}}</p>
+              </td>
+              <td class="text-center">
+                <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+              </td>
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service || data.service">{{item.comment}}</p>
+              </td>
+            <!-- <td class="text-center"> <img src="assets/images/payment_icon.png" title="Payment"
+                class="mx-2 cursor-pointer" style="width: 18px;" (click)="onPayment(data)"> </td> -->
+            </tr>
+
+            <tr *ngFor="let data of laboratoryBilledData; let i = index"  class="border_bottom">
+              <td class="text-center">{{data.patient.medicalRecordNumber}}</td>
+              <td class="align-middle cursor-pointer text-center">
+                {{data.patient.firstName}}
+                {{data.patient.secondName}}
+                {{data.patient.thirdName}}
+                {{data.patient.familyName}}
+              </td>
+              <td class="text-center">{{data.patient.gender}}</td>
+              <td class="text-center">{{data.patient.dateOfBirth | date: "dd-MM-yyyy"}}</td>
+              
+              <td class="text-center">{{data?.doctors?.doctor_Name}}
+              </td>
+              <td class="text-center"> {{data?.doctors?.specialities?.speciality_desc}}
+              </td>
+              <td class="text-center" >
+                <p class="text-center mb-2">{{data?.orderServices[0]?.dateTime |date:'dd-MM-yyyy'}}</p>
+              </td>
+              <td class="text-center">
+                <p class="text-center mb-2">{{data?.orderServices[0]?.desiredTime | date:'hh:mm:ss'}}</p>
+              </td>
+              
+              <td>
+                <p class="text-center mb-2" *ngFor="let item of data.service">{{item.name}}</p>
+              </td>
+              <td class="text-center">
+                <p class="order-status-green pl-border-radius-5 text-white p-1  mb-0" *ngIf="isAllOrderServicesPaid(data)" style="width: 60px; margin: 0 auto;">Billed</p>
+                <p class="order-status-gray pl-border-radius-5 text-white p-1 px-2 mb-0" *ngIf="!isAllOrderServicesPaid(data)" style="width: 80px; margin: 0 auto;">Not Billed</p>
+              </td>
+              <td>
+                <!-- <p class="text-center mb-2" *ngFor="let item of data.service || data.service">{{item.comment}}</p> -->
+              </td>
+            <!-- <td class="text-center"> <img src="assets/images/payment_icon.png" title="Payment"
+                class="mx-2 cursor-pointer" style="width: 18px;" (click)="onPayment(data)"> </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<app-search-patient-popup #searchPatient></app-search-patient-popup>
+<book-appointment-popup #bookAppointment></book-appointment-popup>

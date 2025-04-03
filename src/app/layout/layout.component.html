@@ -1,0 +1,27 @@
+<main class="m-0" *ngIf="isValidRoute">
+  <div class="site-header">
+    <layout-header></layout-header>
+  </div>
+  <div class="site-content overflow-hidden d-flex flex-wrap align-content-center"
+    [ngClass]="resourceService.currentPageConfig.isDashboard ? 'dashboard-view pl-row-gap-15' :'pl-border-radius-15'">
+    <ng-container *ngIf="!!resourceService.currentPageConfig.isHeaderDisplay">
+      <div class="site-panel-header w-100">
+        <layout-panel-header></layout-panel-header>
+      </div>
+    </ng-container>
+    <div class="site-panel-body d-flex flex-wrap w-100"
+      [ngClass]="resourceService.currentPageConfig.isDashboard ? 'pl-column-gap-15 d-flex' :''">
+      <div class="site-sidebar bg-white"
+        [ngClass]="resourceService.currentPageConfig.isDashboard ? 'pl-border-radius-10' :''">
+        <dashboard-sidebar></dashboard-sidebar>
+      </div>
+      <div class="site-panel"
+        [ngClass]="resourceService.currentPageConfig.isDashboard ? 'pl-border-radius-10' :''">
+        <div class="site-panel-body-wrapper">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<p *ngIf="!isValidRoute">Waiting for Access</p>

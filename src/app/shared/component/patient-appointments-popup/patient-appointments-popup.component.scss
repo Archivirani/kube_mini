@@ -1,0 +1,112 @@
+::ng-deep .modal-dialog {
+    max-width: 1060px;
+}
+
+.search-patient-checkbox {
+    display: flex;
+    align-items: center;
+
+    input[type="radio"] {
+        position: absolute;
+        display: inline-block;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    label {
+        position: relative;
+        display: inline-block;
+    }
+
+    input+label:after {
+        content: '';
+        width: 18px;
+        height: 18px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    input:checked+label:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 4px;
+        left: 7px;
+        width: 5px;
+        height: 9px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    input:checked+label:after {
+        background: #3f7473;
+    }
+
+}
+
+.patient-table {
+    table {
+        border: 1px solid rgb(204 204 204 / 50%);
+
+        thead {
+            tr {
+                th {
+                    color: #fff;
+                    padding: 10px;
+                    text-align: center;
+                    background-color: #3f7473;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid rgb(204 204 204 / 50%);
+
+                td {
+                    padding: 0;
+                    border: 1px solid #cccccc;
+
+                    // border: 1px solid rgb(204 204 204 / 50%);
+                    .form-group-control {
+                        .form-control {
+                            border: none;
+                            border-radius: 0;
+                            text-align: center;
+                            background-color: #ffffff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .patient-appointment-modal {
+    max-width: 500px !important;
+    .appointment-content {
+      .patient-list {
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px solid #cccccc;
+        ul {
+          max-height: 200px;
+          list-style-type: none;
+          li {
+            cursor: pointer;
+            color: #333333;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px;          
+            border-bottom: 1px solid #ddd;
+            &:hover {
+              color: #ffffff;
+              background-color: #3f7473;
+            }
+          }
+        }
+      }
+    }
+  }

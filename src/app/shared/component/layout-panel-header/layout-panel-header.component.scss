@@ -1,0 +1,47 @@
+::ng-deep .modal-dialog {
+    max-width: 650px;
+
+    .modal-content-wrapper {
+        h4 {
+            color: #333333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        form {
+            .common-input-wrapper {
+                label {
+                    color: #333333;
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin: 0 0 5px 0;
+                }
+
+                .input-common {
+                    width: 100%;
+                    height: auto;
+                    padding: 5px 10px;
+                    border-radius: 10px;
+                    border: 1px solid #cccccc;
+                    background-color: #f8f9fa;
+                }
+            }
+        }
+    }
+}
+
+.clinic-header {
+    .main-title-wrapper {
+        .admitted-patient {
+            h6 {
+                font-size: 15px;
+                font-family: "Inter", sans-serif;
+            }
+
+            p {
+                font-size: 14px;
+                font-family: "Inter", sans-serif;
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+.conversation-wrap {
+    .table-responsive {
+        .layout-patient-table {
+            table {
+                tbody {
+                    tr {
+                        td {
+                            border-right: 1px solid #cccccc;
+                            
+                            input {                                
+                                max-width: 150px;
+
+                                &:focus-visible {
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .modal .conversation-modal {
+    max-width: 1100px;
+}

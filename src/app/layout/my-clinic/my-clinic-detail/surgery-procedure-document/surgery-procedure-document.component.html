@@ -1,0 +1,62 @@
+<div class="site-panel-register p-3">
+  <div class="site-register-wrapper">
+    <form [formGroup]="dyForm">
+      <div class="form-group-wrapper">
+        <div class="form-title">
+          <h2 class="pl-border-radius-10 bg-sky-blue">Surgery Procedure</h2>
+        </div>
+        <div class="form-group-main px-2">
+          <div class="form-group-main-wrapper py-3">
+
+            <div class="form-group mb-2 d-flex p-0">
+              <div class="form-group-control m-0 px-2 col-3 position-relative">
+                <input type="text" class="form-control" placeholder="Date" formControlName="Date"
+                  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker />
+                <label class="position-absolute m-0 bg-white">Date</label>
+              </div>
+              <div class="col-3 position-relative"></div>
+              <div class="form-group-control m-0 px-2 col-3 position-relative">
+                <input type="time" class="form-control" formControlName="Time" />
+                <label class="position-absolute m-0 bg-white">Time</label>
+              </div>
+            </div>
+
+            <div class="form-group mb-2 d-flex p-0">
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <textarea class="form-control" placeholder="Pre-Operative Diagnosis" rows="5"
+                  formControlName="PreOperativeDiagnosis"></textarea>
+                <label class="position-absolute m-0 bg-white">Pre-Operative Diagnosis</label>
+              </div>
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <textarea class="form-control" placeholder="Post-Operative Diagnosis" rows="5"
+                  formControlName="PostOperativeDiagnosis"></textarea>
+                <label class="position-absolute m-0 bg-white">Post-Operative Diagnosis</label>
+              </div>
+            </div>
+
+            <div class="form-group mb-2 d-flex p-0">
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <textarea class="form-control" placeholder="Operation" rows="5" formControlName="Operation"></textarea>
+                <label class="position-absolute m-0 bg-white">Operation</label>
+              </div>
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <textarea class="form-control" placeholder="Indications for Operation" rows="5"
+                  formControlName="OperationIndications"></textarea>
+                <label class="position-absolute m-0 bg-white">Indications for Operation</label>
+              </div>
+            </div>
+
+            <div class="form-group mb-2 d-flex p-0">
+              <div class="form-group-control m-0 px-2 col-6 position-relative">
+                <textarea class="form-control" placeholder="Operation Note" rows="5"
+                  formControlName="OperationNote"></textarea>
+                <label class="position-absolute m-0 bg-white">Operation Note</label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

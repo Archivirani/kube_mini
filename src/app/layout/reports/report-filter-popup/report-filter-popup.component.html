@@ -1,0 +1,52 @@
+<ng-template #filterPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment ">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="m-0 px-2">{{currentEvent}} Filter</h3>
+
+    </div>
+    <div class="form-group-wrapper">
+      <div class="form-group-main d-flex pt-3 border-0">
+        <div class="form-group m-0 p-0 w-100">
+          <div class="d-flex justify-content-between">
+            <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+              <input type="text" class="form-control" placeholder="Date From"
+                [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker
+                [(ngModel)]="startDate">
+              <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date From</label>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+              <input type="text" class="form-control" placeholder="Date To"
+                [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}" bsDatepicker [(ngModel)]="endDate">
+              <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date To</label>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between" *ngIf="currentEvent === 'Invoice'">
+            <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+              <ng-select placeholder="Posted By" [(ngModel)]="postedBy">
+                <ng-option *ngFor="let item of getPostedByList"
+                  [value]="item.id">{{item.postByUser}}</ng-option>
+              </ng-select>
+              <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Posted By</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+      <div class=" w-20 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2"
+          (click)="filterData()">
+          Filter</button>
+      </div>
+      <div class=" w-20 m-1">
+        <button
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-danger align-items-center w-100 p-2"
+          (click)="OnCancel()">
+          Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

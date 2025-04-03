@@ -1,0 +1,54 @@
+<div class="login-form d-flex justify-content-center align-items-center vh-100 position-relative">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6 d-flex align-items-center login-page">
+        <div class="p-5 w-100 h-100 position-relative d-flex justify-content-center align-items-center">
+          <div class="round-border bg-white text-center position-relative p-2">
+            <div class="login-wrap p-4">
+              <img src="assets/images/Safeer_Hospital_Logo.jpeg" alt width="350">
+              <h2 class="font-weight-bold text-left">Sign in</h2>
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group-wrapper">
+                  <div class="form-group-main border-0">
+                    <div class="form-group-control w-100 position-relative">
+                      <input type="text" class="form-control" placeholder="Enter your Username"
+                        formControlName="username"
+                        [ngClass]="loginForm.get('username').invalid && loginForm.get('username').touched ? 'error' : ''">
+                      <label class="position-absolute m-0 bg-white">Enter your
+                        Username</label>
+                      <ng-container *ngIf="loginForm.get('username').invalid && loginForm.get('username').touched">
+                        <span class="error-message" *ngIf="loginForm.get('username').errors.required">
+                          Username is required
+                        </span>
+                      </ng-container>
+                    </div>
+                    <div class="form-group-control w-100 position-relative">
+                      <input [type]="showPassword ? 'text':'password'" class="form-control"
+                        placeholder="Enter your Password" formControlName="password"
+                        [ngClass]="loginForm.get('password').invalid && loginForm.get('password').touched ? 'error' : ''">
+                      <label class="position-absolute m-0 bg-white">Enter your
+                        Password</label>
+                      <img [src]="showPassword? 'assets/images/hide-password.svg': 'assets/images/show-password.svg'"
+                        class="position-absolute cursor-pointer" (click)="showPassword = !showPassword">
+                      <ng-container *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+                        <span class="error-message" *ngIf="loginForm.get('password').errors.required">
+                          Password is required
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="button-group w-100">
+                  <button type="submit"
+                    class="py-3 text-white d-flex align-items-center bg-dark-blue cursor-pointer w-100 justify-content-center">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+      </div>
+    </div>
+  </div>
+</div>

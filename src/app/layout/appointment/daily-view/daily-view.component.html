@@ -1,0 +1,231 @@
+<div class="appointment-section is-today-view  bg-white pl-border-radius-10" >
+  <div class="appointment-wrapper position-relative">
+    <div class="navigation-view d-flex flex-wrap">
+      <div class="col-7 col-lg-9 p-3 today-navigation">
+        <div class="d-flex align-items-center justify-content-between">
+          <h4 class="main-title m-0">Booked Slots</h4>
+          <div class="d-flex gap-3 align-items-center">
+
+            <!-- <ng-select placeholder="Speciality"
+              (change)="getDoctorBySpeciality($event)">
+              <ng-option *ngFor="let item of specialitiesData"
+                [value]="item">{{item.speciality_desc}}</ng-option>
+            </ng-select> -->
+            <div class="form-group-wrapper m-0">
+              <div class="form-group-main border-0">
+                <div
+                  class="form-group m-0 d-flex pl-column-gap-10 daily-border-bg">
+                  <form [formGroup]="dropdown" class="d-flex pl-column-gap-10">
+                    <div class="form-group-control position-relative"
+                      style="width: 250px;">
+
+                      <ng-select placeholder="Specialty"
+                        [(ngModel)]="selectedSpeciality"
+                        (change)="getDoctorBySpeciality($event)"
+                        formControlName="speciality" [searchFn]="serachInput">
+                        <ng-option *ngFor="let item of specialitiesData"
+                          [value]="item">{{item.speciality_desc}}</ng-option>
+                      </ng-select>
+                      <label
+                        class="position-absolute m-0 bg-white">Specialty</label>
+                    </div>
+                    <div class="form-group-control position-relative"
+                      style="width: 250px;">
+                      <ng-select placeholder="Doctors"
+                        [(ngModel)]="selectedDoctor"
+                        (change)="getSlotByDateAndDoctCode($event)"
+                        formControlName="doctor">
+                        <ng-option *ngFor="let item of getDoctor"
+                          [value]="item">{{item.doctor_Name}}</ng-option>
+                      </ng-select>
+                      <label
+                        class="position-absolute m-0 bg-white">Doctors</label>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div [ngClass]="isFilter?'book-slots-wrapper':''">
+          <div class="navigation-days" *ngFor="let data of days"
+          [ngClass]="currentDate === data.date? 'active': ''">
+          <div class="content-view py-2">
+            <div class="content-view-wrapper"
+              *ngIf="data.item && data.item.length">
+              <div class="current-wrapper py-1 pr-1 pl-0"
+                *ngFor="let item of data.item">
+                <div class="current-appointment p-0 ap-border-radius-10 isToday"
+                  [ngClass]="item.statusColor">
+                  <div
+                    class="current-appointment-wrapper d-flex align-items-center justify-content-between">
+                    <div class="appointment-details w-35">
+                      <div
+                        class="appointment-profile d-flex align-items-center">
+                        <div
+                          class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title provisional-mrm"
+                          [ngClass]="item.statusColor">
+                          #{{item.patient.isProvisional ? item.provisionalMRM : item.patient.medicalRecordNumber }}</div>
+                        <h3 class="mb-0 mr-1">{{item.patient.firstName}} {{item.patient.secondName}} {{item.patient.thirdName}} {{item.patient.familyName}}</h3>
+                      </div>
+                    </div>
+                    <div class="appointment-status w-30">
+                      <div
+                        class="d-flex align-items-center justify-content-center">
+                        <div
+                          class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title"
+                          [ngClass]="item.statusColor"><span
+                            class="text-black">Status:&nbsp;</span>
+                          {{item.statusText}} </div>
+                        <div
+                          class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title"
+                          [ngClass]="item.statusColor"><span
+                            class="text-black">Type:&nbsp;</span>
+                          {{item.appointmentType.name}}</div>
+                      </div>
+                      <div *ngIf="item.appointmentStatus === AppointmentStatus.Cancelled"
+                        class="d-flex align-items-center p-1 pl-border-radius-5 mr-2 status-title border-0 justify-content-center"
+                        [ngClass]="item.statusColor">
+                        <span class="text-black text-truncate">Cancellation
+                          Reason:&nbsp;</span>
+                        {{item?.comment}}
+                      </div>
+                    </div>
+                    <div class="w-35 appointment-event">
+                      <div
+                        class="appointment-time text-right d-flex flex-wrap justify-content-end mr-2 ">
+                        <span class="p-1 badge"
+                          [ngClass]="item.statusColor"></span>
+                        <div *ngIf="item.appointmentStatus !== AppointmentStatus.Cancelled"
+                          class="d-flex align-items-center p-1 pl-border-radius-5"
+                          [ngClass]="item.statusColor"
+                          >
+                          <div
+                            class="in-clinic-icon d-flex align-items-center position-relative mr-1"
+                            *ngIf="item.appointmentStatus === AppointmentStatus.Planned || item.appointmentStatus === AppointmentStatus.NotShow">
+                            <input type="checkbox"
+                              [ngModel]="item.patientStatus === AppointmentStatus.CheckedIn"
+                              (ngModelChange)="onStatusChangeToClinic(!(item.patientStatus === AppointmentStatus.CheckedIn), item)"
+                              class="position-absolute w-100 h-100 cursor-pointer">
+                            <img 
+                              [src]="item.appointmentStatus !== AppointmentStatus.Planned && item.appointmentStatus !== AppointmentStatus.NotShow ? '' : 'assets/images/check-in.svg'">
+                          </div>
+                          <img src="assets/images/edit-icon.svg" title="Edit"
+                          *ngIf="item.appointmentStatus === AppointmentStatus.Planned || item.appointmentStatus === AppointmentStatus.NotShow"
+                            class="cursor-pointer mr-1"
+                            (click)="openBookAppointment(item)">
+                          <img src="assets/images/cancel-icon.svg" title="Cancel"
+                            class="cursor-pointer" (click)="onCancel(item)"
+                            *ngIf="item.appointmentStatus !== AppointmentStatus.Cancelled">
+                        </div>
+                        <h4 class="m-0 w-100"
+                          *ngIf="!isIPadAir">{{item.appointmentDateTime |
+                          date:"hh:mm a"}} 
+                          {{convertToEndTime(item.appointmentDateTime, item) |
+                          date:"hh:mm a"}}</h4>
+                          <ng-container *ngIf="item.appointmentStatus === AppointmentStatus.Planned || item.appointmentStatus === AppointmentStatus.NotShow">
+                            <h4 class="m-0 w-100">
+                             {{"Appointment date & time: "}} {{item.appointmentDateTime | date:"dd-MM-yyyy"}} - {{item.appointmentDateTime | date:"hh:mm a"}} 
+                            </h4>
+                          </ng-container>
+                          <ng-container *ngIf="item.appointmentStatus === AppointmentStatus.Cancelled">
+                            <h4 class="m-0 w-100">
+                             {{"Cancellation date & time: "}} {{item.canceledDate | date:"dd-MM-yyyy"}} - {{item.canceledDate | date:"hh:mm a"}} 
+                            </h4>
+                          </ng-container>
+                          <ng-container *ngIf="item.appointmentStatus === AppointmentStatus.CheckedIn">
+                            <h4 class="m-0 w-100">
+                             {{"Checked in date & time: "}} {{item.updatedDate | date:"dd-MM-yyyy"}} - {{item.updatedDate | date:"hh:mm a"}} 
+                            </h4>
+                          </ng-container>
+                      </div>
+                    </div>
+                    <h4 *ngIf="isIPadAir"
+                      class="m-0 w-100">{{item.appointmentDateTime |
+                      date:"hh:mm a"}} -
+                      {{convertToEndTime(item.appointmentDateTime, item) |
+                      date:"hh:mm a"}}
+                    </h4>
+                    <p class="m-0 cursor-pointer"
+                      [title]="item.patientDisease">{{item.patientDisease}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-view-wrapper"
+              *ngIf="data.item && !data.item.length">
+              <div class="current-wrapper h-100 py-0">
+                <div
+                  class="no-appointment-data ap-border-radius-10 h-100 d-flex align-items-center justify-content-center">
+                  <h3>No Appointments</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-5 col-lg-3 p-3">
+        <h4 class="main-title">Available Slots</h4>
+        <div class="content-view-slots py-2 mt-1 d-inline-block w-100"
+          *ngIf="appointmentsSlot && appointmentsSlot.length">
+          <div
+            class="content-view-slots-wrapper ap-border-radius-10 mb-2 d-flex align-items-center justify-content-between cursor-pointer"
+            *ngFor="let data of appointmentsSlot"
+            (click)="openBookAppointment(data)">
+            <p class="m-0">{{data.startTime | timeParse}} - {{data.endTime |
+              timeParse}}</p>
+            <p class="m-0">Available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<book-appointment-popup #bookAppointment></book-appointment-popup>
+<reason-popup #reasonPopup></reason-popup>
+<app-patient-appointments-popup #PatientAppointments></app-patient-appointments-popup>
+<ng-template #filterPopup>
+  <div class="bg-white p-3 pl-border-radius-10 book-appointment ">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="m-0 px-2">Appointment Filter</h3>
+  
+      </div>
+      <div class="form-group-wrapper">
+        <div class="form-group-main d-flex pt-3 border-0">
+          <div class="form-group m-0 p-0 w-100">
+                <div class="d-flex justify-content-between">
+                  <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                    <input type="text" class="form-control" placeholder="Date From"  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                    bsDatepicker [(ngModel)]="startDate">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date From</label>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="form-group-control w-100 m-0 mb-3 px-2 position-relative">
+                    <input type="text" class="form-control" placeholder="Date To"  [bsConfig]="{showWeekNumbers: false, dateInputFormat:'DD-MM-YYYY'}"
+                    bsDatepicker [(ngModel)]="endDate">
+                    <label class="position-absolute m-0 bg-white" style="z-index: 9999;">Date To</label>
+                  </div>
+                </div>
+          
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <div class=" w-30 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 p-2" (click)="filterAppointment()">
+            Filter</button>
+        </div>
+        <div class=" w-30 m-1">
+          <button
+            class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-danger align-items-center w-100 p-2" (click)="onHideFilterPopup()">
+            Cancel</button>
+        </div>
+      </div>
+    </div>
+</ng-template>

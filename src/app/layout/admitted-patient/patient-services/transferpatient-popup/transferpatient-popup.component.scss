@@ -1,0 +1,13 @@
+::ng-deep .modal .transfer-patient-popup {
+    max-width: 1200px;
+    border-radius: 20px;
+    overflow: visible;
+    top: 50%;
+    transform: translateY(-50%) !important;
+
+    .transfer-form-data{
+        label{
+            z-index: 9999;
+        }
+    }
+}

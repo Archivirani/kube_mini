@@ -1,0 +1,69 @@
+<ng-template #filterPopup>
+  <div class="modal-content-wrapper p-4">
+    <div class="d-flex justify-content-between">
+      <h4 class="mb-3">Search for the Patient</h4>
+      <div
+        class="patient-zoom-icon rounded-circle d-flex align-items-center justify-content-center mr-2 cursor-pointer"
+        (click)="closePopup()">
+        <img src="assets/images/popup-close.svg">
+      </div>
+    </div>
+    <form [formGroup]="searchDataForm">
+      <div class="container-fluid p-0">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <div
+              class="common-input-wrapper d-flex flex-column flex-wrap align-items-start justify-content-center">
+              <label for="mrn">MRN</label>
+              <input type="text" name="mrn" class="input-common"
+                formControlName="medicalRecordNumber">
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div
+              class="common-input-wrapper d-flex flex-column flex-wrap align-items-start justify-content-center">
+              <label for="patient">Patient Name</label>
+              <input type="text" name="patient" class="input-common"
+                formControlName="firstName">
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div
+              class="common-input-wrapper d-flex flex-column flex-wrap align-items-start justify-content-center">
+              <label for="birth">Date of Birth</label>
+              <input type="text" name="birth" class="input-common"
+                formControlName="dateOfBirth"  [bsValue]="searchDataForm.value.dateOfBirth"
+                [bsConfig]="{showWeekNumbers: false, dateInputFormat: 'DD-MM-YYYY'}"
+                bsDatepicker>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div
+              class="common-input-wrapper d-flex flex-column flex-wrap align-items-start justify-content-center">
+              <label for="numebr">Contact Number</label>
+              <input type="text" name="numebr" class="input-common"
+                formControlName="contactNo1">
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div
+              class="common-input-wrapper d-flex flex-column flex-wrap align-items-start justify-content-center">
+              <label for="birth">Identification Number</label>
+              <input type="text" name="identification" class="input-common"
+                formControlName="identificationNo">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="w-100 d-flex align-items-center justify-content-between gap-2 mt-4">
+        <button type="submit"
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center bg-dark-blue align-items-center w-100 px-3 py-2 m-1"
+          (click)="submitForm()">Search</button>
+        <!-- <button type="submit"
+          class="pl-border-radius-10 border-0 text-white d-flex justify-content-center align-items-center bg-danger w-100 px-3 py-2 m-1"
+          (click)="registerNewUser()">Register A New Patient</button> -->
+      </div>
+    </form>
+  </div>
+</ng-template>
